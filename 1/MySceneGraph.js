@@ -229,6 +229,7 @@ class MySceneGraph {
      */
     parseAmbient(ambientNode) {
 
+
         var children = ambientNode.children;
 
         for (var i = 0; i < children.length; i++)
@@ -399,6 +400,33 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
         // TODO: Parse block
+
+        var children = texturessNode.children;
+
+        this.textures = [];
+        var numTextures = 0;
+        
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "texture") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current texture.
+            var textureId = this.reader.getString(children[i], 'id');
+            if (textureId == null)
+                return "no ID defined for texture";
+
+            // Checks for repeated IDs.
+            if (this.textures[textureId] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+
+            var filename = this.reader.getString(children[i], 'file');
+            if (filename == null)
+                return "no Filename defined for texture";            
+        }
+
 
         console.log("Parsed textures");
 
