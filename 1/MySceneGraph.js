@@ -217,7 +217,6 @@ class MySceneGraph {
      * @param {illumination block element} illuminationNode
      */
     parseViews(viewsNode) {
-        // TODO: Parse views node
 
         this.log("Parsed views");
 
@@ -229,7 +228,18 @@ class MySceneGraph {
      * @param {illumination block element} illuminationNode
      */
     parseAmbient(ambientNode) {
-        // TODO: Parse ambient node
+
+        var children = ambientNode.children;
+
+        for (var i = 0; i < children.length; i++)
+        {
+            if (children[i].nodeName == "ambient")
+            {
+                this.scene.setGlobalAmbientLight(this.reader.getFloat(children[i], 'r'), this.log(this.reader.getFloat(children[i], 'b')), this.log(this.reader.getFloat(children[i], 'g')),this.log(this.reader.getFloat(children[i], 'a')));
+            }
+        }
+
+        
 
         this.log("Parsed ambient");
 
@@ -453,7 +463,7 @@ class MySceneGraph {
      * Callback to be executed on any minor error, showing a warning on the console.
      * @param {string} message
      */
-    onXMLMinorErro(message) {
+    onXMLMinorError(message) {
         console.warn("Warning: " + message);
     }
 
