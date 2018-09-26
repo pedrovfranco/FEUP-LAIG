@@ -229,21 +229,26 @@ class MySceneGraph {
      */
     parseAmbient(ambientNode) {
 
-
         var children = ambientNode.children;
 
         for (var i = 0; i < children.length; i++)
         {
             if (children[i].nodeName == "ambient")
             {
-                this.scene.setGlobalAmbientLight(this.reader.getFloat(children[i], 'r'), this.log(this.reader.getFloat(children[i], 'b')), this.log(this.reader.getFloat(children[i], 'g')),this.log(this.reader.getFloat(children[i], 'a')));
+                this.scene.setGlobalAmbientLight(this.reader.getFloat(children[i], 'r'), this.reader.getFloat(children[i], 'b'), this.reader.getFloat(children[i], 'g'), this.reader.getFloat(children[i], 'a'));
+            }
+            else if (children[i].nodeName == "background")
+            {
+                this.scene.gl.clearColor(this.reader.getFloat(children[i], 'r'), this.reader.getFloat(children[i], 'b'), this.reader.getFloat(children[i], 'g'), this.reader.getFloat(children[i], 'a'));
+            }
+            else
+            {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
             }
         }
 
-        
-
         this.log("Parsed ambient");
-
         return null;
     }
 
@@ -415,6 +420,7 @@ class MySceneGraph {
 
             // Get id of the current texture.
             var textureId = this.reader.getString(children[i], 'id');
+
             if (textureId == null)
                 return "no ID defined for texture";
 
@@ -424,7 +430,10 @@ class MySceneGraph {
 
             var filename = this.reader.getString(children[i], 'file');
             if (filename == null)
-                return "no Filename defined for texture";            
+                return "no Filename defined for texture";      
+                
+            this.textures[textureId] = children[i];
+            
         }
 
 
@@ -438,10 +447,90 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
-        // TODO: Parse block
+        
+        var children = materialsNode.children;
+
+        this.materials = [];
+
+        var grandChildren = [];
+
+        this.emission = [];
+        this.ambient = [];
+        this.diffuse = [];
+        this.specular = [];
+
+        for (var i = 0; i < children.length; i++)
+        {
+            if (children[i].nodeName != "material") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+            else
+            {
+                var materialId = this.reader.getString(children[i], 'id');
+                   if (materialId == null)
+                       return "no ID defined for texture";
+
+                       // Checks for repeated IDs.
+           
+                if (this.materials[materialId] != null)
+                    return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+
+                
+                grandChildren = children[i].children;
+
+                for (var j = 0; j < grandChildren.length; j++)
+                {
+                    if (grandChildren[i].nodeName != "material") {
+                        this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                        continue;
+                    }
+
+                    if (grandChildren[i].nodeName == "emission") {
+                
+                        this.emission[0] = this.reader.getFloat(grandChildren[i], 'r');
+                        this.emission[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.emission[2] =this.reader.getFloat(grandChildren[i], 'b');
+                        this.emission[3] =this.reader.getFloat(grandChildren[i], 'a');
+        
+        
+                        }
+                    else if (grandChildren[i].nodeName == "ambient") {
+                        
+                        this.ambient[0] = this.reader.getFloat(grandChildren[i], 'r');
+                        this.ambient[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.ambient[2] =this.reader.getFloat(grandChildren[i], 'b');
+                        this.ambient[3] =this.reader.getFloat(grandChildren[i], 'a');
+                        }
+                    else if (grandChildren[i].nodeName == "diffuse") {
+                        
+                        this.diffuse[0] = this.reader.getFloat(grandChildren[i], 'r');
+                        this.diffuse[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.diffuse[2] =this.reader.getFloat(grandChildren[i], 'b');
+                        this.diffuse[3] =this.reader.getFloat(grandChildren[i], 'a');
+                        }
+        
+                    else if (grandChildren[i].nodeName == "specular") {
+                        
+                        this.specular[0] = this.reader.getFloat(grandChildren[i], 'r');
+                        this.specular[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.specular[2] =this.reader.getFloat(grandChildren[i], 'b');
+                        this.specular[3] =this.reader.getFloat(grandChildren[i], 'a');
+                        }
+                    else
+                    {
+                        this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+                        continue;
+                    }
+
+                }
+            }
+                
+            
+        }
+        
         this.log("Parsed materials");
         return null;
-
     }
 
     /**
