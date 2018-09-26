@@ -173,6 +173,30 @@ class MySceneGraph {
             if ((error = this.parseTransformations(nodes[index])) != null)
                 return error;
         }
+
+        // <primitives>
+        if ((index = nodeNames.indexOf("primitives")) == -1)
+            return "tag <primitives> missing";
+        else {
+            if (index != NODES_INDEX)
+                this.onXMLMinorError("tag <primitives> out of order");
+
+            //Parse primitives block
+            if ((error = this.parsePrimitives(nodes[index])) != null)
+                return error;
+        }
+
+        // <components>
+        if ((index = nodeNames.indexOf("components")) == -1)
+            return "tag <components> missing";
+        else {
+            if (index != NODES_INDEX)
+                this.onXMLMinorError("tag <components> out of order");
+
+            //Parse components block
+            if ((error = this.parseComponents(nodes[index])) != null)
+                return error;
+        }
     }
 
     /**
@@ -383,14 +407,38 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <NODES> block.
-     * @param {nodes block element} nodesNode
+     * Parses the <transformations> node.
+     * @param {transformations block element} transformationsNode
      */
-    parseNodes(nodesNode) {
+    parseTransformations(transformationsNode) {
         // TODO: Parse block
-        this.log("Parsed nodes");
+        this.log("Parsed transformations");
         return null;
+
     }
+
+    /**
+     * Parses the <primitives> node.
+     * @param {primitives block element} primitivesNode
+     */
+    parsePrimitives(primitivesNode) {
+        // TODO: Parse block
+        this.log("Parsed transformations");
+        return null;
+
+    }
+
+    /**
+     * Parses the <components> node.
+     * @param {components block element} componentsNode
+     */
+    parseComponents(componentsNode) {
+        // TODO: Parse block
+        this.log("Parsed components");
+        return null;
+
+    }
+
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
