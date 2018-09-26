@@ -25,8 +25,7 @@
 			<to x="0" y="0" z="0" />
 		</perspective>
 
-<!--  <ortho id="ss" near="ff" far="ff"
-left="ff" right="ff" top="ff" bottom="ff" /> -->
+<!--  <ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" /> -->
 
 	</views>
 	<ambient>
