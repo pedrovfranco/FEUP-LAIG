@@ -226,7 +226,7 @@ class MySceneGraph {
 
         for (var i = 0; i < children.length; i++)
         {
-            if (children[i].nodeName == "prespective")
+            if (children[i].nodeName == "perspective")
             {
                 var viewId = this.reader.getString(children[i], 'id');
 
@@ -278,11 +278,11 @@ class MySceneGraph {
                     }
                 }
 
-                this.scene.camera = new CGFcamera(fov, near, angle, v1, v2);
+                this.scene.camera = new CGFcamera(angle, near, far, v1, v2);
             }
             else if (children[i].nodeName == "ortho")
             {
-                this.scene.gl.clearColor(this.reader.getFloat(children[i], 'r'), this.reader.getFloat(children[i], 'b'), this.reader.getFloat(children[i], 'g'), this.reader.getFloat(children[i], 'a'));
+
             }
             else
             {
