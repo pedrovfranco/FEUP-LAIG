@@ -39,13 +39,15 @@ class XMLscene extends CGFscene {
     /**
      * Initializes the scene cameras.
      */
-    initCameras() {
+    initCameras()
+    {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
-    initLights() {
+    initLights()
+    {
         var i = 0;
         // Lights index.
 
@@ -85,7 +87,7 @@ class XMLscene extends CGFscene {
         this.camera.far = this.graph.far;
 
         //TODO: Change reference length according to parsed graph
-        //this.axis = new CGFaxis(this, this.graph.referenceLength);
+        this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         // TODO: Change ambient and background details according to parsed graph
 

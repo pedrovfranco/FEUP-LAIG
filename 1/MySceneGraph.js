@@ -205,7 +205,14 @@ class MySceneGraph {
      */
     parseScene(sceneNode) {
 
-        this.log(sceneNode);
+        var root = this.reader.getString(sceneNode, 'root');
+        this.referenceLength = this.reader.getString(sceneNode, 'axis_length');
+
+        if (!(this.isValid(root) && this.isValid(this.referenceLength)))
+            return "Unable to parse scene";
+        
+
+        this.idRoot = root;
 
         this.log("Parsed scene");
 
@@ -234,16 +241,15 @@ class MySceneGraph {
                 if (viewId == null)
                     return "no ID defined for light";
 
-                var near = this.reader.getFloat(children[i], 'near');
-                var far = this.reader.getFloat(children[i], 'far');
-                var angle = this.reader.getFloat(children[i], 'angle');
+                this.near = this.reader.getFloat(children[i], 'near');
+                this.far = this.reader.getFloat(children[i], 'far');
+                this.angle = this.reader.getFloat(children[i], 'angle');
                 
 
-                if (!(this.isValid(near) && this.isValid(far) && this.isValid(angle)))
+                if (!(this.isValid(this.near) && this.isValid(this.far) && this.isValid(this.angle)))
                     return "Unable to parse view id=\"" + viewId + "\"";
 
-
-                var v1, v2, x, y, z;
+                var x, y, z;
 
                 grandChildren = children[i].children;
 
@@ -258,7 +264,7 @@ class MySceneGraph {
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        v1 = vec3.fromValues(x, y, z);
+                        this.v1 = vec3.fromValues(x, y, z);
                     }
                     else if (grandChildren[j].nodeName == "to")
                     {
@@ -269,7 +275,7 @@ class MySceneGraph {
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        v2 = vec3.fromValues(x, y, z);
+                        this.v2 = vec3.fromValues(x, y, z);
                     }
                     else
                     {
@@ -282,16 +288,33 @@ class MySceneGraph {
             }
             else if (children[i].nodeName == "ortho")
             {
+                var viewId = this.reader.getString(children[i], 'id');
 
+                // Checks for error on getString
+                if (viewId == null)
+                    return "no ID defined for light";
+
+                var near = this.reader.getFloat(children[i], 'near');
+                var far = this.reader.getFloat(children[i], 'far');
+                var left = this.reader.getFloat(children[i], 'left');
+                var right = this.reader.getFloat(children[i], 'right');
+                var top = this.reader.getFloat(children[i], 'top');
+                var bottom = this.reader.getFloat(children[i], 'bottom');
+
+                if (!(this.isValid(near) && this.isValid(far) && this.isValid(left) && this.isValid(right) && this.isValid(top) && this.isValid(bottom)))
+                    return "Unable to parse view id=\"" + viewId + "\"";
+ 
             }
             else
             {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
+
+            numViews++;
         }
 
-        this.log("Parsed views");
+        this.log("Parsed " + numViews + " views");
 
         return null;
     }
@@ -312,7 +335,7 @@ class MySceneGraph {
             }
             else if (children[i].nodeName == "background")
             {
-                this.scene.gl.clearColor(this.reader.getFloat(children[i], 'r'), this.reader.getFloat(children[i], 'b'), this.reader.getFloat(children[i], 'g'), this.reader.getFloat(children[i], 'a'));
+                this.scene.gl.clearColor();
             }
             else
             {
@@ -727,6 +750,8 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
+
+
     }
 
     isValid(x)
