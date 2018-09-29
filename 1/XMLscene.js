@@ -91,6 +91,9 @@ class XMLscene extends CGFscene {
 
         // TODO: Change ambient and background details according to parsed graph
 
+        this.setGlobalAmbientLight(this.graph.ambientr, this.graph.ambientg, this.graph.ambientb, this.graph.ambienta);
+        this.gl.clearColor(this.graph.backgroundr, this.graph.backgroundg, this.graph.backgroundb, this.graph.backgrounda);
+
         this.initLights();
 
         // Adds lights group.
@@ -109,6 +112,8 @@ class XMLscene extends CGFscene {
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+        
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
