@@ -83,11 +83,12 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+
         this.camera.near = this.graph.near;
         this.camera.far = this.graph.far;
         this.camera.fov = this.graph.fov;
-        this.camera.position = this.graph.v1;
-        this.camera.target = this.graph.v2;
+        this.camera.position = vec4.fromValues(this.graph.v1[0], this.graph.v1[1], this.graph.v1[2], 0);
+        this.camera.target = vec4.fromValues(this.graph.v2[0], this.graph.v2[1], this.graph.v2[2], 0);
 
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.referenceLength);
@@ -116,7 +117,6 @@ class XMLscene extends CGFscene {
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-        
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();

@@ -242,10 +242,10 @@ class MySceneGraph {
 
                 this.near = this.reader.getFloat(children[i], 'near');
                 this.far = this.reader.getFloat(children[i], 'far');
-                this.angle = this.reader.getFloat(children[i], 'angle');
+                this.fov = this.reader.getFloat(children[i], 'angle');
                 
 
-                if (!(this.isValid(this.near) && this.isValid(this.far) && this.isValid(this.angle)))
+                if (!(this.isValid(this.near) && this.isValid(this.far) && this.isValid(this.fov)))
                     return "Unable to parse view id=\"" + viewId + "\"";
 
                 var x, y, z;
@@ -263,7 +263,10 @@ class MySceneGraph {
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        this.v1 = vec4.fromValues(x, y, z, 0);
+                        this.v1 = [];
+                        this.v1[0] = x;
+                        this.v1[1] = y;
+                        this.v1[2] = z;
                     }
                     else if (grandChildren[j].nodeName == "to")
                     {
@@ -274,7 +277,10 @@ class MySceneGraph {
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        this.v2 = vec4.fromValues(x, y, z, 0);
+                            this.v2 = [];
+                            this.v2[0] = x;
+                            this.v2[1] = y;
+                            this.v2[2] = z;
                     }
                     else
                     {
@@ -407,10 +413,10 @@ class MySceneGraph {
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     this.lights[lightId][1] = [];
-                    this.lights[lightId][1][0] = x;
-                    this.lights[lightId][1][1] = y;
-                    this.lights[lightId][1][2] = z;
-                    this.lights[lightId][1][3] = w;
+                    this.lights[lightId][1][1] = x;
+                    this.lights[lightId][1][2] = y;
+                    this.lights[lightId][1][3] = z;
+                    this.lights[lightId][1][4] = w;
                 }
                 else if (grandChildren[j].nodeName == "ambient")
                 {
@@ -423,10 +429,10 @@ class MySceneGraph {
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     this.lights[lightId][2] = [];
-                    this.lights[lightId][2][0] = x;
-                    this.lights[lightId][2][1] = y;
-                    this.lights[lightId][2][2] = z;
-                    this.lights[lightId][2][3] = w;
+                    this.lights[lightId][2][1] = x;
+                    this.lights[lightId][2][2] = y;
+                    this.lights[lightId][2][3] = z;
+                    this.lights[lightId][2][4] = w;
                 }
                 else if (grandChildren[j].nodeName == "diffuse")
                 {
@@ -441,10 +447,10 @@ class MySceneGraph {
                     this.scene.lights[numLights].setDiffuse(x, y, z, w);
 
                     this.lights[lightId][3] = [];
-                    this.lights[lightId][3][0] = x;
-                    this.lights[lightId][3][1] = y;
-                    this.lights[lightId][3][2] = z;
-                    this.lights[lightId][3][3] = w;
+                    this.lights[lightId][3][1] = x;
+                    this.lights[lightId][3][2] = y;
+                    this.lights[lightId][3][3] = z;
+                    this.lights[lightId][3][4] = w;
                 }
                 else if (grandChildren[j].nodeName == "specular")
                 {
@@ -457,10 +463,10 @@ class MySceneGraph {
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     this.lights[lightId][4] = [];
-                    this.lights[lightId][4][0] = x;
-                    this.lights[lightId][4][1] = y;
-                    this.lights[lightId][4][2] = z;
-                    this.lights[lightId][4][3] = w;
+                    this.lights[lightId][4][1] = x;
+                    this.lights[lightId][4][2] = y;
+                    this.lights[lightId][4][3] = z;
+                    this.lights[lightId][4][4] = w;
                 }
                 else if (grandChildren[j].nodeName == "target")
                 {

@@ -20,8 +20,8 @@
 		<!-- tem de existir, pelo menos, uma vista de -->
 		<!-- entre as seguintes (perspective ou ortho) -->
 
-		<perspective id="camera" near="0.1" far="500" angle="0">
-			<from x="30" y="30" z="30" />
+		<perspective id="camera" near="0.1" far="500" angle="0.4">
+			<from x="15" y="15" z="15" />
 			<to x="0" y="0" z="0" />
 		</perspective>
 
@@ -29,7 +29,7 @@
 
 	</views>
 	<ambient>
-		<ambient r="1" g="1" b="1" a="1" />
+		<ambient r="0" g="0" b="0" a="1" />
 		<background r="0" g="0" b="0" a="1" />
 	</ambient>
 	<lights>
