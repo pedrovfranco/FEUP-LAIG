@@ -393,8 +393,7 @@ class MySceneGraph {
             this.lights[lightId] = [];
 
                         
-            if (this.reader.getBoolean(children[i], 'enabled'))
-                this.scene.lights[numLights].enable();
+            this.lights[lightId][0] = this.reader.getBoolean(children[i], 'enabled');
 
             grandChildren = children[i].children;
 
@@ -413,10 +412,10 @@ class MySceneGraph {
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     this.lights[lightId][1] = [];
-                    this.lights[lightId][1][1] = x;
-                    this.lights[lightId][1][2] = y;
-                    this.lights[lightId][1][3] = z;
-                    this.lights[lightId][1][4] = w;
+                    this.lights[lightId][1][0] = x;
+                    this.lights[lightId][1][1] = y;
+                    this.lights[lightId][1][2] = z;
+                    this.lights[lightId][1][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "ambient")
                 {
@@ -429,10 +428,10 @@ class MySceneGraph {
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     this.lights[lightId][2] = [];
-                    this.lights[lightId][2][1] = x;
-                    this.lights[lightId][2][2] = y;
-                    this.lights[lightId][2][3] = z;
-                    this.lights[lightId][2][4] = w;
+                    this.lights[lightId][2][0] = x;
+                    this.lights[lightId][2][1] = y;
+                    this.lights[lightId][2][2] = z;
+                    this.lights[lightId][2][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "diffuse")
                 {
@@ -447,10 +446,10 @@ class MySceneGraph {
                     this.scene.lights[numLights].setDiffuse(x, y, z, w);
 
                     this.lights[lightId][3] = [];
-                    this.lights[lightId][3][1] = x;
-                    this.lights[lightId][3][2] = y;
-                    this.lights[lightId][3][3] = z;
-                    this.lights[lightId][3][4] = w;
+                    this.lights[lightId][3][0] = x;
+                    this.lights[lightId][3][1] = y;
+                    this.lights[lightId][3][2] = z;
+                    this.lights[lightId][3][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "specular")
                 {
@@ -463,10 +462,10 @@ class MySceneGraph {
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     this.lights[lightId][4] = [];
-                    this.lights[lightId][4][1] = x;
-                    this.lights[lightId][4][2] = y;
-                    this.lights[lightId][4][3] = z;
-                    this.lights[lightId][4][4] = w;
+                    this.lights[lightId][4][0] = x;
+                    this.lights[lightId][4][1] = y;
+                    this.lights[lightId][4][2] = z;
+                    this.lights[lightId][4][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "target")
                 {
@@ -480,8 +479,8 @@ class MySceneGraph {
 
                 if (children.nodeName == "spot")
                 {
-                    this.scene.lights[numLights].setSpotCutOff(this.reader.getFloat(children[i], 'angle'));
-                    this.scene.lights[numLights].setSpotExponent(this.reader.getFloat(children[i], 'exponent'));
+                    // this.scene.lights[numLights].setSpotCutOff(this.reader.getFloat(children[i], 'angle'));
+                    // this.scene.lights[numLights].setSpotExponent(this.reader.getFloat(children[i], 'exponent'));
 
                     if (grandChildren[j].nodeName == "target")
                     {
