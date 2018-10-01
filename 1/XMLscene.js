@@ -85,6 +85,9 @@ class XMLscene extends CGFscene {
     onGraphLoaded() {
         this.camera.near = this.graph.near;
         this.camera.far = this.graph.far;
+        this.camera.fov = this.graph.fov;
+        this.camera.position = this.graph.v1;
+        this.camera.target = this.graph.v2;
 
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.referenceLength);
@@ -97,7 +100,7 @@ class XMLscene extends CGFscene {
         this.initLights();
 
         // Adds lights group.
-        this.interface.addLightsGroup(this.graph.lights);
+        // this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
     }

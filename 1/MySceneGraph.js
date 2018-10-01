@@ -263,7 +263,7 @@ class MySceneGraph {
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        this.v1 = vec3.fromValues(x, y, z);
+                        this.v1 = vec4.fromValues(x, y, z, 0);
                     }
                     else if (grandChildren[j].nodeName == "to")
                     {
@@ -274,7 +274,7 @@ class MySceneGraph {
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        this.v2 = vec3.fromValues(x, y, z);
+                        this.v2 = vec4.fromValues(x, y, z, 0);
                     }
                     else
                     {
@@ -406,10 +406,11 @@ class MySceneGraph {
                     if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                    this.lights[lightId][0][0] = x;
-                    this.lights[lightId][0][1] = y;
-                    this.lights[lightId][0][2] = z;
-                    this.lights[lightId][0][3] = w;
+                    this.lights[lightId][1] = [];
+                    this.lights[lightId][1][0] = x;
+                    this.lights[lightId][1][1] = y;
+                    this.lights[lightId][1][2] = z;
+                    this.lights[lightId][1][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "ambient")
                 {
@@ -421,10 +422,11 @@ class MySceneGraph {
                     if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                    this.lights[lightId][1][0] = x;
-                    this.lights[lightId][1][1] = y;
-                    this.lights[lightId][1][2] = z;
-                    this.lights[lightId][1][3] = w;
+                    this.lights[lightId][2] = [];
+                    this.lights[lightId][2][0] = x;
+                    this.lights[lightId][2][1] = y;
+                    this.lights[lightId][2][2] = z;
+                    this.lights[lightId][2][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "diffuse")
                 {
@@ -438,10 +440,11 @@ class MySceneGraph {
 
                     this.scene.lights[numLights].setDiffuse(x, y, z, w);
 
-                    this.lights[lightId][2][0] = x;
-                    this.lights[lightId][2][1] = y;
-                    this.lights[lightId][2][2] = z;
-                    this.lights[lightId][2][3] = w;
+                    this.lights[lightId][3] = [];
+                    this.lights[lightId][3][0] = x;
+                    this.lights[lightId][3][1] = y;
+                    this.lights[lightId][3][2] = z;
+                    this.lights[lightId][3][3] = w;
                 }
                 else if (grandChildren[j].nodeName == "specular")
                 {
@@ -453,56 +456,28 @@ class MySceneGraph {
                     if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
                         return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                    this.lights[lightId][3][0] = x;
-                    this.lights[lightId][3][1] = y;
-                    this.lights[lightId][3][2] = z;
-                    this.lights[lightId][3][3] = w;
+                    this.lights[lightId][4] = [];
+                    this.lights[lightId][4][0] = x;
+                    this.lights[lightId][4][1] = y;
+                    this.lights[lightId][4][2] = z;
+                    this.lights[lightId][4][3] = w;
+                }
+                else if (grandChildren[j].nodeName == "target")
+                {
+                    
                 }
                 else
                 {
                     this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
                     continue;
                 }
-            }
-            
-                var lightId = this.reader.getString(children[i], 'id');
 
-                // Checks for error on getString
-                if (lightId == null)
-                    return "no ID defined for light";
-
-                // Checks for repeated IDs.
-                if (this.lights[lightId] != null)
-                    return "ID must be unique for each light (conflict: ID = " + lightId + ")";
-
-                           
-                if (this.reader.getBoolean(children[i], 'enabled'))
-                    this.scene.lights[numLights].enable();
-
-                this.scene.lights[numLights].setSpotCutOff(this.reader.getFloat(children[i], 'angle'));
-
-                this.scene.lights[numLights].setSpotExponent(this.reader.getFloat(children[i], 'exponent'));
-
-
-                grandChildren = children[i].children;
-
-                var x, y ,z, w;
-
-                for (var j = 0; j < grandChildren.length; j++)
+                if (children.nodeName == "spot")
                 {
-                    if (grandChildren[j].nodeName == "location")
-                    {
-                        x = this.reader.getFloat(grandChildren[j], 'x');
-                        y = this.reader.getFloat(grandChildren[j], 'y');
-                        z = this.reader.getFloat(grandChildren[j], 'z');
-                        w = this.reader.getFloat(grandChildren[j], 'w');
+                    this.scene.lights[numLights].setSpotCutOff(this.reader.getFloat(children[i], 'angle'));
+                    this.scene.lights[numLights].setSpotExponent(this.reader.getFloat(children[i], 'exponent'));
 
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
-                            return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                        this.scene.lights[numLights].setPosition(x, y, z, w);
-                    }
-                    else if (grandChildren[j].nodeName == "target")
+                    if (grandChildren[j].nodeName == "target")
                     {
                         x = this.reader.getFloat(grandChildren[j], 'x');
                         y = this.reader.getFloat(grandChildren[j], 'y');
@@ -512,58 +487,17 @@ class MySceneGraph {
                             return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                         // --------TODO-------------
-                    }
-                    else if (grandChildren[j].nodeName == "ambient")
-                    {
-                        x = this.reader.getFloat(grandChildren[j], 'r');
-                        y = this.reader.getFloat(grandChildren[j], 'g');
-                        z = this.reader.getFloat(grandChildren[j], 'b');
-                        w = this.reader.getFloat(grandChildren[j], 'a');
-
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
-                            return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                        this.scene.lights[numLights].setAmbient(x, y, z, w);
-                    }
-                    else if (grandChildren[j].nodeName == "diffuse")
-                    {
-                        x = this.reader.getFloat(grandChildren[j], 'r');
-                        y = this.reader.getFloat(grandChildren[j], 'g');
-                        z = this.reader.getFloat(grandChildren[j], 'b');
-                        w = this.reader.getFloat(grandChildren[j], 'a');
-
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
-                            return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                        this.scene.lights[numLights].setDiffuse(x, y, z, w);
-                    }
-                    else if (grandChildren[j].nodeName == "specular")
-                    {
-                        x = this.reader.getFloat(grandChildren[j], 'r');
-                        y = this.reader.getFloat(grandChildren[j], 'g');
-                        z = this.reader.getFloat(grandChildren[j], 'b');
-                        w = this.reader.getFloat(grandChildren[j], 'a');
-
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z) && this.isValid(w)))
-                            return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                        this.scene.lights[numLights].setSpecular(x, y, z, w);
-                    }
-                    else
-                    {
-                        this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
-                        continue;
+                        
                     }
                 }
-
-                numLights++;
             }
-            else
-            {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
-            }   
-        }
+                
+
+            numLights++;
+
+            this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+            continue;
+        }   
 
         if (numLights == 0)
             return "at least one light must be defined";
