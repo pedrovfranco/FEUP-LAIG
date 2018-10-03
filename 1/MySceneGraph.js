@@ -746,7 +746,7 @@ class MySceneGraph {
             else
             {
                 var primitiveId = this.reader.getString(children[i], 'id');
-                   if (primitiveId == null)
+                if (!this.isValid(primitiveId))
                        return "no ID defined for primitive";
 
                        // Checks for repeated IDs.
@@ -754,27 +754,50 @@ class MySceneGraph {
                 if (this.primitives[primitiveId] != null)
                     return "ID must be unique for each primitve (conflict: ID = " + primitiveId + ")";
                 
-                    grandChildren = children[i].children;
+                grandChildren = children[i].children;
 
+                if (grandChildren.length != 1)
+                return "there must be one and only one tag for each primitive";
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
-                    switch(grandChildren[i].nodeName) 
-                        {
-                            case "rectangle": 
-                                    var x1, y1, x2, y2;
-                                    x1 = this.reader.getFloat(grandChildren[i], 'x1'); 
-                                    y1 = this.reader.getFloat(grandChildren[i], 'y1');
-                                    x2 = this.reader.getFloat(grandChildren[i], 'x2'); 
-                                    y2 = this.reader.getFloat(grandChildren[i], 'y2');
-                                    this.primitives[0] = new Rectangle(this.scene, x1,y1,x2,y2);
-                                    break;
-                                    
+                    if (grandChildren[i].nodeName == "rectangle")
+                    {
+                        counter++;
+                        var x1, y1, x2, y2;
+                        x1 = this.reader.getFloat(grandChildren[i], 'x1'); 
+                        y1 = this.reader.getFloat(grandChildren[i], 'y1');
+                        x2 = this.reader.getFloat(grandChildren[i], 'x2'); 
+                        y2 = this.reader.getFloat(grandChildren[i], 'y2');
+                        this.primitives[primitiveId] = new Rectangle(this.scene, x1,y1,x2,y2);
+                    }
+                            
+                    else if (grandChildren[i].nodeName == "triangle")
+                    {
+                        var x1,x2,x3,y1,y2,y3,z1,z2,z3;
+                        x1 = this.reader.getFloat(grandChildren[i], 'x1'); 
+                        y1 = this.reader.getFloat(grandChildren[i], 'y1');
+                        z1 = this.reader.getFloat(grandChildren[i], 'z1');
+                        x2 = this.reader.getFloat(grandChildren[i], 'x2'); 
+                        y2 = this.reader.getFloat(grandChildren[i], 'y2');
+                        z2 = this.reader.getFloat(grandChildren[i], 'z2');
+                        x3 = this.reader.getFloat(grandChildren[i], 'x3'); 
+                        y3 = this.reader.getFloat(grandChildren[i], 'y3');
+                        z3 = this.reader.getFloat(grandChildren[i], 'z3');
+                        this.primitives[primitiveId] = new Triangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+                    }
 
+                    else if (grandChildren[i].nodeName == "cylinder")
+                    {
+                        var base, top, height, slices, stacks;
+                        base = this.reader.getFloat(grandChildren[i], 'base'); 
+                        top = this.reader.getFloat(grandChildren[i], 'top');
+                        height = this.reader.getFloat(grandChildren[i], 'height');
+                        slices = this.reader.getInteger(grandChildren[i], 'slices'); 
+                        stacks = this.reader.getInteger(grandChildren[i], 'stacks');
 
-
-                        }
-
+                        this.primitives[primitiveId] = new Cylinder(this.scene, base, top, height, slices, stacks);
+                    }
                 }
 
             }
@@ -831,8 +854,10 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
-        this.primitives[0].display();
-
+        for (var i in this.primitives)
+        {
+            this.primitives[i].display();
+        }
 
     }
 
