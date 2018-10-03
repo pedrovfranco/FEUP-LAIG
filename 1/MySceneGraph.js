@@ -679,13 +679,13 @@ class MySceneGraph {
             else
             {
                 var transformationId = this.reader.getString(children[i], 'id');
-                   if (materialId == null)
-                       return "no ID defined for texture";
+                   if (transformationId == null)
+                       return "no ID defined for transformation";
 
                        // Checks for repeated IDs.
            
                 if (this.transformations[transformationId] != null)
-                    return "ID must be unique for each texture (conflict: ID = " + transformationId + ")";
+                    return "ID must be unique for each transformation (conflict: ID = " + transformationId + ")";
                 
                     grandChildren = children[i].children;
 
@@ -708,7 +708,7 @@ class MySceneGraph {
                     {
                         
                         this.scale[0] = this.reader.getFloat(grandChildren[i], 'x');
-                        this.scale[1] =this.reader.getFloat(grandChildren[i], 'y')
+                        this.scale[1] =this.reader.getFloat(grandChildren[i], 'y');
                         this.scale[2] =this.reader.getFloat(grandChildren[i], 'z');
                     }
                     else
@@ -730,7 +730,57 @@ class MySceneGraph {
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
-        // TODO: Parse block
+
+        var children = primitivesNode.children;
+
+        this.primitives = [];
+
+        var grandChildren = [];
+
+        for (var i = 0; i < children.length; i++)
+        {
+            if (children[i].nodeName != "primitive") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+            else
+            {
+                var primitiveId = this.reader.getString(children[i], 'id');
+                   if (primitiveId == null)
+                       return "no ID defined for primitive";
+
+                       // Checks for repeated IDs.
+           
+                if (this.primitives[primitiveId] != null)
+                    return "ID must be unique for each primitve (conflict: ID = " + primitiveId + ")";
+                
+                    grandChildren = children[i].children;
+
+
+                for (var j = 0; j < grandChildren.length; j++)
+                {
+                    switch(grandChildren[i].nodeName) 
+                        {
+                            case "rectangle": 
+                                    var x1, y1, x2, y2;
+                                    x1 = this.reader.getFloat(grandChildren[i], 'x1'); 
+                                    y1 = this.reader.getFloat(grandChildren[i], 'y1');
+                                    x2 = this.reader.getFloat(grandChildren[i], 'x2'); 
+                                    y2 = this.reader.getFloat(grandChildren[i], 'y2');
+                                    this.primitives[0] = new Rectangle(this.scene, x1,y1,x2,y2);
+                                    break;
+                                    
+
+
+
+                        }
+
+                }
+
+            }
+        }
+
+        
         this.log("Parsed transformations");
         return null;
 
@@ -780,6 +830,8 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
+
+        this.primitives[0].display();
 
 
     }
