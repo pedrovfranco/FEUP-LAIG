@@ -104,8 +104,8 @@
 			<!-- como em WebGL; o cilindro deve adicionalmente ter tampas -->
 			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
 			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
-			<cylinder base="0" top="0" height="0" slices="30" stacks="5" />
-			<!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
+			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
+			<sphere radius="5" slices="50" stacks="50" />
 			<!-- <torus inner="ff" outer="ff" slices="ii" loops="ii" /> --> -->
 		</primitive >
 	</primitives >

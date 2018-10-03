@@ -798,6 +798,16 @@ class MySceneGraph {
 
                         this.primitives[primitiveId] = new Cylinder(this.scene, base, top, height, slices, stacks);
                     }
+
+                    else if (grandChildren[i].nodeName == "sphere")
+                    {
+                        var radius, slices, stacks;
+                        radius = this.reader.getFloat(grandChildren[i], 'radius');
+                        slices = this.reader.getInteger(grandChildren[i], 'slices'); 
+                        stacks = this.reader.getInteger(grandChildren[i], 'stacks');
+
+                        this.primitives[primitiveId] = new Sphere(this.scene, radius, slices, stacks);
+                    }
                 }
 
             }
