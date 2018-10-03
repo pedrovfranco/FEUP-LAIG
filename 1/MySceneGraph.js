@@ -595,12 +595,12 @@ class MySceneGraph {
             {
                 var materialId = this.reader.getString(children[i], 'id');
                    if (materialId == null)
-                       return "no ID defined for texture";
+                       return "no ID defined for material";
 
                        // Checks for repeated IDs.
            
                 if (this.materials[materialId] != null)
-                    return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+                    return "ID must be unique for each material (conflict: ID = " + materialId + ")";
 
                 
                 grandChildren = children[i].children;
@@ -610,7 +610,7 @@ class MySceneGraph {
                     if (grandChildren[i].nodeName == "emission") {
                 
                         this.emission[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.emission[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.emission[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.emission[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.emission[3] =this.reader.getFloat(grandChildren[i], 'a');
         
@@ -619,14 +619,14 @@ class MySceneGraph {
                     else if (grandChildren[i].nodeName == "ambient") {
                         
                         this.ambient[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.ambient[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.ambient[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.ambient[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.ambient[3] =this.reader.getFloat(grandChildren[i], 'a');
                         }
                     else if (grandChildren[i].nodeName == "diffuse") {
                         
                         this.diffuse[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.diffuse[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.diffuse[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.diffuse[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.diffuse[3] =this.reader.getFloat(grandChildren[i], 'a');
                         }
@@ -634,7 +634,7 @@ class MySceneGraph {
                     else if (grandChildren[i].nodeName == "specular") {
                         
                         this.specular[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.specular[1] =this.reader.getFloat(grandChildren[i], 'g')
+                        this.specular[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.specular[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.specular[3] =this.reader.getFloat(grandChildren[i], 'a');
                         }
@@ -659,7 +659,67 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
-        // TODO: Parse block
+        
+        var children = transformationsNode.children;
+
+        this.transformations = [];
+
+        var grandChildren = [];
+
+        this.translate = [];
+        this.rotate = [];
+        this.scale = [];
+
+        for (var i = 0; i < children.length; i++)
+        {
+            if (children[i].nodeName != "transformation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+            else
+            {
+                var transformationId = this.reader.getString(children[i], 'id');
+                   if (materialId == null)
+                       return "no ID defined for texture";
+
+                       // Checks for repeated IDs.
+           
+                if (this.transformations[transformationId] != null)
+                    return "ID must be unique for each texture (conflict: ID = " + transformationId + ")";
+                
+                    grandChildren = children[i].children;
+
+                for (var j = 0; j < grandChildren.length; j++)
+                {
+                    if (grandChildren[i].nodeName == "translate") 
+                    {
+                
+                        this.translate[0] = this.reader.getFloat(grandChildren[i], 'x');
+                        this.translate[1] =this.reader.getFloat(grandChildren[i], 'y');
+                        this.translate[2] =this.reader.getFloat(grandChildren[i], 'z');
+        
+                    }
+                    else if (grandChildren[i].nodeName == "rotate") 
+                    {
+                        this.rotate[0] = this.reader.getString(grandChildren[i], 'axis'); //possible error
+                        this.rotate[1] =this.reader.getFloat(grandChildren[i], 'angle');
+                    }
+                    else if (grandChildren[i].nodeName == "scale") 
+                    {
+                        
+                        this.scale[0] = this.reader.getFloat(grandChildren[i], 'x');
+                        this.scale[1] =this.reader.getFloat(grandChildren[i], 'y')
+                        this.scale[2] =this.reader.getFloat(grandChildren[i], 'z');
+                    }
+                    else
+                    {
+                        this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+                        continue;
+                    }
+                }
+            }
+        
+        }
         this.log("Parsed transformations");
         return null;
 
