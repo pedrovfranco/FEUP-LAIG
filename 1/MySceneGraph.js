@@ -399,7 +399,6 @@ class MySceneGraph {
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
             this.lights[lightId] = [];
-
                         
             this.lights[lightId][0] = this.reader.getBoolean(children[i], 'enabled');
 
@@ -477,32 +476,34 @@ class MySceneGraph {
                 }
                 else if (grandChildren[j].nodeName == "target")
                 {
-                    
+                    x = this.reader.getFloat(grandChildren[j], 'x');
+                    y = this.reader.getFloat(grandChildren[j], 'y');
+                    z = this.reader.getFloat(grandChildren[j], 'z');
+
+                    if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
+                       return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+
+                    this.lights[lightId][5] = [];
+                    this.lights[lightId][5][0] = x;
+                    this.lights[lightId][5][1] = y;
+                    this.lights[lightId][5][2] = z;
+
                 }
                 else
                 {
                     this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
                     continue;
                 }
+            }
 
-                if (children.nodeName == "spot")
-                {
-                    // this.scene.lights[numLights].setSpotCutOff(this.reader.getFloat(children[i], 'angle'));
-                    // this.scene.lights[numLights].setSpotExponent(this.reader.getFloat(children[i], 'exponent'));
+            if (children.nodeName == "spot")
+            {
+                this.lights[lightId][6] = this.reader.getFloat(children[i], 'angle');
+                this.lights[lightId][7] = this.reader.getFloat(children[i], 'exponent');
 
-                    if (grandChildren[j].nodeName == "target")
-                    {
-                        x = this.reader.getFloat(grandChildren[j], 'x');
-                        y = this.reader.getFloat(grandChildren[j], 'y');
-                        z = this.reader.getFloat(grandChildren[j], 'z');
-
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
-                            return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                        // --------TODO-------------
-                        
-                    }
-                }
+                if (!(this.isValid(this.lights[lightId][6]) && this.isValid(y) && this.isValid(this.lights[lightId][7])))
+                    return "Unable to parse light id=\"" + lightId + "\"";
             }
                 
 
@@ -563,7 +564,7 @@ class MySceneGraph {
         if (numTextures == 0)
             return "there must be defined at least one texture";
 
-        console.log("Parsed textures");
+        this.log("Parsed textures");
 
         return null;
     }

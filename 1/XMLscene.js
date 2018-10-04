@@ -71,6 +71,14 @@ class XMLscene extends CGFscene {
                 else
                     this.lights[i].disable();
 
+                //Spot
+
+                if (light[5] != undefined)
+                {
+                    this.lights[i].setSpotCutOff(light[6]);
+                    this.lights[i].setSpotExponent(light[7]);
+                }
+
                 this.lights[i].update();
 
                 i++;
