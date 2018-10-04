@@ -34,7 +34,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        // File reading
+        // File reading 
         this.reader = new CGFXMLreader();
 
         /*
@@ -246,7 +246,7 @@ class MySceneGraph {
                     this.near = this.reader.getFloat(children[i], 'near');
                     this.far = this.reader.getFloat(children[i], 'far');
                     this.fov = this.reader.getFloat(children[i], 'angle');
-
+                    
 
                     if (!(this.isValid(this.near) && this.isValid(this.far) && this.isValid(this.fov)))
                         return "Unable to parse view id=\"" + viewId + "\"";
@@ -309,7 +309,7 @@ class MySceneGraph {
 
                     if (!(this.isValid(near) && this.isValid(far) && this.isValid(left) && this.isValid(right) && this.isValid(top) && this.isValid(bottom)))
                         return "Unable to parse view id=\"" + viewId + "\"";
-
+    
                 }
                 else
                 {
@@ -318,7 +318,7 @@ class MySceneGraph {
                 }
 
             }
-
+            
             numViews++;
         }
 
@@ -384,7 +384,7 @@ class MySceneGraph {
         this.lights = [];
         var numLights = 0;
 
-        var grandChildren = [];
+        var grandChildren = [];        
 
         for (var i = 0; i < children.length; i++)
         {
@@ -400,7 +400,7 @@ class MySceneGraph {
 
             this.lights[lightId] = [];
 
-
+                        
             this.lights[lightId][0] = this.reader.getBoolean(children[i], 'enabled');
 
             grandChildren = children[i].children;
@@ -477,7 +477,7 @@ class MySceneGraph {
                 }
                 else if (grandChildren[j].nodeName == "target")
                 {
-
+                    
                 }
                 else
                 {
@@ -500,17 +500,17 @@ class MySceneGraph {
                             return "Unable to parse light id=\"" + lightId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                         // --------TODO-------------
-
+                        
                     }
                 }
             }
-
+                
 
             numLights++;
 
             this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
             continue;
-        }
+        }   
 
         if (numLights == 0)
             return "at least one light must be defined";
@@ -523,7 +523,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <TEXTURES> block.
+     * Parses the <TEXTURES> block. 
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
@@ -533,7 +533,7 @@ class MySceneGraph {
 
         this.textures = [];
         var numTextures = 0;
-
+        
         for (var i = 0; i < children.length; i++) {
 
             if (children[i].nodeName != "texture") {
@@ -553,10 +553,10 @@ class MySceneGraph {
 
             var filename = this.reader.getString(children[i], 'file');
             if (filename == null)
-                return "no Filename defined for texture";
-
+                return "no Filename defined for texture";      
+                
             this.textures[textureId] = children[i];
-
+            
             numTextures++;
         }
 
@@ -573,7 +573,7 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
-
+        
         var children = materialsNode.children;
 
         this.materials = [];
@@ -598,41 +598,41 @@ class MySceneGraph {
                        return "no ID defined for material";
 
                        // Checks for repeated IDs.
-
+           
                 if (this.materials[materialId] != null)
                     return "ID must be unique for each material (conflict: ID = " + materialId + ")";
 
-
+                
                 grandChildren = children[i].children;
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
                     if (grandChildren[i].nodeName == "emission") {
-
+                
                         this.emission[0] = this.reader.getFloat(grandChildren[i], 'r');
                         this.emission[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.emission[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.emission[3] =this.reader.getFloat(grandChildren[i], 'a');
-
-
+        
+        
                         }
                     else if (grandChildren[i].nodeName == "ambient") {
-
+                        
                         this.ambient[0] = this.reader.getFloat(grandChildren[i], 'r');
                         this.ambient[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.ambient[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.ambient[3] =this.reader.getFloat(grandChildren[i], 'a');
                         }
                     else if (grandChildren[i].nodeName == "diffuse") {
-
+                        
                         this.diffuse[0] = this.reader.getFloat(grandChildren[i], 'r');
                         this.diffuse[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.diffuse[2] =this.reader.getFloat(grandChildren[i], 'b');
                         this.diffuse[3] =this.reader.getFloat(grandChildren[i], 'a');
                         }
-
+        
                     else if (grandChildren[i].nodeName == "specular") {
-
+                        
                         this.specular[0] = this.reader.getFloat(grandChildren[i], 'r');
                         this.specular[1] =this.reader.getFloat(grandChildren[i], 'g');
                         this.specular[2] =this.reader.getFloat(grandChildren[i], 'b');
@@ -646,10 +646,10 @@ class MySceneGraph {
 
                 }
             }
-
-
+                
+            
         }
-
+        
         this.log("Parsed materials");
         return null;
     }
@@ -659,7 +659,7 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
-
+        
         var children = transformationsNode.children;
 
         this.transformations = [];
@@ -683,30 +683,30 @@ class MySceneGraph {
                        return "no ID defined for transformation";
 
                        // Checks for repeated IDs.
-
+           
                 if (this.transformations[transformationId] != null)
                     return "ID must be unique for each transformation (conflict: ID = " + transformationId + ")";
-
+                
                     grandChildren = children[i].children;
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
-                    if (grandChildren[i].nodeName == "translate")
+                    if (grandChildren[i].nodeName == "translate") 
                     {
-
+                
                         this.translate[0] = this.reader.getFloat(grandChildren[i], 'x');
                         this.translate[1] =this.reader.getFloat(grandChildren[i], 'y');
                         this.translate[2] =this.reader.getFloat(grandChildren[i], 'z');
-
+        
                     }
-                    else if (grandChildren[i].nodeName == "rotate")
+                    else if (grandChildren[i].nodeName == "rotate") 
                     {
                         this.rotate[0] = this.reader.getString(grandChildren[i], 'axis'); //possible error
                         this.rotate[1] =this.reader.getFloat(grandChildren[i], 'angle');
                     }
-                    else if (grandChildren[i].nodeName == "scale")
+                    else if (grandChildren[i].nodeName == "scale") 
                     {
-
+                        
                         this.scale[0] = this.reader.getFloat(grandChildren[i], 'x');
                         this.scale[1] =this.reader.getFloat(grandChildren[i], 'y');
                         this.scale[2] =this.reader.getFloat(grandChildren[i], 'z');
@@ -718,7 +718,7 @@ class MySceneGraph {
                     }
                 }
             }
-
+        
         }
         this.log("Parsed transformations");
         return null;
@@ -750,10 +750,10 @@ class MySceneGraph {
                        return "no ID defined for primitive";
 
                        // Checks for repeated IDs.
-
+           
                 if (this.primitives[primitiveId] != null)
                     return "ID must be unique for each primitve (conflict: ID = " + primitiveId + ")";
-
+                
                 grandChildren = children[i].children;
 
                 if (grandChildren.length != 1)
@@ -765,23 +765,23 @@ class MySceneGraph {
                     {
                         counter++;
                         var x1, y1, x2, y2;
-                        x1 = this.reader.getFloat(grandChildren[i], 'x1');
+                        x1 = this.reader.getFloat(grandChildren[i], 'x1'); 
                         y1 = this.reader.getFloat(grandChildren[i], 'y1');
-                        x2 = this.reader.getFloat(grandChildren[i], 'x2');
+                        x2 = this.reader.getFloat(grandChildren[i], 'x2'); 
                         y2 = this.reader.getFloat(grandChildren[i], 'y2');
                         this.primitives[primitiveId] = new Rectangle(this.scene, x1,y1,x2,y2);
                     }
-
+                            
                     else if (grandChildren[i].nodeName == "triangle")
                     {
                         var x1,x2,x3,y1,y2,y3,z1,z2,z3;
-                        x1 = this.reader.getFloat(grandChildren[i], 'x1');
+                        x1 = this.reader.getFloat(grandChildren[i], 'x1'); 
                         y1 = this.reader.getFloat(grandChildren[i], 'y1');
                         z1 = this.reader.getFloat(grandChildren[i], 'z1');
-                        x2 = this.reader.getFloat(grandChildren[i], 'x2');
+                        x2 = this.reader.getFloat(grandChildren[i], 'x2'); 
                         y2 = this.reader.getFloat(grandChildren[i], 'y2');
                         z2 = this.reader.getFloat(grandChildren[i], 'z2');
-                        x3 = this.reader.getFloat(grandChildren[i], 'x3');
+                        x3 = this.reader.getFloat(grandChildren[i], 'x3'); 
                         y3 = this.reader.getFloat(grandChildren[i], 'y3');
                         z3 = this.reader.getFloat(grandChildren[i], 'z3');
                         this.primitives[primitiveId] = new Triangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
@@ -790,10 +790,10 @@ class MySceneGraph {
                     else if (grandChildren[i].nodeName == "cylinder")
                     {
                         var base, top, height, slices, stacks;
-                        base = this.reader.getFloat(grandChildren[i], 'base');
+                        base = this.reader.getFloat(grandChildren[i], 'base'); 
                         top = this.reader.getFloat(grandChildren[i], 'top');
                         height = this.reader.getFloat(grandChildren[i], 'height');
-                        slices = this.reader.getInteger(grandChildren[i], 'slices');
+                        slices = this.reader.getInteger(grandChildren[i], 'slices'); 
                         stacks = this.reader.getInteger(grandChildren[i], 'stacks');
 
                         this.primitives[primitiveId] = new Cylinder(this.scene, base, top, height, slices, stacks);
@@ -803,26 +803,44 @@ class MySceneGraph {
                     {
                         var radius, slices, stacks;
                         radius = this.reader.getFloat(grandChildren[i], 'radius');
-                        slices = this.reader.getInteger(grandChildren[i], 'slices');
+                        slices = this.reader.getInteger(grandChildren[i], 'slices'); 
                         stacks = this.reader.getInteger(grandChildren[i], 'stacks');
 
                         this.primitives[primitiveId] = new Sphere(this.scene, radius, slices, stacks);
                     }
 
+                    else if (grandChildren[i].nodeName == "sphere")
+                    {
+                        var radius, slices, stacks;
+                        radius = this.reader.getFloat(grandChildren[i], 'radius');
+                        slices = this.reader.getInteger(grandChildren[i], 'slices'); 
+                        stacks = this.reader.getInteger(grandChildren[i], 'stacks');
+
+                        this.primitives[primitiveId] = new Sphere(this.scene, radius, slices, stacks);
+                    }
+                    
                     else if (grandChildren[i].nodeName == "torus")
                     {
-                      var inner, outer, slices, loops;
-                      inner = this.reader.getFloat(grandChildren[i], 'inner');
-                      outer = this.reader.getFloat(grandChildren[i], 'outer');
-                      slices = this.reader.getInteger(grandChildren[i], 'slices');
-                      loops = this.reader.getInteger(grandChildren[i], 'loops');
+                        var inner, outer, slices, loops;
+                        inner = this.reader.getFloat(grandChildren[i], 'inner');
+                        outer = this.reader.getInteger(grandChildren[i], 'outer'); 
+                        slices = this.reader.getInteger(grandChildren[i], 'slices');
+                        loops = this.reader.getInteger(grandChildren[i], 'loops');
+
+                        this.primitives[primitiveId] = new Torus(this.scene, inner, outer, slices, loops);
+                    }
+
+                    else
+                    {
+                        this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+                        continue;
                     }
                 }
 
             }
         }
 
-
+        
         this.log("Parsed transformations");
         return null;
 

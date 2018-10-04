@@ -1,49 +1,53 @@
 class Torus extends CGFobject
 {
-
-  inner="ff" outer="ff" slices="ii" loops="ii"
-
-/*
-
-x(u,v) = (DISTANCIA DO CENTRO DO TUBO AO CENTRO DO TORO + raio * cos v ) cos u
-y(u,v) = (DISTANCIA DO CENTRO DO TUBO AO CENTRO DO TORO + raio * cos v) sin u
-z(u,v) = r sin v
-
-u,v [0,2pi]
-*/
-
-//inner raio interior
-//outer raio exterior
-//slices slices
-//loops -> f [0,1] f(0) = f(1)
-
-  constructor(scene, inner, outer, slices, loops)
-	{
+    constructor(scene, inner, outer, slices, loops)
+    {
         super(scene);
-
         this.inner = inner;
         this.outer = outer;
         this.slices = slices;
-        this.loops = lopps;
+        this.loops = loops;
 
-		this.initBuffers();
-	};
-
-	initBuffers()
-	{
-    this.vertices = [];
-    this.indices = [];
-
-    var u,v;
-
-    for(var i = 0; i < this.slices; i++)
-    {
-
+        this.initBuffers();
     }
 
+    initBuffers()
+    {
+        var alpha = 2*Math.PI/this.slices;
+        var beta = 2*Math.PI/this.loops;
+
+		this.vertices = [];
+		this.indices = [];
+		this.normals = [];
+        this.texCoords = [];
+        
+        
+        for (var j = 0; j < this.loops; j++)
+        {
+            for (var i = 0; i < this.slices; i++)
+            {
+                this.vertices.push((this.outer + this.inner*Math.cos(alpha*i))*Math.cos(beta*j), this.inner*Math.sin(alpha*i), (this.outer + this.inner*Math.cos(alpha*i))*Math.sin(beta*j));		// A
+
+                this.indices.push(this.slices*j + (i + 1)%this.slices, this.slices*((j+1)%this.loops) + i, this.slices*j + i); // ACB
+                this.indices.push(this.slices*j + (i + 1)%this.slices, this.slices*((j+1)%this.loops) + (i + 1)%this.slices, this.slices*((j+1)%this.loops) + i); // ACB
+                
+                this.normals.push(0, 0, 1);
+
+                // this.texCoords.push((Math.cos(alpha*i) + 1)/2, (-Math.sin(alpha*i) + 1)/2);
+    
+            }
+
+            console.log(this.indices);
+        }
+
+        // this.indices.push(1, 0, 4); // ACB
+        // this.indices.push(1, 4, 5); // ACB
 
 
-    this.primitiveType=this.scene.gl.TRIANGLES;
+        console.log(this.vertices);
+        
+        
+        this.primitiveType=this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
-	};
-};
+    }
+}
