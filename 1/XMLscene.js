@@ -106,8 +106,8 @@ class XMLscene extends CGFscene {
 
         // TODO: Change ambient and background details according to parsed graph
 
-        this.setGlobalAmbientLight(this.graph.ambientr, this.graph.ambientg, this.graph.ambientb, this.graph.ambienta);
-        this.gl.clearColor(this.graph.backgroundr, this.graph.backgroundg, this.graph.backgroundb, this.graph.backgrounda);
+        this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
+        this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
 
         this.initLights();
 

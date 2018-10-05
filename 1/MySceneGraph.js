@@ -342,22 +342,24 @@ class MySceneGraph {
         {
             if (children[i].nodeName == "ambient")
             {
-                this.ambientr = this.reader.getFloat(children[i], 'r');
-                this.ambientb = this.reader.getFloat(children[i], 'g');
-                this.ambientg = this.reader.getFloat(children[i], 'b');
-                this.ambienta = this.reader.getFloat(children[i], 'a');
+                this.ambient = [];
+                this.ambient[0] = this.reader.getFloat(children[i], 'r');
+                this.ambient[1] = this.reader.getFloat(children[i], 'g');
+                this.ambient[2] = this.reader.getFloat(children[i], 'b');
+                this.ambient[3] = this.reader.getFloat(children[i], 'a');
 
-                if (!(this.isValid(this.ambientr) && this.isValid(this.ambientg) && this.isValid(this.ambientb) && this.isValid(this.ambienta)))
+                if (!(this.isValid(this.ambient[0]) && this.isValid(this.ambient[1]) && this.isValid(this.ambient[2]) && this.isValid(this.ambient[3])))
                     return "Unable to parse ambient on the \"" + children[j].nodeName + "\" node";
             }
             else if (children[i].nodeName == "background")
             {
-                this.backgroundr = this.reader.getFloat(children[i], 'r');
-                this.backgroundg = this.reader.getFloat(children[i], 'g');
-                this.backgroundb = this.reader.getFloat(children[i], 'b');
-                this.backgrounda = this.reader.getFloat(children[i], 'a');
+                this.background = [];
+                this.background[0] = this.reader.getFloat(children[i], 'r');
+                this.background[1] = this.reader.getFloat(children[i], 'g');
+                this.background[2] = this.reader.getFloat(children[i], 'b');
+                this.background[3] = this.reader.getFloat(children[i], 'a');
 
-                if (!(this.isValid(this.backgroundr) && this.isValid(this.backgroundg) && this.isValid(this.backgroundb) && this.isValid(this.backgrounda)))
+                if (!(this.isValid(this.background[0]) && this.isValid(this.background[1]) && this.isValid(this.background[2]) && this.isValid(this.background[3])))
                     return "Unable to parse ambient on the \"" + children[j].nodeName + "\" node";
 
             }
@@ -556,7 +558,7 @@ class MySceneGraph {
             if (filename == null)
                 return "no Filename defined for texture";      
                 
-            this.textures[textureId] = children[i];
+            this.textures[textureId] = filename;
             
             numTextures++;
         }
@@ -578,13 +580,11 @@ class MySceneGraph {
         var children = materialsNode.children;
 
         this.materials = [];
+        var numMaterials = 0;
 
         var grandChildren = [];
 
-        this.emission = [];
-        this.ambient = [];
-        this.diffuse = [];
-        this.specular = [];
+        var r,g,b,a;
 
         for (var i = 0; i < children.length; i++)
         {
@@ -592,66 +592,102 @@ class MySceneGraph {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
-            else
+
+            var materialId = this.reader.getString(children[i], 'id');
+
+            if (materialId == null)
+                return "no ID defined for material";
+        
+            if (this.materials[materialId] != null)
+                return "ID must be unique for each material (conflict: ID = " + materialId + ")";
+
+            this.materials[materialId] = [];
+
+            grandChildren = children[i].children;
+
+            for (var j = 0; j < grandChildren.length; j++)
             {
-                var materialId = this.reader.getString(children[i], 'id');
-                   if (materialId == null)
-                       return "no ID defined for material";
-
-                       // Checks for repeated IDs.
-           
-                if (this.materials[materialId] != null)
-                    return "ID must be unique for each material (conflict: ID = " + materialId + ")";
-
-                
-                grandChildren = children[i].children;
-
-                for (var j = 0; j < grandChildren.length; j++)
+                if (grandChildren[i].nodeName == "emission")
                 {
-                    if (grandChildren[i].nodeName == "emission") {
-                
-                        this.emission[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.emission[1] =this.reader.getFloat(grandChildren[i], 'g');
-                        this.emission[2] =this.reader.getFloat(grandChildren[i], 'b');
-                        this.emission[3] =this.reader.getFloat(grandChildren[i], 'a');
-        
-        
-                        }
-                    else if (grandChildren[i].nodeName == "ambient") {
-                        
-                        this.ambient[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.ambient[1] =this.reader.getFloat(grandChildren[i], 'g');
-                        this.ambient[2] =this.reader.getFloat(grandChildren[i], 'b');
-                        this.ambient[3] =this.reader.getFloat(grandChildren[i], 'a');
-                        }
-                    else if (grandChildren[i].nodeName == "diffuse") {
-                        
-                        this.diffuse[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.diffuse[1] =this.reader.getFloat(grandChildren[i], 'g');
-                        this.diffuse[2] =this.reader.getFloat(grandChildren[i], 'b');
-                        this.diffuse[3] =this.reader.getFloat(grandChildren[i], 'a');
-                        }
-        
-                    else if (grandChildren[i].nodeName == "specular") {
-                        
-                        this.specular[0] = this.reader.getFloat(grandChildren[i], 'r');
-                        this.specular[1] =this.reader.getFloat(grandChildren[i], 'g');
-                        this.specular[2] =this.reader.getFloat(grandChildren[i], 'b');
-                        this.specular[3] =this.reader.getFloat(grandChildren[i], 'a');
-                        }
-                    else
-                    {
-                        this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
-                        continue;
-                    }
+                    r = this.reader.getFloat(grandChildren[i], 'r');
+                    g = this.reader.getFloat(grandChildren[i], 'g');
+                    b = this.reader.getFloat(grandChildren[i], 'b');
+                    a = this.reader.getFloat(grandChildren[i], 'a');
 
+                    if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
+                        return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                    this.materials[materialId][1] = [];
+                    this.materials[materialId][1][0] = r;
+                    this.materials[materialId][1][1] = g;
+                    this.materials[materialId][1][2] = b;
+                    this.materials[materialId][1][3] = a;
                 }
+                else if (grandChildren[i].nodeName == "ambient")
+                {
+                    r = this.reader.getFloat(grandChildren[i], 'r');
+                    g = this.reader.getFloat(grandChildren[i], 'g');
+                    b = this.reader.getFloat(grandChildren[i], 'b');
+                    a = this.reader.getFloat(grandChildren[i], 'a');
+
+                    if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
+                        return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                    this.materials[materialId][2] = [];
+                    this.materials[materialId][2][0] = r;
+                    this.materials[materialId][2][1] = g;
+                    this.materials[materialId][2][2] = b;
+                    this.materials[materialId][2][3] = a;
+                }
+                else if (grandChildren[i].nodeName == "diffuse")
+                {
+                    r = this.reader.getFloat(grandChildren[i], 'r');
+                    g = this.reader.getFloat(grandChildren[i], 'g');
+                    b = this.reader.getFloat(grandChildren[i], 'b');
+                    a = this.reader.getFloat(grandChildren[i], 'a');
+
+                    if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
+                        return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                    this.materials[materialId][3] = [];
+                    this.materials[materialId][3][0] = r;
+                    this.materials[materialId][3][1] = g;
+                    this.materials[materialId][3][2] = b;
+                    this.materials[materialId][3][3] = a;
+                }
+    
+                else if (grandChildren[i].nodeName == "specular")
+                {
+                    r = this.reader.getFloat(grandChildren[i], 'r');
+                    g = this.reader.getFloat(grandChildren[i], 'g');
+                    b = this.reader.getFloat(grandChildren[i], 'b');
+                    a = this.reader.getFloat(grandChildren[i], 'a');
+
+                    if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
+                        return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                    this.materials[materialId][4] = [];
+                    this.materials[materialId][4][0] = r;
+                    this.materials[materialId][4][1] = g;
+                    this.materials[materialId][4][2] = b;
+                    this.materials[materialId][4][3] = a;
+                }
+                else
+                {
+                    this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+                    continue;
+                }
+
             }
-                
-            
+
+            numMaterials++;
         }
-        
+                
+        if (numMaterials == 0)
+            return "there must be defined at least one material";
+
         this.log("Parsed materials");
+        
         return null;
     }
 
