@@ -497,7 +497,7 @@ class MySceneGraph {
                 }
             }
 
-            if (children.nodeName == "spot")
+            if (children[i].nodeName == "spot")
             {
                 this.lights[lightId][6] = this.reader.getFloat(children[i], 'angle');
                 this.lights[lightId][7] = this.reader.getFloat(children[i], 'exponent');

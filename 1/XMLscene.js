@@ -75,6 +75,7 @@ class XMLscene extends CGFscene {
 
                 if (light[5] != undefined)
                 {
+                    this.lights[i].setSpotDirection(light[5][0] - light[1][0], light[5][1] - light[1][1], light[5][2] - light[1][2]); // Direction is equal to the vector that starts on position and ends on target
                     this.lights[i].setSpotCutOff(light[6]);
                     this.lights[i].setSpotExponent(light[7]);
                 }
