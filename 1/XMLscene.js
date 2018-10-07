@@ -117,6 +117,14 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.materialDefault = new CGFappearance(this);
+        
+        this.textures
+
+        for (var i = 0; i < this.graph.textures.length; i++)
+        {
+            this.textures
+
+        }
     }
 
 

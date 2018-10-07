@@ -558,7 +558,8 @@ class MySceneGraph {
             if (filename == null)
                 return "no Filename defined for texture";      
                 
-            this.textures[textureId] = filename;
+            this.textures[textureId] = new CGFappearance(this.scene);
+            this.textures[textureId].loadTexture(filename);
             
             numTextures++;
         }
@@ -984,6 +985,13 @@ class MySceneGraph {
                     else if (grandChildren[j].nodeName == "texture")
                     {
                         componentsTemp[componentId][2] = [];
+                        componentsTemp[componentId][2][0] = this.reader.getString(grandChildren[j], 'id');
+                        componentsTemp[componentId][2][1] = this.reader.getFloat(grandChildren[j], 'length_s');
+                        componentsTemp[componentId][2][2] = this.reader.getFloat(grandChildren[j], 'length_t');
+
+                        if (!(this.isValid(componentsTemp[componentId][2][0]) && this.isValid(componentsTemp[componentId][2][1]) && this.isValid(componentsTemp[componentId][2][2])))
+                            return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
+
                     }
 
                     else if (grandChildren[j].nodeName == "children")
@@ -1003,9 +1011,7 @@ class MySceneGraph {
                             {
                                 var id = this.reader.getString(grandGrandChildren[k], 'id');
                                 if (!this.isValid(id))
-                                {
                                     return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
-                                }
 
                                 componentsTemp[componentId][3][0].push(id);
 
@@ -1017,9 +1023,7 @@ class MySceneGraph {
                                 var id = this.reader.getString(grandGrandChildren[k], 'id');
 
                                 if (!this.isValid(id))
-                                {
                                     return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
-                                }
 
                                 componentsTemp[componentId][3][1].push(id);
 
@@ -1049,7 +1053,7 @@ class MySceneGraph {
                 continue;
             }
 
-            this.components[componentId] = new Component(this.scene, componentsTemp[componentId][0], componentsTemp[componentId][3][0], componentsTemp[componentId][3][1], this.components, this.primitives);
+            this.components[componentId] = new Component(this.scene, componentsTemp[componentId][0], this.textures[componentsTemp[componentId][2][0]], componentsTemp[componentId][3][0], componentsTemp[componentId][3][1], this.components, this.primitives);
 
             numComponents++;
         }
