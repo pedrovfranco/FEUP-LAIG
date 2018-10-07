@@ -14,6 +14,29 @@ class Component extends CGFobject
 
     display()
     {
+        this.scene.pushMatrix();
+
+        for (var i = 0; i < this.transformations.length; i++)
+        {
+            if (this.transformations[i][0] == 0)
+            {
+                this.scene.translate(this.transformations[i][1], this.transformations[i][2], this.transformations[i][3]);
+            }
+            else if (this.transformations[i][0] == 1)
+            {
+                if (this.transformations[i][1] == "x")
+                    this.scene.rotate(this.transformations[i][2], 1, 0, 0);
+                else if (this.transformations[i][1] == "y")
+                    this.scene.rotate(this.transformations[i][2], 0, 1, 0);
+                else if (this.transformations[i][1] == "z")
+                    this.scene.rotate(this.transformations[i][2], 0, 0, 1);
+            }
+            else if (this.transformations[i][0] == 2)
+            {
+                this.scene.scale(this.transformations[i][1], this.transformations[i][2], this.transformations[i][3]);
+            }
+        }
+
         for (var i = 0; i < this.componentsRef.length; i++)
         {
             this.components[this.componentsRef[i]].display();
@@ -23,6 +46,8 @@ class Component extends CGFobject
         {
             this.primitives[this.primitivesRef[i]].display();
         }
+
+        this.scene.popMatrix();
     }
 
 }

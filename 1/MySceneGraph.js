@@ -929,7 +929,7 @@ class MySceneGraph {
                         
                         for (var k = 0; k < grandGrandChildren.length; k++)
                         {
-                            componentsTemp[componentId][0][k] = [];
+                            componentsTemp[componentId][0][numTransformations] = [];
 
                             if (grandGrandChildren[k].nodeName == "translate")
                             {

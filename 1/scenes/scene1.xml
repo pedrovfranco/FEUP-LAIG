@@ -14,7 +14,7 @@
 	<!-- deve definir-se um objeto para raiz da arvore, assim -->
 	<!-- como o comprimento dos tres eixos (cilindros) -->
 
-	<scene root="component1" axis_length="8" />
+	<scene root="component2" axis_length="8" />
 	<views default="camera" >
 
 		<!-- tem de existir, pelo menos, uma vista de -->
@@ -148,7 +148,7 @@
 				<!-- usando zero ou mais das instrucoes seguintes, sem -->
 				<!-- limite nem ordem -->
 				<!-- ex: bloco transformation pode ficar sem conteudo -->
-				<translate x="0" y="0" z="0" />
+				<translate x="0" y="3" z="0" />
 				<rotate axis="x" angle="0" />
 				<scale x="1" y="1" z="1" />
 			</transformation>
@@ -184,6 +184,18 @@
 				<!-- componentes ou primitivas -->
 				<!-- <componentref id="" /> -->
 				<primitiveref id="primitive1" />
+			</children>
+		</component>
+		<component id="component2">
+			<transformation>
+				<translate x="1" y="0" z="1" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="component1" />
 				<primitiveref id="primitive2" />
 			</children>
 		</component>
