@@ -3,7 +3,7 @@ class Component extends CGFobject
     constructor(scene, transformations, componentsRef, primitivesRef, components, primitives)
     {
         super(scene);
-        
+
         this.transformations = transformations;
         this.componentsRef = componentsRef;
         this.primitivesRef = primitivesRef;
@@ -25,7 +25,7 @@ class Component extends CGFobject
             else if (this.transformations[i][0] == 1)
             {
                 if (this.transformations[i][1] == "x")
-                    this.scene.rotate(this.transformations[i][2], 1, 0, 0);
+                    this.scene.rotate(this.transformations[i][2]*Math.PI/180, 1, 0, 0);
                 else if (this.transformations[i][1] == "y")
                     this.scene.rotate(this.transformations[i][2], 0, 1, 0);
                 else if (this.transformations[i][1] == "z")
