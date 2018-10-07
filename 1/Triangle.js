@@ -1,4 +1,4 @@
-class Triangle extends CGFobject
+class Triangle extends Primitive
 {
 	constructor(scene, x1, y1, z1, x2, y2, z2, x3 , y3, z3) 
 	{
@@ -14,7 +14,9 @@ class Triangle extends CGFobject
         this.y3 = y3;
         this.z3 = z3;
         
-		this.initBuffers();
+        this.initBuffers();
+        
+        super.setBuffers(this.vertices, this.indices);
 	};
 
 	initBuffers() 
@@ -28,8 +30,5 @@ class Triangle extends CGFobject
         this.indices = [
             0,1,2
             ];
-
-		this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
 	};
 };
