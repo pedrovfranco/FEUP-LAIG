@@ -30,9 +30,9 @@ class Component extends CGFobject
                 if (this.transformations[i][1] == "x")
                     this.scene.rotate(this.transformations[i][2]*Math.PI/180, 1, 0, 0);
                 else if (this.transformations[i][1] == "y")
-                    this.scene.rotate(this.transformations[i][2], 0, 1, 0);
+                    this.scene.rotate(this.transformations[i][2]*Math.PI/180, 0, 1, 0);
                 else if (this.transformations[i][1] == "z")
-                    this.scene.rotate(this.transformations[i][2], 0, 0, 1);
+                    this.scene.rotate(this.transformations[i][2]*Math.PI/180, 0, 0, 1);
             }
             else if (this.transformations[i][0] == 2)
             {

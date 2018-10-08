@@ -174,6 +174,19 @@
 				<componentref id="component10" />
 				<componentref id="component11" />
 				<componentref id="component12" />
+				<componentref id="component13" />
+				<componentref id="component14" />
+				<componentref id="component15" />
+				<componentref id="component16" />
+				<componentref id="component17" />
+				<componentref id="component18" />
+				<componentref id="component19" />
+				<componentref id="component20" />
+				<componentref id="component21" />
+				<componentref id="component22" />
+				<componentref id="component23" />
+				<componentref id="component24" />
+				<componentref id="component25" />
 				</children>
 		</component>
 		<component id="component2">
@@ -317,7 +330,7 @@
 				</component>
 				<component id="component12">
 					<transformation>
-						<translate x="10" y="-1.5" z="10"/>
+						<translate x="10" y="0.5" z="10"/>
 						</transformation>
 					<materials>
 						<material id="inherit" />
@@ -327,5 +340,183 @@
 						<primitiveref id="primitive5" />
 					</children>
 				</component>
+				<component id="component13">
+					<transformation>
+					<rotate axis="x" angle="-90"/>
+					<scale x ="10" y="30" z="1"/>
+					<translate x="0" y="-1" z="-0.8"/>
+					</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="inherit" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="primitive4" />
+					</children>
+				</component>
+				<component id="component14">
+					<transformation>
+						<rotate axis="x" angle="-90"/>
+						<scale x ="0.15" y="0.15" z="3"/>
+						<translate x="20" y="-60" z="-0.5"/>
+					</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="inherit" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="primitive3" />
+					</children>
+				</component>
+				<component id="component15">
+					<transformation>
+						<rotate axis="x" angle="-60"/>
+						<scale x ="0.15" y="0.15" z="3"/>
+						<translate x="24" y="-60" z="1"/>
+					</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="inherit" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="primitive3" />
+					</children>
+				</component>
+				<component id="component16">
+					<transformation>
+						<rotate axis="x" angle="60"/>
+						<scale x ="0.15" y="0.15" z="3"/>
+						<translate x="15" y="60" z="1.5"/>
+					</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="inherit" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="primitive3" />
+					</children>
+				</component>
+				<component id="component17">
+					<transformation>
+						<rotate axis="x" angle="-90"/>
+						<scale x ="0.15" y="0.15" z="3"/>
+						<translate x="15" y="-65" z="-0.5"/>
+					</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="inherit" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="primitive3" />
+					</children>
+				</component>
+						<component id="component18">
+							<transformation>
+								<scale x="0.25" y="0.25" z="8"/>
+								<translate x="40" y="-2.5" z="2"/>
+							</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive3" />
+							</children>
+						</component>
+						<component id="component19">
+							<transformation>
+								<scale x="0.25" y="0.25" z="8"/>
+								<translate x="42" y="-2.5" z="2"/>
+							</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive3" />
+							</children>
+						</component>
+						<component id="component20">
+							<transformation>
+								<scale x="0.25" y="0.25" z="8"/>
+								<translate x="44" y="-2.5" z="2"/>
+							</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive3" />
+							</children>
+						</component>
+						<component id="component21">
+							<transformation>
+								<scale x="0.25" y="0.25" z="8"/>
+								<translate x="46" y="-2.5" z="2"/>
+							</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive3" />
+							</children>
+						</component>
+						<component id="component22">
+							<transformation>
+								<scale x="0.25" y="0.25" z="8"/>
+								<translate x="48" y="-2.5" z="2"/>
+							</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive3" />
+							</children>
+						</component>
+						<component id="component23">
+							<transformation>
+								<rotate axis="x" angle="-90"/>
+								<scale x="0.25" y="0.25" z="4"/>
+								<translate x="45" y="-75" z="-0.1" />
+									</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive3" />
+							</children>
+						</component>
+						<component id="component24">
+							<transformation>
+								<scale x="0.5" y="0.5" z="0.8"/>
+								<rotate axis="y" angle="90"/>
+								<translate x="-28" y="-0.5" z="23" />
+							</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive4" />
+							</children>
+						</component>
+						<component id="component25">
+							<transformation>
+								<scale x="0.5" y="0.5" z="0.8"/>
+								<rotate axis="y" angle="90"/>
+								<translate x="-28" y="-0.5" z="23" />
+								<rotate axis="y" angle ="-180"/> 
+								</transformation>
+							<materials>
+								<material id="inherit" />
+							</materials>
+							<texture id="inherit" length_s="1" length_t="1" />
+							<children>
+								<primitiveref id="primitive4" />
+							</children>
+						</component>
 	</components>
 </yas>
