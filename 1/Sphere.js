@@ -55,7 +55,7 @@ class Sphere extends CGFobject
 		this.normals.push(0,0,1); // Center
 		this.texCoords.push(0.5, 0.5);
 		
-		console.log(this.indices);
+		// console.log(this.indices);
         
 		//Lower-half
 		
@@ -88,7 +88,7 @@ class Sphere extends CGFobject
 		this.normals.push(0,0,-1); // Center
 		this.texCoords.push(0.5, 0.5);
 		
-		console.log(this.indices);
+		// console.log(this.indices);
         
         this.primitiveType=this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
