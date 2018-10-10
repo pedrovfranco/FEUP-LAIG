@@ -193,6 +193,8 @@
 				<componentref id="raftCylinderFlag" />
 				<componentref id="flag1" />
 				<componentref id="flag2" />
+				<componentref id="bridgeFloat" />
+				<componentref id="rope" />
 			</children>
 		</component>
 		<component id="bridgeCylinder1">
@@ -336,7 +338,7 @@
 				</component>
 				<component id="ball">
 					<transformation>
-						<translate x="10" y="-0.5" z="10"/>
+						<translate x="7" y="-0.5" z="10"/>
 						</transformation>
 					<materials>
 						<material id="inherit" />
@@ -525,5 +527,32 @@
 								<primitiveref id="trianglePrimitive" />
 							</children>
 						</component>
+					<component id="bridgeFloat">
+					<transformation>
+						<scale x="0.15" y="0.15" z="0.15"/>
+						<translate x="66.5" y="5" z="33"/>
+						</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="texture5" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="torusPrimitive" />
+					</children>
+				</component>
+				<component id="rope">
+					<transformation>
+						<rotate axis="x" angle="8"/>
+						<scale x ="0.05" y="0.05" z="11"/>
+						<translate x="200" y="30" z="0.47"/>
+					</transformation>
+					<materials>
+						<material id="inherit" />
+					</materials>
+					<texture id="texture3" length_s="1" length_t="1" />
+					<children>
+						<primitiveref id="cylinderPrimitive" />
+					</children>
+				</component>
 	</components>
 </yas>
