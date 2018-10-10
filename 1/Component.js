@@ -1,15 +1,19 @@
 class Component extends CGFobject
 {
-    constructor(scene, transformations, texture, componentsRef, primitivesRef, components, primitives)
+    constructor(scene, transformations, materialRef, texture, componentsRef, primitivesRef, components, primitives)
     {
         super(scene);
 
+        this.scene = scene;
         this.transformations = transformations;
+        this.materialRef = materialRef;
         this.texture = texture;
         this.componentsRef = componentsRef;
         this.primitivesRef = primitivesRef;
         this.components = components;
         this.primitives = primitives;
+
+        this.material = new CGFappearance(scene);
     }
 
 
@@ -17,7 +21,7 @@ class Component extends CGFobject
     {
         this.scene.pushMatrix();
 
-        // this.texture.apply();
+        this.material.apply();
 
         for (var i = 0; i < this.transformations.length; i++)
         {
@@ -52,5 +56,4 @@ class Component extends CGFobject
 
         this.scene.popMatrix();
     }
-
 }

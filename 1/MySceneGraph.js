@@ -535,6 +535,7 @@ class MySceneGraph {
         var children = texturesNode.children;
 
         this.textures = [];
+        this.textures["inherit"] = "inherit";
         var numTextures = 0;
         
         for (var i = 0; i < children.length; i++) {
@@ -558,9 +559,8 @@ class MySceneGraph {
             if (filename == null)
                 return "no Filename defined for texture";      
                 
-            this.textures[textureId] = new CGFappearance(this.scene);
-            this.textures[textureId].loadTexture(filename);
-            
+            this.textures[textureId] = filename;
+
             numTextures++;
         }
 
@@ -604,16 +604,21 @@ class MySceneGraph {
 
             this.materials[materialId] = [];
 
+            this.materials[materialId][0] = this.reader.getFloat(children[i], 'shininess');
+
+            if (!this.isValid(this.materials[materialId][0]))
+                return "Unable to parse material id=\"" + materialId + "\" on the \"" + children[j].nodeName + "\" node";
+
             grandChildren = children[i].children;
 
             for (var j = 0; j < grandChildren.length; j++)
             {
-                if (grandChildren[i].nodeName == "emission")
+                if (grandChildren[j].nodeName == "emission")
                 {
-                    r = this.reader.getFloat(grandChildren[i], 'r');
-                    g = this.reader.getFloat(grandChildren[i], 'g');
-                    b = this.reader.getFloat(grandChildren[i], 'b');
-                    a = this.reader.getFloat(grandChildren[i], 'a');
+                    r = this.reader.getFloat(grandChildren[j], 'r');
+                    g = this.reader.getFloat(grandChildren[j], 'g');
+                    b = this.reader.getFloat(grandChildren[j], 'b');
+                    a = this.reader.getFloat(grandChildren[j], 'a');
 
                     if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
                         return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
@@ -624,12 +629,12 @@ class MySceneGraph {
                     this.materials[materialId][1][2] = b;
                     this.materials[materialId][1][3] = a;
                 }
-                else if (grandChildren[i].nodeName == "ambient")
+                else if (grandChildren[j].nodeName == "ambient")
                 {
-                    r = this.reader.getFloat(grandChildren[i], 'r');
-                    g = this.reader.getFloat(grandChildren[i], 'g');
-                    b = this.reader.getFloat(grandChildren[i], 'b');
-                    a = this.reader.getFloat(grandChildren[i], 'a');
+                    r = this.reader.getFloat(grandChildren[j], 'r');
+                    g = this.reader.getFloat(grandChildren[j], 'g');
+                    b = this.reader.getFloat(grandChildren[j], 'b');
+                    a = this.reader.getFloat(grandChildren[j], 'a');
 
                     if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
                         return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
@@ -640,12 +645,12 @@ class MySceneGraph {
                     this.materials[materialId][2][2] = b;
                     this.materials[materialId][2][3] = a;
                 }
-                else if (grandChildren[i].nodeName == "diffuse")
+                else if (grandChildren[j].nodeName == "diffuse")
                 {
-                    r = this.reader.getFloat(grandChildren[i], 'r');
-                    g = this.reader.getFloat(grandChildren[i], 'g');
-                    b = this.reader.getFloat(grandChildren[i], 'b');
-                    a = this.reader.getFloat(grandChildren[i], 'a');
+                    r = this.reader.getFloat(grandChildren[j], 'r');
+                    g = this.reader.getFloat(grandChildren[j], 'g');
+                    b = this.reader.getFloat(grandChildren[j], 'b');
+                    a = this.reader.getFloat(grandChildren[j], 'a');
 
                     if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
                         return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
@@ -657,12 +662,12 @@ class MySceneGraph {
                     this.materials[materialId][3][3] = a;
                 }
     
-                else if (grandChildren[i].nodeName == "specular")
+                else if (grandChildren[j].nodeName == "specular")
                 {
-                    r = this.reader.getFloat(grandChildren[i], 'r');
-                    g = this.reader.getFloat(grandChildren[i], 'g');
-                    b = this.reader.getFloat(grandChildren[i], 'b');
-                    a = this.reader.getFloat(grandChildren[i], 'a');
+                    r = this.reader.getFloat(grandChildren[j], 'r');
+                    g = this.reader.getFloat(grandChildren[j], 'g');
+                    b = this.reader.getFloat(grandChildren[j], 'b');
+                    a = this.reader.getFloat(grandChildren[j], 'a');
 
                     if (!(this.isValid(r) && this.isValid(g) && this.isValid(b) && this.isValid(a)))
                         return "Unable to parse material id=\"" + materialId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
@@ -675,7 +680,7 @@ class MySceneGraph {
                 }
                 else
                 {
-                    this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+                    this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
                     continue;
                 }
 
@@ -978,19 +983,22 @@ class MySceneGraph {
 
                     else if (grandChildren[j].nodeName == "materials")
                     {
-                        // TODO
-                        componentsTemp[componentId][1] = [];
+                        componentsTemp[componentId][1] = this.reader.getString(grandChildren[j].children[0], 'id');
+
+                        if (!(this.isValid(componentsTemp[componentId][1])))
+                            return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
                     }
 
                     else if (grandChildren[j].nodeName == "texture")
                     {
                         componentsTemp[componentId][2] = [];
-                        componentsTemp[componentId][2][0] = this.reader.getString(grandChildren[j], 'id');
+                        componentsTemp[componentId][2][0] = this.textures[this.reader.getString(grandChildren[j], 'id')];
                         componentsTemp[componentId][2][1] = this.reader.getFloat(grandChildren[j], 'length_s');
                         componentsTemp[componentId][2][2] = this.reader.getFloat(grandChildren[j], 'length_t');
 
                         if (!(this.isValid(componentsTemp[componentId][2][0]) && this.isValid(componentsTemp[componentId][2][1]) && this.isValid(componentsTemp[componentId][2][2])))
-                            return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
+                            return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     }
 
@@ -1053,7 +1061,7 @@ class MySceneGraph {
                 continue;
             }
 
-            this.components[componentId] = new Component(this.scene, componentsTemp[componentId][0], this.textures[componentsTemp[componentId][2][0]], componentsTemp[componentId][3][0], componentsTemp[componentId][3][1], this.components, this.primitives);
+            this.components[componentId] = new Component(this.scene, componentsTemp[componentId][0], componentsTemp[componentId][1], componentsTemp[componentId][2], componentsTemp[componentId][3][0], componentsTemp[componentId][3][1], this.components, this.primitives);
 
             numComponents++;
         }

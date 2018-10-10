@@ -87,7 +87,60 @@ class XMLscene extends CGFscene {
         }
     }
 
+    initMaterials()
+    {
+        this.fixInheritanceMaterials(this.graph.components[this.graph.idRoot], undefined);
+    }
 
+    fixInheritanceTextures(componentX, componentLast)
+    {
+        if (componentX.texture[0] != "inherit")
+        {
+            componentX.material.loadTexture(componentX.texture[0]);
+            componentX.material.setTextureWrap(componentX.texture[1], componentX.texture[2]);
+        }
+        else
+        {
+            componentX.material.loadTexture(componentLast.texture[0]);
+            componentX.material.setTextureWrap(componentLast.texture[1], componentLast.texture[2]);
+        }
+    }
+
+
+    fixInheritanceMaterials(componentX, componentLast)
+    {
+        if (componentX.materialRef != "inherit")
+        {
+            componentX.material = new CGFappearance(this);
+
+            this.fixInheritanceTextures(componentX, componentLast);
+
+            componentX.material.setEmission(this.graph.materials[componentX.materialRef][1][0], this.graph.materials[componentX.materialRef][1][1], this.graph.materials[componentX.materialRef][1][2], this.graph.materials[componentX.materialRef][1][3]);
+            componentX.material.setAmbient(this.graph.materials[componentX.materialRef][2][0], this.graph.materials[componentX.materialRef][2][1], this.graph.materials[componentX.materialRef][2][2], this.graph.materials[componentX.materialRef][2][3]);
+            componentX.material.setDiffuse(this.graph.materials[componentX.materialRef][3][0], this.graph.materials[componentX.materialRef][3][1], this.graph.materials[componentX.materialRef][3][2], this.graph.materials[componentX.materialRef][3][3]);
+            componentX.material.setSpecular(this.graph.materials[componentX.materialRef][4][0], this.graph.materials[componentX.materialRef][4][1], this.graph.materials[componentX.materialRef][4][2], this.graph.materials[componentX.materialRef][4][3]);
+            componentX.material.setShininess(this.graph.materials[componentX.materialRef][0]);
+        }
+        else
+        {
+            componentX.material = new CGFappearance(this);
+
+            this.fixInheritanceTextures(componentX, componentLast);
+
+            componentX.material.setEmission(this.graph.materials[componentLast.materialRef][1][0], this.graph.materials[componentLast.materialRef][1][1], this.graph.materials[componentLast.materialRef][1][2], this.graph.materials[componentLast.materialRef][1][3]);
+            componentX.material.setAmbient(this.graph.materials[componentLast.materialRef][2][0], this.graph.materials[componentLast.materialRef][2][1], this.graph.materials[componentLast.materialRef][2][2], this.graph.materials[componentLast.materialRef][2][3]);
+            componentX.material.setDiffuse(this.graph.materials[componentLast.materialRef][3][0], this.graph.materials[componentLast.materialRef][3][1], this.graph.materials[componentLast.materialRef][3][2], this.graph.materials[componentLast.materialRef][3][3]);
+            componentX.material.setSpecular(this.graph.materials[componentLast.materialRef][4][0], this.graph.materials[componentLast.materialRef][4][1], this.graph.materials[componentLast.materialRef][4][2], this.graph.materials[componentLast.materialRef][4][3]);
+            componentX.material.setShininess(this.graph.materials[componentLast.materialRef][0]);
+        }
+        
+        for (var i = 0; i < componentX.componentsRef.length; i++)
+        {
+            this.fixInheritanceMaterials(this.graph.components[componentX.componentsRef[i]], componentX);
+        }
+    }
+
+    
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -118,13 +171,7 @@ class XMLscene extends CGFscene {
 
         this.materialDefault = new CGFappearance(this);
         
-        this.textures
-
-        for (var i = 0; i < this.graph.textures.length; i++)
-        {
-            this.textures
-
-        }
+        this.initMaterials();
     }
 
 

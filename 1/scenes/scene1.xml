@@ -87,15 +87,15 @@
 	<textures>
 		<!-- Deve existir um ou mais blocos "texture" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<texture id="texture1" file="rocks.jpg" />
+		<texture id="texture1" file="nyan.jpg" />
 	</textures>
 	<materials>
 		<!-- Deve existir um ou mais blocos "material" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<material id="material1" shininess = "0" >
+		<material id="material1" shininess="0" >
 			<emission r="0" g="0" b="0" a="0" />
 			<ambient r="0" g="0" b="0" a="0" />
-			<diffuse r="0" g="0" b="0" a="0" />
+			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="0" />
 		</material>
 	</materials>
@@ -159,9 +159,9 @@
 			<transformation>
 			</transformation>
 			<materials>
-				<material id="inherit" />
+				<material id="material1" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture1" length_s="1" length_t="1" />
 			<children>
 				<componentref id="component2" />
 				<componentref id="component3" />
@@ -187,7 +187,7 @@
 				<componentref id="component23" />
 				<componentref id="component24" />
 				<componentref id="component25" />
-				</children>
+			</children>
 		</component>
 		<component id="component2">
 			<transformation>
@@ -308,9 +308,9 @@
 					<translate x="0" y="-2" z="0"/>
 				</transformation>
 				<materials>
-					<material id="inherit" />
+					<material id="material1" />
 				</materials>
-				<texture id="inherit" length_s="1" length_t="1" />
+				<texture id="texture1" length_s="1" length_t="1" />
 				<children>
 					<primitiveref id="primitive4" />
 				</children>
