@@ -536,6 +536,7 @@ class MySceneGraph {
 
         this.textures = [];
         this.textures["inherit"] = "inherit";
+        this.textures["none"] = "none";
         var numTextures = 0;
         
         for (var i = 0; i < children.length; i++) {

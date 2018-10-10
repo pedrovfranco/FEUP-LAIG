@@ -55,5 +55,7 @@ class Component extends CGFobject
         }
 
         this.scene.popMatrix();
+
+        this.materialDefault.apply();
     }
 }
