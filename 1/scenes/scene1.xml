@@ -88,6 +88,12 @@
 		<!-- Deve existir um ou mais blocos "texture" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
 		<texture id="texture1" file="nyan.jpg" />
+		<texture id="texture2" file="ball.jpg" />
+		<texture id="texture3" file="bamboo.jpg" />
+		<texture id="texture4" file="bridge.jpg" />
+		<texture id="texture5" file="float.jpg" />
+		<texture id="texture6" file="water.jpg" />
+		<texture id="texture7" file="wood.jpg" />
 	</textures>
 	<materials>
 		<!-- Deve existir um ou mais blocos "material" -->
@@ -318,7 +324,6 @@
 				<component id="component11">
 					<transformation>
 						<scale x="0.25" y="0.25" z="0.25"/>
-						<translate x="30" y="-3" z="-30"/>
 					</transformation>
 					<materials>
 						<material id="inherit" />
