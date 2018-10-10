@@ -128,7 +128,9 @@ class XMLscene extends CGFscene {
         }
         else if (componentX.materialRef == "none")
         {
-            //
+            componentX.material = new CGFappearance(this);
+
+            this.fixInheritanceTextures(componentX, componentLast);
         }
         else
         {
