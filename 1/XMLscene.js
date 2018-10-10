@@ -96,9 +96,8 @@ class XMLscene extends CGFscene {
     {
         if (componentX.texture[0] == "inherit")
         {
-            componentX.material.loadTexture(componentLast.texture[0]);
-            componentX.material.setTextureWrap(componentLast.texture[1], componentLast.texture[2]);
-
+            componentX.material.loadTexture(this.graph.textures[componentLast.texture[0]]);
+            componentX.material.setTextureWrap(this.graph.textures[componentLast.texture[1]], this.graph.textures[componentLast.texture[2]]);
         }
         else if (componentX.texture[0] == "none")
         {
@@ -106,8 +105,8 @@ class XMLscene extends CGFscene {
         }
         else
         {
-            componentX.material.loadTexture(componentX.texture[0]);
-            componentX.material.setTextureWrap(componentX.texture[1], componentX.texture[2]);
+            componentX.material.loadTexture(this.graph.textures[componentX.texture[0]]);
+            componentX.material.setTextureWrap(this.graph.textures[componentX.texture[1]], this.graph.textures[componentLast.texture[2]]);
         }
     }
 

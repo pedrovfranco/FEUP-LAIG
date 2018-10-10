@@ -23,6 +23,11 @@ class Component extends CGFobject
 
         this.material.apply();
 
+        var a;
+
+        if (this.texture[0] == "texture4")
+            a = 1;
+
         for (var i = 0; i < this.transformations.length; i++)
         {
             if (this.transformations[i][0] == 0)

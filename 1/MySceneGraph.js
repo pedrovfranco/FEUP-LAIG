@@ -794,8 +794,6 @@ class MySceneGraph {
                 var primitiveId = this.reader.getString(children[i], 'id');
                 if (!this.isValid(primitiveId))
                        return "no ID defined for primitive";
-
-                       // Checks for repeated IDs.
            
                 if (this.primitives[primitiveId] != null)
                     return "ID must be unique for each primitve (conflict: ID = " + primitiveId + ")";
@@ -815,7 +813,7 @@ class MySceneGraph {
                         y1 = this.reader.getFloat(grandChildren[j], 'y1');
                         x2 = this.reader.getFloat(grandChildren[j], 'x2'); 
                         y2 = this.reader.getFloat(grandChildren[j], 'y2');
-                        this.primitives[primitiveId] = new Rectangle(this.scene, x1,y1,x2,y2);
+                        this.primitives[primitiveId] = new Rectangle(this.scene, x1,y1,x2,y2, 100);
                     }
                             
                     else if (grandChildren[j].nodeName == "triangle")
@@ -994,7 +992,7 @@ class MySceneGraph {
                     else if (grandChildren[j].nodeName == "texture")
                     {
                         componentsTemp[componentId][2] = [];
-                        componentsTemp[componentId][2][0] = this.textures[this.reader.getString(grandChildren[j], 'id')];
+                        componentsTemp[componentId][2][0] = this.reader.getString(grandChildren[j], 'id');
                         componentsTemp[componentId][2][1] = this.reader.getFloat(grandChildren[j], 'length_s');
                         componentsTemp[componentId][2][2] = this.reader.getFloat(grandChildren[j], 'length_t');
 

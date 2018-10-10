@@ -1,3 +1,22 @@
+function normalizeVector(n)
+{
+    var size = 0;
+
+    for (var i = 0; i < n.length; i++)
+    {
+        size += n[i]*n[i];
+    }
+
+    size = Math.sqrt(size);
+
+    for (var i = 0; i < n.length; i++)
+    {
+        n[i] /= size;
+    }
+
+    return n;
+}
+
 function normal(x1,y1,z1,x2,y2,z2,x3,y3,z3)
 {
     var u = [x2-x1, y2-y1, z2-z1], v = [x3-x2, y3-y2, z3-z2];
