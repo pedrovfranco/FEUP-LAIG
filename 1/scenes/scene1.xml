@@ -324,6 +324,7 @@
 				<component id="component11">
 					<transformation>
 						<scale x="0.25" y="0.25" z="0.25"/>
+						<translate x="30" y="-3" z="-30"/>
 					</transformation>
 					<materials>
 						<material id="inherit" />
@@ -335,7 +336,7 @@
 				</component>
 				<component id="component12">
 					<transformation>
-						<translate x="10" y="0.5" z="10"/>
+						<translate x="10" y="-0.5" z="10"/>
 						</transformation>
 					<materials>
 						<material id="inherit" />
