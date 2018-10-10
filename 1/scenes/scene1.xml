@@ -101,6 +101,10 @@
 		<texture id="texture5" file="float.jpg" />
 		<texture id="texture6" file="water.jpg" />
 		<texture id="texture7" file="wood.jpg" />
+		<texture id="grassTexture" file="grass.jpeg"/>
+		<texture id="sandTexture" file="sand.jpg"/>
+		<texture id="lhTexture" file="lh.jpg"/>
+		<texture id="glassTexture" file="glass.jpeg"/>
 	</textures>
 	<materials>
 		<!-- Deve existir um ou mais blocos "material" -->
@@ -202,7 +206,10 @@
 				<componentref id="flag2" />
 				<componentref id="bridgeFloat" />
 				<componentref id="rope" />
-				<!-- <componentref id="backBridgeLandscape" /> -->
+				<componentref id="land" />
+				<componentref id="sand" />
+				<componentref id="lighthouse" />
+				<componentref id="lighthouseWindow" />
 			</children>
 		</component>
 		<component id="bridgeCylinder1">
@@ -563,19 +570,62 @@
 				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="backBridgeLandscape">
+		<component id="land">
 		<transformation>
 			<rotate axis="x" angle="-90"/>
-			<scale x="8" y="2.5" z="1"/>
-			<translate x="0" y="-2" z="0"/>
+			<scale x="4" y="30" z="1"/>
+			<translate x="-2" y="-1" z="0"/>-->
 		</transformation>
 		<materials>
 			<material id="material1" />
 		</materials>
-		<texture id="none" length_s="1" length_t="1" />
+		<texture id="sandTexture" length_s="1" length_t="1" />
 		<children>
 			<primitiveref id="rectanglePrimitive" />
 		</children>
 	</component>
+	<component id="sand">
+	<transformation>
+		<rotate axis="x" angle="-90"/>
+		<scale x="1" y="30" z="1"/>
+		<rotate axis="y" angle = "45"/>
+		<translate x="0" y="-1" z="0"/>-->
+	</transformation>
+	<materials>
+		<material id="material1" />
+	</materials>
+	<texture id="sandTexture" length_s="1" length_t="1" />
+	<children>
+		<primitiveref id="rectanglePrimitive" />
+	</children>
+</component>
+<component id="lighthouse">
+<transformation>
+	<rotate axis="x"  angle="90" />
+	<scale x="1.5" y="1.5" z="4"/>
+	<translate x="-3.5" y="-7" z="-1" />
+	</transformation>
+<materials>
+	<material id="material1" />
+</materials>
+<texture id="lhTexture" length_s="1" length_t="1" />
+<children>
+	<primitiveref id="cylinderPrimitive" />
+</children>
+</component>
+<component id="lighthouseWindow">
+<transformation>
+	<rotate axis = "x" angle="90"/>
+	<scale x="1" y="1" z="3"/>
+	<translate x="-5.25" y="-10.5" z="-1.75" />
+	</transformation>
+<materials>
+	<material id="material1" />
+</materials>
+<texture id="glassTexture" length_s="1" length_t="1" />
+<children>
+	<primitiveref id="cylinderPrimitive" />
+</children>
+</component>
 	</components>
 </yas>
