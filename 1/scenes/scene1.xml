@@ -121,7 +121,7 @@
 		<!-- Uma "primitive" e' uma primitiva e pode ser usada em nos folha -->
 		<!-- Deve existir um ou mais blocos "primitive" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<primitive id="primitive1">
+		<primitive id="trianglePrimitive">
 			<!-- apenas pode existir UMA das seguintes tags: -->
 			<!-- rectangle, triangle, cylinder, sphere, torus -->
 			<!-- os parametros devem ser interpretados, genericamente, -->
@@ -132,28 +132,28 @@
 			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
 			<!-- <torus inner="1" outer="4" slices="100" loops="100" /> -->
 		</primitive>
-		<primitive id="primitive2">
+		<primitive id="torusPrimitive">
 			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
 			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
 			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
 			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
 			<torus inner="1" outer="4" slices="100" loops="100" />
 		</primitive>
-		<primitive id="primitive3">
+		<primitive id="cylinderPrimitive">
 			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
 			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
 			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
 			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
 			<cylinder base="1" top="1" height="3" slices="10" stacks="10" />
 		</primitive>
-		<primitive id="primitive4">
+		<primitive id="rectanglePrimitive">
 			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
 			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
 			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
 			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
 			<rectangle x1="0" y1="0" x2="2" y2="2"/>
 		</primitive>
-		<primitive id="primitive5">
+		<primitive id="spherePrimitive">
 			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
 			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
 			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
@@ -167,35 +167,35 @@
 			<materials>
 				<material id="material1" />
 			</materials>
-			<texture id="texture1" length_s="1" length_t="1" />
+			<texture id="none" length_s="1" length_t="1" />
 			<children>
-				<componentref id="component2" />
-				<componentref id="component3" />
-				<componentref id="component4" />
-				<componentref id="component5" />
-				<componentref id="component6" />
-				<componentref id="component7" />
-				<componentref id="component8" />
-				<componentref id="component9" />
-				<componentref id="component10" />
-				<componentref id="component11" />
-				<componentref id="component12" />
-				<componentref id="component13" />
-				<componentref id="component14" />
-				<componentref id="component15" />
-				<componentref id="component16" />
-				<componentref id="component17" />
-				<componentref id="component18" />
-				<componentref id="component19" />
-				<componentref id="component20" />
-				<componentref id="component21" />
-				<componentref id="component22" />
-				<componentref id="component23" />
-				<componentref id="component24" />
-				<componentref id="component25" />
+				<componentref id="bridgeCylinder1" />
+				<componentref id="bridgeCylinder2" />
+				<componentref id="bridgeCylinder3" />
+				<componentref id="bridgeCylinder4" />
+				<componentref id="bridgeCylinder5" />
+				<componentref id="bridgeCylinder6" />
+				<componentref id="bridgeCylinder7" />
+				<componentref id="bridgeCylinder8" />
+				<componentref id="bridgeRectangle" />
+				<componentref id="float" />
+				<componentref id="ball" />
+				<componentref id="rectangleWater" />
+				<componentref id="bamboo1" />
+				<componentref id="bamboo2" />
+				<componentref id="bamboo3" />
+				<componentref id="bamboo4" />
+				<componentref id="raftCylinder1" />
+				<componentref id="raftCylinder2" />
+				<componentref id="raftCylinder3" />
+				<componentref id="raftCylinder4" />
+				<componentref id="raftCylinder5" />
+				<componentref id="raftCylinderFlag" />
+				<componentref id="flag1" />
+				<componentref id="flag2" />
 			</children>
 		</component>
-		<component id="component2">
+		<component id="bridgeCylinder1">
 			<transformation>
 				<rotate axis="x" angle="-90"/>
 				<scale x ="0.5" y="0.5" z="3"/>
@@ -204,12 +204,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component3">
+		<component id="bridgeCylinder2">
 			<transformation>
 				<rotate axis="x" angle="-90"/>
 				<scale x ="0.5" y="0.5" z="3"/>
@@ -218,12 +218,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component4">
+		<component id="bridgeCylinder3">
 			<transformation>
 			<rotate axis="x" angle="-90"/>
 			<scale x ="0.5" y="0.5" z="3"/>
@@ -232,12 +232,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component5">
+		<component id="bridgeCylinder4">
 			<transformation>
 			<rotate axis="x" angle="-90"/>
 			<scale x ="0.5" y="0.5" z="3"/>
@@ -246,12 +246,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component6">
+		<component id="bridgeCylinder5">
 			<transformation>
 			<rotate axis="x" angle="-90"/>
 			<scale x ="0.5" y="0.5" z="3"/>
@@ -260,12 +260,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component7">
+		<component id="bridgeCylinder6">
 			<transformation>
 			<rotate axis="x" angle="-90"/>
 			<scale x ="0.5" y="0.5" z="3"/>
@@ -274,12 +274,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component8">
+		<component id="bridgeCylinder7">
 			<transformation>
 			<rotate axis="x" angle="-90"/>
 			<scale x ="0.5" y="0.5" z="3"/>
@@ -288,12 +288,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-		<component id="component9">
+		<component id="bridgeCylinder8">
 			<transformation>
 			<rotate axis="x" angle="-90"/>
 			<scale x ="0.5" y="0.5" z="3"/>
@@ -302,12 +302,12 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" length_s="1" length_t="1" />
+			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="primitive3" />
+				<primitiveref id="cylinderPrimitive" />
 			</children>
 		</component>
-			<component id="component10">
+			<component id="bridgeRectangle">
 				<transformation>
 					<rotate axis="x" angle="-90"/>
 					<scale x="8" y="2.5" z="1"/>
@@ -316,12 +316,12 @@
 				<materials>
 					<material id="material1" />
 				</materials>
-				<texture id="texture1" length_s="1" length_t="1" />
+				<texture id="texture4" length_s="1" length_t="1" />
 				<children>
-					<primitiveref id="primitive4" />
+					<primitiveref id="rectanglePrimitive" />
 				</children>
 			</component>
-				<component id="component11">
+				<component id="float">
 					<transformation>
 						<scale x="0.25" y="0.25" z="0.25"/>
 						<translate x="30" y="-3" z="-30"/>
@@ -329,24 +329,24 @@
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture5" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive2" />
+						<primitiveref id="torusPrimitive" />
 					</children>
 				</component>
-				<component id="component12">
+				<component id="ball">
 					<transformation>
 						<translate x="10" y="-0.5" z="10"/>
 						</transformation>
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture2" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive5" />
+						<primitiveref id="spherePrimitive" />
 					</children>
 				</component>
-				<component id="component13">
+				<component id="rectangleWater">
 					<transformation>
 					<rotate axis="x" angle="-90"/>
 					<scale x ="10" y="30" z="1"/>
@@ -355,12 +355,12 @@
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture6" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive4" />
+						<primitiveref id="rectanglePrimitive" />
 					</children>
 				</component>
-				<component id="component14">
+				<component id="bamboo1">
 					<transformation>
 						<rotate axis="x" angle="-90"/>
 						<scale x ="0.15" y="0.15" z="3"/>
@@ -369,12 +369,12 @@
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture3" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive3" />
+						<primitiveref id="cylinderPrimitive" />
 					</children>
 				</component>
-				<component id="component15">
+				<component id="bamboo2">
 					<transformation>
 						<rotate axis="x" angle="-60"/>
 						<scale x ="0.15" y="0.15" z="3"/>
@@ -383,12 +383,12 @@
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture3" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive3" />
+						<primitiveref id="cylinderPrimitive" />
 					</children>
 				</component>
-				<component id="component16">
+				<component id="bamboo3">
 					<transformation>
 						<rotate axis="x" angle="60"/>
 						<scale x ="0.15" y="0.15" z="3"/>
@@ -397,12 +397,12 @@
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture3" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive3" />
+						<primitiveref id="cylinderPrimitive" />
 					</children>
 				</component>
-				<component id="component17">
+				<component id="bamboo4">
 					<transformation>
 						<rotate axis="x" angle="-90"/>
 						<scale x ="0.15" y="0.15" z="3"/>
@@ -411,12 +411,12 @@
 					<materials>
 						<material id="inherit" />
 					</materials>
-					<texture id="inherit" length_s="1" length_t="1" />
+					<texture id="texture3" length_s="1" length_t="1" />
 					<children>
-						<primitiveref id="primitive3" />
+						<primitiveref id="cylinderPrimitive" />
 					</children>
 				</component>
-						<component id="component18">
+						<component id="raftCylinder1">
 							<transformation>
 								<scale x="0.25" y="0.25" z="8"/>
 								<translate x="40" y="-2.5" z="2"/>
@@ -424,12 +424,12 @@
 							<materials>
 								<material id="inherit" />
 							</materials>
-							<texture id="inherit" length_s="1" length_t="1" />
+							<texture id="texture7" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive3" />
+								<primitiveref id="cylinderPrimitive" />
 							</children>
 						</component>
-						<component id="component19">
+						<component id="raftCylinder2">
 							<transformation>
 								<scale x="0.25" y="0.25" z="8"/>
 								<translate x="42" y="-2.5" z="2"/>
@@ -437,12 +437,12 @@
 							<materials>
 								<material id="inherit" />
 							</materials>
-							<texture id="inherit" length_s="1" length_t="1" />
+							<texture id="texture7" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive3" />
+								<primitiveref id="cylinderPrimitive" />
 							</children>
 						</component>
-						<component id="component20">
+						<component id="raftCylinder3">
 							<transformation>
 								<scale x="0.25" y="0.25" z="8"/>
 								<translate x="44" y="-2.5" z="2"/>
@@ -450,12 +450,12 @@
 							<materials>
 								<material id="inherit" />
 							</materials>
-							<texture id="inherit" length_s="1" length_t="1" />
+							<texture id="texture7" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive3" />
+								<primitiveref id="cylinderPrimitive" />
 							</children>
 						</component>
-						<component id="component21">
+						<component id="raftCylinder4">
 							<transformation>
 								<scale x="0.25" y="0.25" z="8"/>
 								<translate x="46" y="-2.5" z="2"/>
@@ -463,12 +463,12 @@
 							<materials>
 								<material id="inherit" />
 							</materials>
-							<texture id="inherit" length_s="1" length_t="1" />
+							<texture id="texture7" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive3" />
+								<primitiveref id="cylinderPrimitive" />
 							</children>
 						</component>
-						<component id="component22">
+						<component id="raftCylinder5">
 							<transformation>
 								<scale x="0.25" y="0.25" z="8"/>
 								<translate x="48" y="-2.5" z="2"/>
@@ -476,12 +476,12 @@
 							<materials>
 								<material id="inherit" />
 							</materials>
-							<texture id="inherit" length_s="1" length_t="1" />
+							<texture id="texture7" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive3" />
+								<primitiveref id="cylinderPrimitive" />
 							</children>
 						</component>
-						<component id="component23">
+						<component id="raftCylinderFlag">
 							<transformation>
 								<rotate axis="x" angle="-90"/>
 								<scale x="0.25" y="0.25" z="4"/>
@@ -490,12 +490,12 @@
 							<materials>
 								<material id="inherit" />
 							</materials>
-							<texture id="inherit" length_s="1" length_t="1" />
+							<texture id="texture7" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive3" />
+								<primitiveref id="cylinderPrimitive" />
 							</children>
 						</component>
-						<component id="component24">
+						<component id="flag1">
 							<transformation>
 								<rotate axis="y" angle="-90"/>
 								<scale x="3" y="3" z="1"/>
@@ -506,10 +506,10 @@
 							</materials>
 							<texture id="inherit" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive1" />
+								<primitiveref id="trianglePrimitive" />
 							</children>
 						</component>
-						<component id="component25">
+						<component id="flag2">
 							<transformation>
 								<scale x="-1" y="1" z="1"/>
 								<rotate axis="x" angle="90"/>
@@ -522,7 +522,7 @@
 							</materials>
 							<texture id="inherit" length_s="1" length_t="1" />
 							<children>
-								<primitiveref id="primitive1" />
+								<primitiveref id="trianglePrimitive" />
 							</children>
 						</component>
 	</components>
