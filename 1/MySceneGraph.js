@@ -902,10 +902,8 @@ class MySceneGraph {
         
         this.components = [];
         var componentsTemp = [];
+
         var numComponents = 0;
-
-        var transformations;
-
         var componentId;
 
         for (var i = 0; i < children.length; i++)

@@ -36,6 +36,9 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
 
         this.warned = [];
+        this.warned[0] = [];
+        this.warned[1] = [];
+        this.warned[2] = [];
     }
 
     /**
@@ -117,15 +120,17 @@ class XMLscene extends CGFscene {
     {
         if (componentX.materialRef == "inherit")
         {
+            componentX.materialRef = componentLast.materialRef;
+            
             componentX.material = new CGFappearance(this);
 
             this.fixInheritanceTextures(componentX, componentLast);
 
-            componentX.material.setEmission(this.graph.materials[componentLast.materialRef][1][0], this.graph.materials[componentLast.materialRef][1][1], this.graph.materials[componentLast.materialRef][1][2], this.graph.materials[componentLast.materialRef][1][3]);
-            componentX.material.setAmbient(this.graph.materials[componentLast.materialRef][2][0], this.graph.materials[componentLast.materialRef][2][1], this.graph.materials[componentLast.materialRef][2][2], this.graph.materials[componentLast.materialRef][2][3]);
-            componentX.material.setDiffuse(this.graph.materials[componentLast.materialRef][3][0], this.graph.materials[componentLast.materialRef][3][1], this.graph.materials[componentLast.materialRef][3][2], this.graph.materials[componentLast.materialRef][3][3]);
-            componentX.material.setSpecular(this.graph.materials[componentLast.materialRef][4][0], this.graph.materials[componentLast.materialRef][4][1], this.graph.materials[componentLast.materialRef][4][2], this.graph.materials[componentLast.materialRef][4][3]);
-            componentX.material.setShininess(this.graph.materials[componentLast.materialRef][0]);
+            componentX.material.setEmission(this.graph.materials[componentX.materialRef][1][0], this.graph.materials[componentX.materialRef][1][1], this.graph.materials[componentX.materialRef][1][2], this.graph.materials[componentX.materialRef][1][3]);
+            componentX.material.setAmbient(this.graph.materials[componentX.materialRef][2][0], this.graph.materials[componentX.materialRef][2][1], this.graph.materials[componentX.materialRef][2][2], this.graph.materials[componentX.materialRef][2][3]);
+            componentX.material.setDiffuse(this.graph.materials[componentX.materialRef][3][0], this.graph.materials[componentX.materialRef][3][1], this.graph.materials[componentX.materialRef][3][2], this.graph.materials[componentX.materialRef][3][3]);
+            componentX.material.setSpecular(this.graph.materials[componentX.materialRef][4][0], this.graph.materials[componentX.materialRef][4][1], this.graph.materials[componentX.materialRef][4][2], this.graph.materials[componentX.materialRef][4][3]);
+            componentX.material.setShininess(this.graph.materials[componentX.materialRef][0]);
         }
         else if (componentX.materialRef == "none")
         {
@@ -151,10 +156,26 @@ class XMLscene extends CGFscene {
         {
             if (this.graph.components[componentX.componentsRef[i]] == undefined)
             {
-                if (this.warned[componentX.componentsRef[i]] == undefined)
+                if (this.warned[0][componentX.componentsRef[i]] == undefined)
                 {
-                    this.warned[componentX.componentsRef[i]] = true;
-                    console.log("Undefined componentRef on component \"" + componentX.id + "\" to component \"" + componentX.componentsRef[i] + "\"");
+                    this.warned[0][componentX.componentsRef[i]] = true;
+                    console.log("Undefined component reference on component \"" + componentX.id + "\" to component \"" + componentX.componentsRef[i] + "\"");
+                }
+            }
+            else if (this.graph.materials[componentX.materialRef] == undefined && componentX.materialRef != "inherit" && componentX.materialRef != "inherit")
+            {
+                if (this.warned[1][componentX.componentsRef[i]] == undefined)
+                {
+                    this.warned[0][componentX.componentsRef[i]] = true;
+                    console.log("Undefined material reference on component \"" + componentX.id + "\" to material \"" + componentLast.materialRef + "\"");
+                }
+            }
+            else if (this.graph.textures[componentX.texture[0]] == undefined && componentX.texture[0] != "inherit" && componentX.texture[0] != "inherit")
+            {
+                if (this.warned[2][componentX.componentsRef[i]] == undefined)
+                {
+                    this.warned[2][componentX.componentsRef[i]] = true;
+                    console.log("Undefined texture reference on component \"" + componentX.id + "\" to texture \"" + componentX.texture[0] + "\"");
                 }
             }
             else

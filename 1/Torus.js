@@ -21,7 +21,6 @@ class Torus extends CGFobject
 		this.normals = [];
         this.texCoords = [];
         
-        
         for (var j = 0; j < this.loops; j++)
         {
             for (var i = 0; i < this.slices; i++)
