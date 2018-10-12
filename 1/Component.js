@@ -1,6 +1,6 @@
 class Component extends CGFobject
 {
-    constructor(scene, transformations, materialRef, texture, componentsRef, primitivesRef, components, primitives)
+    constructor(scene, transformations, materialRef, texture, componentsRef, primitivesRef, components, primitives, id)
     {
         super(scene);
 
@@ -12,6 +12,9 @@ class Component extends CGFobject
         this.primitivesRef = primitivesRef;
         this.components = components;
         this.primitives = primitives;
+        this.id = id;
+
+        this.warned = [];
 
         this.material = new CGFappearance(scene);
     }
@@ -22,11 +25,6 @@ class Component extends CGFobject
         this.scene.pushMatrix();
 
         this.material.apply();
-
-        var a;
-
-        if (this.texture[0] == "texture4")
-            a = 1;
 
         for (var i = 0; i < this.transformations.length; i++)
         {
@@ -51,12 +49,30 @@ class Component extends CGFobject
 
         for (var i = 0; i < this.componentsRef.length; i++)
         {
-            this.components[this.componentsRef[i]].display();
+            if (this.components[this.componentsRef[i]] == undefined)
+            {
+                if (this.warned[this.componentsRef[i]] == undefined)
+                {
+                    this.warned[this.componentsRef[i]] = true;
+                    console.log("Component \"" + this.id + "\" has reference to undefined component \"" + this.componentsRef[i] + "\" ");    
+                }
+            }
+            else
+                this.components[this.componentsRef[i]].display();
         }
 
         for (var i = 0; i < this.primitivesRef.length; i++)
         {
-            this.primitives[this.primitivesRef[i]].display();
+            if (this.primitives[this.primitivesRef[i]] == undefined)
+            {
+                if (this.warned[this.primitivesRef[i]] == undefined)
+                {
+                    this.warned[this.primitivesRef[i]] = true;
+                    console.log("Component \"" + this.id + "\" has reference to undefined primitive \"" + this.primitivesRef[i] + "\" ");    
+                }
+            }
+            else
+                this.primitives[this.primitivesRef[i]].display();
         }
 
         this.scene.popMatrix();

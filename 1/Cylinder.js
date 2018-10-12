@@ -30,11 +30,12 @@ class Cylinder extends CGFobject
 
             for (var i = 0; i < this.slices; i++)
             {
-
                 this.vertices.push(Math.cos(angle * i), Math.sin(angle * i), w/this.stacks);
                 this.normals.push(Math.cos(angle*i) , Math.sin(angle*i),0);
                 this.texCoords.push(texCoordX, texCoordY);
-                if(w!=this.stacks) {
+
+                if (w != this.stacks)
+                {
                     this.indices.push(w*this.slices+i,w*this.slices+((i+1)%this.slices),(w+1)*this.slices+(i+1)%this.slices);
                     this.indices.push(w*this.slices+i,(w+1)*this.slices+((i+1)%this.slices),(w+1)*this.slices+i);
 
@@ -42,6 +43,7 @@ class Cylinder extends CGFobject
                     this.indices.push((w+1)*this.slices+(i+1)%this.slices,w*this.slices+((i+1)%this.slices),w*this.slices+i);
                     this.indices.push((w+1)*this.slices+i,(w+1)*this.slices+((i+1)%this.slices),w*this.slices+i);
                 }
+                
                 texCoordX += 1/this.stacks;
             }
 

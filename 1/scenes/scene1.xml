@@ -38,43 +38,43 @@
 		<!-- Os identificadores "id" nao podem ser repetidos -->
 
 		<omni id="omni1" enabled="1" >
-			<location x="2" y="4" z="2" w="1" />
+			<location x="2" y="20" z="2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 		<omni id="omni2" enabled="1" >
-			<location x="0" y="4" z="2" w="1" />
+			<location x="0" y="20" z="2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 		<omni id="omni3" enabled="1" >
-			<location x="-6" y="4" z="0" w="1" />
+			<location x="-6" y="20" z="0" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 		<omni id="omni4" enabled="1" >
-			<location x="-2" y="-2" z="-2" w="1" />
+			<location x="-2" y="20" z="-2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 		<omni id="omni5" enabled="1" >
-			<location x="5" y="0.6" z="5" w="1" />
+			<location x="5" y="20" z="5" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 		<omni id="omni6" enabled="1" >
-			<location x="1" y="-1" z="-6" w="1" />
+			<location x="1" y="20" z="-6" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 		<omni id="omni7" enabled="1" >
-			<location x="3" y="1" z="6" w="1" />
+			<location x="-6" y="20" z="-13" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
@@ -105,11 +105,13 @@
 		<texture id="sandTexture" file="sand.jpg"/>
 		<texture id="lhTexture" file="lh.jpg"/>
 		<texture id="glassTexture" file="glass.jpeg"/>
+		<texture id="lightHouseTexture" file="lighthouse.png"/>
+		<texture id="lightHouseWindowTexture" file="lighthousewindow2.png"/>
 	</textures>
 	<materials>
 		<!-- Deve existir um ou mais blocos "material" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<material id="material1" shininess="0.1" >
+		<material id="material1" shininess="0.3" >
 			<emission r="0" g="0" b="0" a="0" />
 			<ambient r="0" g="0" b="0" a="0" />
 			<diffuse r="1" g="1" b="1" a="1" />
@@ -132,44 +134,27 @@
 		<!-- Uma "primitive" e' uma primitiva e pode ser usada em nos folha -->
 		<!-- Deve existir um ou mais blocos "primitive" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<primitive id="trianglePrimitive">
-			<!-- apenas pode existir UMA das seguintes tags: -->
-			<!-- rectangle, triangle, cylinder, sphere, torus -->
-			<!-- os parametros devem ser interpretados, genericamente, -->
-			<!-- como em WebGL; o cilindro deve adicionalmente ter tampas -->
-			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
+		<primitive id="triangle">
 			<triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
-			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
-			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
-			<!-- <torus inner="1" outer="4" slices="100" loops="100" /> -->
 		</primitive>
-		<primitive id="torusPrimitive">
-			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
-			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
-			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
-			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
+		<primitive id="torus">
 			<torus inner="1" outer="4" slices="100" loops="100" />
 		</primitive>
-		<primitive id="cylinderPrimitive">
-			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
-			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
-			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
-			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
-			<cylinder base="1" top="1" height="3" slices="10" stacks="10" />
+		<primitive id="cylinder">
+			<cylinder base="1" top="1" height="3" slices="30" stacks="30" />
 		</primitive>
-		<primitive id="rectanglePrimitive">
-			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
-			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
-			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
-			<!-- <sphere radius="5" slices="15" stacks="10" /> -->
+		<primitive id="lightHouseWindow">
+			<cylinder base="1" top="1" height="3" slices="6" stacks="30" />
+		</primitive>
+		<primitive id="rectangle">
 			<rectangle x1="0" y1="0" x2="2" y2="2"/>
 		</primitive>
-		<primitive id="spherePrimitive">
-			<!-- <rectangle x1="0" y1="0" x2="1" y2="1" /> -->
-			<!-- <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" /> -->
-			<!-- <cylinder base="0" top="0" height="0" slices="30" stacks="5" /> -->
+		<primitive id="sphere">
 			<sphere radius="5" slices="65" stacks="60" />
-			</primitive>
+		</primitive>
+		<primitive id="torusCatwalk">
+			<torus inner="0.03" outer="4" slices="100" loops="100" />
+		</primitive>
 	</primitives >
 	<components>
 		<component id="root">
@@ -209,8 +194,15 @@
 				<componentref id="land" />
 				<componentref id="sand" />
 				<componentref id="lighthouse" />
-				<componentref id="lighthouseWindow" />
-			</children>
+				<componentref id="lighthouseWindowBase" />
+				<componentref id="lighthouseWindowTop" />
+				<componentref id="lighthouseWindowCherry" />
+				<componentref id="lighthouseWindowPost" />
+				<componentref id="lighthouseWindowFlag" />
+				<componentref id="lighthouseCatwalkBase" />
+				<componentref id="lighthousecatwalkPost" />
+				<componentref id="lighthousecatwalkTorus" />
+				</children>
 		</component>
 		<component id="bridgeCylinder1">
 			<transformation>
@@ -223,7 +215,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder2">
@@ -237,7 +229,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder3">
@@ -251,7 +243,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder4">
@@ -265,7 +257,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder5">
@@ -279,7 +271,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder6">
@@ -293,7 +285,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder7">
@@ -307,7 +299,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeCylinder8">
@@ -321,7 +313,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bridgeRectangle">
@@ -335,7 +327,7 @@
 			</materials>
 			<texture id="texture4" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="rectanglePrimitive" />
+				<primitiveref id="rectangle" />
 			</children>
 		</component>
 		<component id="float">
@@ -348,7 +340,7 @@
 			</materials>
 			<texture id="texture5" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="torusPrimitive" />
+				<primitiveref id="torus" />
 			</children>
 		</component>
 		<component id="ball">
@@ -360,7 +352,7 @@
 			</materials>
 			<texture id="texture2" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="spherePrimitive" />
+				<primitiveref id="sphere" />
 			</children>
 		</component>
 		<component id="rectangleWater">
@@ -375,7 +367,7 @@
 			</materials>
 			<texture id="texture6" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="rectanglePrimitive" />
+				<primitiveref id="rectangle" />
 			</children>
 		</component>
 		<component id="bamboo1">
@@ -389,7 +381,7 @@
 			</materials>
 			<texture id="texture3" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bamboo2">
@@ -403,7 +395,7 @@
 			</materials>
 			<texture id="texture3" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bamboo3">
@@ -417,7 +409,7 @@
 			</materials>
 			<texture id="texture3" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="bamboo4">
@@ -431,7 +423,7 @@
 			</materials>
 			<texture id="texture3" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="raftCylinder1">
@@ -444,7 +436,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="raftCylinder2">
@@ -457,7 +449,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="raftCylinder3">
@@ -470,7 +462,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="raftCylinder4">
@@ -483,7 +475,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="raftCylinder5">
@@ -496,7 +488,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="raftCylinderFlag">
@@ -510,7 +502,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="flag1">
@@ -524,7 +516,7 @@
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="trianglePrimitive" />
+				<primitiveref id="triangle" />
 			</children>
 		</component>
 		<component id="flag2">
@@ -540,7 +532,7 @@
 			</materials>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="trianglePrimitive" />
+				<primitiveref id="triangle" />
 			</children>
 		</component>
 		<component id="bridgeFloat">
@@ -553,7 +545,7 @@
 			</materials>
 			<texture id="texture5" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="torusPrimitive" />
+				<primitiveref id="torus" />
 			</children>
 		</component>
 		<component id="rope">
@@ -567,65 +559,262 @@
 			</materials>
 			<texture id="texture3" length_s="1" length_t="1" />
 			<children>
-				<primitiveref id="cylinderPrimitive" />
+				<primitiveref id="cylinder" />
 			</children>
 		</component>
 		<component id="land">
-		<transformation>
-			<rotate axis="x" angle="-90"/>
-			<scale x="4" y="30" z="1"/>
-			<translate x="-2" y="-1" z="0"/>-->
-		</transformation>
-		<materials>
-			<material id="material1" />
-		</materials>
-		<texture id="sandTexture" length_s="1" length_t="1" />
-		<children>
-			<primitiveref id="rectanglePrimitive" />
-		</children>
-	</component>
-	<component id="sand">
-	<transformation>
-		<rotate axis="x" angle="-90"/>
-		<scale x="1" y="30" z="1"/>
-		<rotate axis="y" angle = "45"/>
-		<translate x="0" y="-1" z="0"/>-->
-	</transformation>
-	<materials>
-		<material id="material1" />
-	</materials>
-	<texture id="sandTexture" length_s="1" length_t="1" />
-	<children>
-		<primitiveref id="rectanglePrimitive" />
-	</children>
-</component>
-<component id="lighthouse">
-<transformation>
-	<rotate axis="x"  angle="90" />
-	<scale x="1.5" y="1.5" z="4"/>
-	<translate x="-3.5" y="-7" z="-1" />
-	</transformation>
-<materials>
-	<material id="material1" />
-</materials>
-<texture id="lhTexture" length_s="1" length_t="1" />
-<children>
-	<primitiveref id="cylinderPrimitive" />
-</children>
-</component>
-<component id="lighthouseWindow">
-<transformation>
-	<rotate axis = "x" angle="90"/>
-	<scale x="1" y="1" z="3"/>
-	<translate x="-5.25" y="-10.5" z="-1.75" />
-	</transformation>
-<materials>
-	<material id="material1" />
-</materials>
-<texture id="glassTexture" length_s="1" length_t="1" />
-<children>
-	<primitiveref id="cylinderPrimitive" />
-</children>
-</component>
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x="4" y="30" z="1"/>
+				<translate x="-2" y="-1" z="0"/>-->
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="sandTexture" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="sand">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x="1" y="30" z="1"/>
+				<rotate axis="y" angle = "45"/>
+				<translate x="0" y="-1" z="0"/>-->
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="sandTexture" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="lighthouse">
+			<transformation>
+				<rotate axis="x"  angle="90" />
+				<scale x="1.5" y="1.5" z="10"/>
+				<translate x="-3.5" y="-7" z="-1" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="lightHouseTexture" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthouseWindowBase">
+			<transformation>
+				<translate x="-5.2" y="10" z="-10.5" />
+				<scale x="0.8" y="2" z="0.8"/>
+				<rotate axis="x" angle="-90"/>
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="lightHouseWindow" />
+			</children>
+		</component>
+		<component id="lighthouseWindowTop">
+			<transformation>
+				<translate x="-5.2" y="12" z="-10.5" />
+				<scale x="0.65" y="0.65" z="0.65"/>
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+		<component id="lighthouseWindowCherry">
+			<transformation>
+				<translate x="-5.2" y="12.8" z="-10.5" />
+				<scale x="0.2" y="0.2" z="0.2"/>
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+		<component id="lighthouseWindowPost">
+			<transformation>
+				<translate x="-5.2" y="13" z="-10.5" />
+				<scale x="0.02" y="2" z="0.02"/>
+				<rotate axis="x" angle="-90"/>
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthouseWindowFlag">
+			<transformation>
+				<!-- <translate x="-5.2" y="13.6" z="-10.5" /> -->
+				<scale x="0.2" y="0.2" z="0.2"/>
+				<!-- <rotate axis="y" angle="-90"/> -->
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="triangle" />
+			</children>
+		</component>
+		<component id="lighthouseCatwalkBase">
+			<transformation>
+				<translate x="-5.3" y="10" z="-10.5" />
+				<scale x="2.5" y="0.05" z="2.5"/>
+				<rotate axis="x"  angle="-90" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost">
+			<transformation>
+				<translate x="-3.8" y="10" z="-8.8" />
+				<scale x="0.02" y="1.1" z="0.02"/>
+				<rotate axis="x" angle="-90"/>
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<componentref id="lighthousecatwalkPost1"/>
+				<componentref id="lighthousecatwalkPost2"/>
+				<componentref id="lighthousecatwalkPost3"/>
+				<componentref id="lighthousecatwalkPost4"/>
+				<componentref id="lighthousecatwalkPost5"/>
+				<componentref id="lighthousecatwalkPost6"/>
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost1">
+			<transformation>
+				<translate x="0" y="-3" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost2">
+			<transformation>
+				<translate x="40" y="100" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost3">
+			<transformation>
+				<translate x="-50" y="200" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost4">
+			<transformation>
+				<translate x="-155" y="170" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost5">
+			<transformation>
+				<translate x="-190" y="70" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost6">
+			<transformation>
+				<translate x="-110" y="-25" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkTorus">
+			<transformation>
+				<translate x="-5.3" y="10.05" z="-10.5" />
+				<scale x="0.58" y="0.6" z="0.58" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<componentref id="lighthousecatwalkTorus1" />
+				<componentref id="lighthousecatwalkTorus2" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkTorus1">
+			<transformation>
+				<translate x="0" y="0.885" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="torusCatwalk" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkTorus2">
+			<transformation>
+				<translate x="0" y="1.77" z="0" />
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="torusCatwalk" />
+			</children>
+		</component>
 	</components>
 </yas>

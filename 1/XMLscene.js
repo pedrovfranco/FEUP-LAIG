@@ -34,6 +34,8 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+
+        this.warned = [];
     }
 
     /**
@@ -147,7 +149,18 @@ class XMLscene extends CGFscene {
         
         for (var i = 0; i < componentX.componentsRef.length; i++)
         {
-            this.fixInheritanceMaterials(this.graph.components[componentX.componentsRef[i]], componentX);
+            if (this.graph.components[componentX.componentsRef[i]] == undefined)
+            {
+                if (this.warned[componentX.componentsRef[i]] == undefined)
+                {
+                    this.warned[componentX.componentsRef[i]] = true;
+                    console.log("Undefined componentRef on component \"" + componentX.id + "\" to component \"" + componentX.componentsRef[i] + "\"");
+                }
+            }
+            else
+            {
+                this.fixInheritanceMaterials(this.graph.components[componentX.componentsRef[i]], componentX);
+            }
         }
     }
 

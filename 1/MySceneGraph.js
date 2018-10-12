@@ -1060,7 +1060,7 @@ class MySceneGraph {
                 continue;
             }
 
-            this.components[componentId] = new Component(this.scene, componentsTemp[componentId][0], componentsTemp[componentId][1], componentsTemp[componentId][2], componentsTemp[componentId][3][0], componentsTemp[componentId][3][1], this.components, this.primitives);
+            this.components[componentId] = new Component(this.scene, componentsTemp[componentId][0], componentsTemp[componentId][1], componentsTemp[componentId][2], componentsTemp[componentId][3][0], componentsTemp[componentId][3][1], this.components, this.primitives, componentId);
 
             numComponents++;
         }
