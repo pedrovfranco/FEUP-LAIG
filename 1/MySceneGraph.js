@@ -1063,10 +1063,126 @@ class MySceneGraph {
             numComponents++;
         }
 
+        this.checkBrokenRef(this.components[this.idRoot]);
+
+        this.initMaterials();
 
         this.log("Parsed components");
         return null;
 
+    }
+
+
+    checkBrokenRef(componentX)
+    {
+        for (var i = 0; i < componentX.componentsRef.length; i++)
+        {
+            if (this.components[componentX.componentsRef[i]] == undefined)
+                console.log("Component \"" + componentX.id + "\" has reference to undefined component \"" + componentX.componentsRef[i] + "\" ");    
+            else
+                this.checkBrokenRef(this.components[componentX.componentsRef[i]]);
+        }
+
+        for (var i = 0; i < componentX.primitivesRef.length; i++)
+        {
+            if (this.primitives[componentX.primitivesRef[i]] == undefined)
+                console.log("Component \"" + componentX.id + "\" has reference to undefined primitive \"" + componentX.primitivesRef[i] + "\" ");    
+        }
+        
+    }
+
+
+    initMaterials()
+    {
+        this.fixInheritanceMaterials(this.components[this.idRoot], undefined);
+    }
+
+    fixInheritanceTextures(componentX, componentLast)
+    {
+        if (componentX.texture[0] == "inherit")
+        {
+            componentX.material.loadTexture(this.textures[componentLast.texture[0]]);
+        }
+        else if (componentX.texture[0] == "none")
+        {
+            // componentX.material.loadTexture("");
+        }
+        else
+        {
+            componentX.material.loadTexture(this.textures[componentX.texture[0]]);
+        }
+
+        componentX.material.setTextureWrap(componentX.texture[1], componentX.texture[2]);
+    }
+
+
+    fixInheritanceMaterials(componentX, componentLast)
+    {
+        if (componentX.materialRef == "inherit")
+        {
+            componentX.materialRef = componentLast.materialRef;
+            
+            componentX.material = new CGFappearance(this.scene);
+
+            this.fixInheritanceTextures(componentX, componentLast);
+
+            componentX.material.setEmission(this.materials[componentX.materialRef][1][0], this.materials[componentX.materialRef][1][1], this.materials[componentX.materialRef][1][2], this.materials[componentX.materialRef][1][3]);
+            componentX.material.setAmbient(this.materials[componentX.materialRef][2][0], this.materials[componentX.materialRef][2][1], this.materials[componentX.materialRef][2][2], this.materials[componentX.materialRef][2][3]);
+            componentX.material.setDiffuse(this.materials[componentX.materialRef][3][0], this.materials[componentX.materialRef][3][1], this.materials[componentX.materialRef][3][2], this.materials[componentX.materialRef][3][3]);
+            componentX.material.setSpecular(this.materials[componentX.materialRef][4][0], this.materials[componentX.materialRef][4][1], this.materials[componentX.materialRef][4][2], this.materials[componentX.materialRef][4][3]);
+            componentX.material.setShininess(this.materials[componentX.materialRef][0]);
+        }
+        else if (componentX.materialRef == "none")
+        {
+            componentX.material = new CGFappearance(this.scene);
+
+            this.fixInheritanceTextures(componentX, componentLast);
+        }
+        else
+        {
+            componentX.material = new CGFappearance(this.scene);
+
+            this.fixInheritanceTextures(componentX, componentLast);
+
+            componentX.material.setEmission(this.materials[componentX.materialRef][1][0], this.materials[componentX.materialRef][1][1], this.materials[componentX.materialRef][1][2], this.materials[componentX.materialRef][1][3]);
+            componentX.material.setAmbient(this.materials[componentX.materialRef][2][0], this.materials[componentX.materialRef][2][1], this.materials[componentX.materialRef][2][2], this.materials[componentX.materialRef][2][3]);
+            componentX.material.setDiffuse(this.materials[componentX.materialRef][3][0], this.materials[componentX.materialRef][3][1], this.materials[componentX.materialRef][3][2], this.materials[componentX.materialRef][3][3]);
+            componentX.material.setSpecular(this.materials[componentX.materialRef][4][0], this.materials[componentX.materialRef][4][1], this.materials[componentX.materialRef][4][2], this.materials[componentX.materialRef][4][3]);
+            componentX.material.setShininess(this.materials[componentX.materialRef][0]);
+
+        }
+        
+        for (var i = 0; i < componentX.componentsRef.length; i++)
+        {
+            if (this.components[componentX.componentsRef[i]] == undefined)
+            {
+                if (this.warned[0][componentX.componentsRef[i]] == undefined)
+                {
+                    this.warned[0][componentX.componentsRef[i]] = true;
+                    console.log("Undefined component reference on component \"" + componentX.id + "\" to component \"" + componentX.componentsRef[i] + "\"");
+                }
+            }
+            else if (this.materials[componentX.materialRef] == undefined && componentX.materialRef != "inherit" && componentX.materialRef != "inherit")
+            {
+                if (this.warned[1][componentX.componentsRef[i]] == undefined)
+                {
+                    this.warned[0][componentX.componentsRef[i]] = true;
+                    console.log("Undefined material reference on component \"" + componentX.id + "\" to material \"" + componentLast.materialRef + "\"");
+                }
+            }
+            else if (this.textures[componentX.texture[0]] == undefined && componentX.texture[0] != "inherit" && componentX.texture[0] != "inherit")
+            {
+                if (this.warned[2][componentX.componentsRef[i]] == undefined)
+                {
+                    this.warned[2][componentX.componentsRef[i]] = true;
+                    console.log("Undefined texture reference on component \"" + componentX.id + "\" to texture \"" + componentX.texture[0] + "\"");
+                }
+            }
+            else
+            {
+                this.fixInheritanceMaterials(this.components[componentX.componentsRef[i]], componentX);
+            }
+        }
     }
 
 

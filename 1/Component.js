@@ -49,30 +49,12 @@ class Component extends CGFobject
 
         for (var i = 0; i < this.componentsRef.length; i++)
         {
-            if (this.components[this.componentsRef[i]] == undefined)
-            {
-                if (this.warned[this.componentsRef[i]] == undefined)
-                {
-                    this.warned[this.componentsRef[i]] = true;
-                    console.log("Component \"" + this.id + "\" has reference to undefined component \"" + this.componentsRef[i] + "\" ");    
-                }
-            }
-            else
-                this.components[this.componentsRef[i]].display();
+            this.components[this.componentsRef[i]].display();
         }
 
         for (var i = 0; i < this.primitivesRef.length; i++)
         {
-            if (this.primitives[this.primitivesRef[i]] == undefined)
-            {
-                if (this.warned[this.primitivesRef[i]] == undefined)
-                {
-                    this.warned[this.primitivesRef[i]] = true;
-                    console.log("Component \"" + this.id + "\" has reference to undefined primitive \"" + this.primitivesRef[i] + "\" ");    
-                }
-            }
-            else
-                this.primitives[this.primitivesRef[i]].display();
+            this.primitives[this.primitivesRef[i]].display();
         }
 
         this.scene.popMatrix();
