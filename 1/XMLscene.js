@@ -35,10 +35,7 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
 
-        this.warned = [];
-        this.warned[0] = [];
-        this.warned[1] = [];
-        this.warned[2] = [];
+        this.views = [];
     }
 
     /**
@@ -92,21 +89,27 @@ class XMLscene extends CGFscene {
         }
     }
 
+    initViews()
+    {
+        for (var v in this.graph.views)
+        {
+            if (this.graph.views[v][0] == "perspective")
+            {
+                this.views[v] = new CGFcamera(this.graph.views[v][3], this.graph.views[v][1], this.graph.views[v][2], vec3.fromValues(this.graph.views[v][4][0], this.graph.views[v][4][1], this.graph.views[v][4][2]), vec3.fromValues(this.graph.views[v][5][0], this.graph.views[v][5][1], this.graph.views[v][5][2]));
+            }
+            else if (this.graph.views[v][0] == "ortho")
+            {
+                this.views[v] = new CGFcameraOrtho(this.graph.views[v][3], this.graph.views[v][4], this.graph.views[v][6], this.graph.views[v][5], this.graph.views[v][1], this.graph.views[v][2], vec3.fromValues(this.graph.views[v][7][0], this.graph.views[v][7][1], this.graph.views[v][7][2]), vec3.fromValues(this.graph.views[v][8][0], this.graph.views[v][8][1], this.graph.views[v][8][2]), vec3.fromValues(0, 1, 0));
+            }
+        }
+    }
+
     setCamera()
     {
-        if (this.graph.viewType == "prespective")
+        if (this.sceneInited)
         {
-            // this.camera = new CGFcamera(this.graph.views[this.graph.views[fov, this.graph.near, this.graph.far, vec3.fromValues(this.graph.v1[0], this.graph.v1[1], this.graph.v1[2]), vec3.fromValues(this.graph.v2[0], this.graph.v2[1], this.graph.v2[2]));
-
-            this.camera.near = this.graph.near;
-            this.camera.far = this.graph.far;
-            this.camera.fov = this.graph.fov;
-            this.camera.position = vec4.fromValues(this.graph.v1[0], this.graph.v1[1], this.graph.v1[2], 1);
-            this.camera.target = vec4.fromValues(this.graph.v2[0], this.graph.v2[1], this.graph.v2[2], 1);
-        }
-        else if (this.graph.viewType == "ortho")
-        {
-            this.camera = new CGFcameraOrtho();
+            this.camera = this.views[this.viewId];
+            this.interface.setActiveCamera(this.views[this.viewId]);
         }
     }
     
@@ -128,11 +131,19 @@ class XMLscene extends CGFscene {
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 
+        this.viewId = this.graph.defaultViewId;
+
+        // Adds views group
+        this.interface.addViewsGroup(this.graph.viewIds);
+    
+        this.materialDefault = new CGFappearance(this);
+
         this.sceneInited = true;
 
-        this.materialDefault = new CGFappearance(this);
-    }
+        this.initViews();
 
+        this.setCamera();
+    }
 
     /**
      * Displays the scene.
@@ -173,6 +184,8 @@ class XMLscene extends CGFscene {
                     i++;
                 }
             }
+
+            // this.setCamera();
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();

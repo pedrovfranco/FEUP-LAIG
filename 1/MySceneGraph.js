@@ -225,6 +225,7 @@ class MySceneGraph {
     parseViews(viewsNode) {
 
         this.views = [];
+        this.viewIds = [];
         var children = viewsNode.children;
         var numViews = 0;
         var viewId;
@@ -244,6 +245,8 @@ class MySceneGraph {
             if (this.views[viewId] != undefined)
                 return "ID must be unique for each light (conflict: ID = " + viewId + ")";
 
+            this.viewIds.push(viewId);
+
             this.views[viewId] = [];
             this.views[viewId][1] = this.reader.getFloat(children[i], 'near');
             this.views[viewId][2] = this.reader.getFloat(children[i], 'far');
@@ -257,39 +260,29 @@ class MySceneGraph {
                 if (!this.isValid(this.views[viewId][3]))
                     return "Unable to parse view id=\"" + viewId + "\"";
 
-                var x, y, z;
-
                 grandChildren = children[i].children;
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
                     if (grandChildren[j].nodeName == "from")
                     {
-                        x = this.reader.getFloat(grandChildren[j], 'x');
-                        y = this.reader.getFloat(grandChildren[j], 'y');
-                        z = this.reader.getFloat(grandChildren[j], 'z');
+                        this.views[viewId][4] = [];
+                        this.views[viewId][4][0] = this.reader.getFloat(grandChildren[j], 'x');
+                        this.views[viewId][4][1] = this.reader.getFloat(grandChildren[j], 'y');
+                        this.views[viewId][4][2] = this.reader.getFloat(grandChildren[j], 'z');
 
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
+                        if (!(this.isValid(this.views[viewId][4][0]) && this.isValid(this.views[viewId][4][1]) && this.isValid(this.views[viewId][4][2])))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                        this.v1 = [];
-                        this.v1[0] = x;
-                        this.v1[1] = y;
-                        this.v1[2] = z;
                     }
                     else if (grandChildren[j].nodeName == "to")
                     {
-                        x = this.reader.getFloat(grandChildren[j], 'x');
-                        y = this.reader.getFloat(grandChildren[j], 'y');
-                        z = this.reader.getFloat(grandChildren[j], 'z');
+                        this.views[viewId][5] = [];
+                        this.views[viewId][5][0] = this.reader.getFloat(grandChildren[j], 'x');
+                        this.views[viewId][5][1] = this.reader.getFloat(grandChildren[j], 'y');
+                        this.views[viewId][5][2] = this.reader.getFloat(grandChildren[j], 'z');
 
-                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
+                        if (!(this.isValid(this.views[viewId][5][0]) && this.isValid(this.views[viewId][5][1]) && this.isValid(this.views[viewId][5][2])))
                             return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-                            this.v2 = [];
-                            this.v2[0] = x;
-                            this.v2[1] = y;
-                            this.v2[2] = z;
                     }
                     else
                     {
@@ -302,11 +295,6 @@ class MySceneGraph {
             {
                 this.views[viewId][0] = "ortho";
 
-                var viewId = this.reader.getString(children[i], 'id');
-
-                if (!this.isValid(viewId))
-                    return "no ID defined for light";
-
                 this.views[viewId][1] = this.reader.getFloat(children[i], 'near');
                 this.views[viewId][2] = this.reader.getFloat(children[i], 'far');
                 this.views[viewId][3] = this.reader.getFloat(children[i], 'left');
@@ -314,8 +302,39 @@ class MySceneGraph {
                 this.views[viewId][5] = this.reader.getFloat(children[i], 'top');
                 this.views[viewId][6] = this.reader.getFloat(children[i], 'bottom');
 
-                // if (!(this.isValid(near) && this.isValid(far) && this.isValid(left) && this.isValid(right) && this.isValid(top) && this.isValid(bottom)))
-                //     return "Unable to parse view id=\"" + viewId + "\"";
+                if (!(this.isValid(this.views[viewId][1]) && this.isValid(this.views[viewId][2]) && this.isValid(this.views[viewId][3]) && this.isValid(this.views[viewId][4]) && this.isValid(this.views[viewId][5]) && this.isValid(this.views[viewId][6])))
+                    return "Unable to parse view id=\"" + viewId + "\"";
+
+                grandChildren = children[i].children;
+
+                for (var j = 0; j < grandChildren.length; j++)
+                {
+                    if (grandChildren[j].nodeName == "from")
+                    {
+                        this.views[viewId][7] = [];
+                        this.views[viewId][7][0] = this.reader.getFloat(grandChildren[j], 'x');
+                        this.views[viewId][7][1] = this.reader.getFloat(grandChildren[j], 'y');
+                        this.views[viewId][7][2] = this.reader.getFloat(grandChildren[j], 'z');
+
+                        if (!(this.isValid(this.views[viewId][7][0]) && this.isValid(this.views[viewId][7][1]) && this.isValid(this.views[viewId][7][2])))
+                            return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+                    }
+                    else if (grandChildren[j].nodeName == "to")
+                    {
+                        this.views[viewId][8] = [];
+                        this.views[viewId][8][0] = this.reader.getFloat(grandChildren[j], 'x');
+                        this.views[viewId][8][1] = this.reader.getFloat(grandChildren[j], 'y');
+                        this.views[viewId][8][2] = this.reader.getFloat(grandChildren[j], 'z');
+
+                        if (!(this.isValid(this.views[viewId][8][0]) && this.isValid(this.views[viewId][8][1]) && this.isValid(this.views[viewId][8][2])))
+                            return "Unable to parse view id=\"" + viewId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+                    }
+                    else
+                    {
+                        this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+                        continue;
+                    }
+                }
 
             }
             else
@@ -415,6 +434,12 @@ class MySceneGraph {
 
             for (var j = 0; j < grandChildren.length; j++)
             {
+                if (children[i].nodeName != "omni" && children[i].nodeName != "spot")
+                {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+                }
+                
                 if (grandChildren[j].nodeName == "location")
                 {
                     x = this.reader.getFloat(grandChildren[j], 'x');
@@ -515,9 +540,6 @@ class MySceneGraph {
                 
 
             numLights++;
-
-            this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-            continue;
         }   
 
         if (numLights == 0)

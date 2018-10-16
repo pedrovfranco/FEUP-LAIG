@@ -15,17 +15,20 @@
 	<!-- como o comprimento dos tres eixos (cilindros) -->
 
 	<scene root="root" axis_length="8" />
-	<views default="camera" >
+	<views default="ortho" >
 
 		<!-- tem de existir, pelo menos, uma vista de -->
 		<!-- entre as seguintes (perspective ou ortho) -->
 
-		<perspective id="camera" near="0.1" far="500" angle="0.5">
-			<from x="100" y="100" z="100" />
+		<perspective id="camera" near="0.1" far="500" angle="0.4">
+			<from x="15" y="15" z="15" />
 			<to x="0" y="0" z="0" />
 		</perspective>
 
-<!--  <ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" /> -->
+ 		<ortho id="ortho" near="0.1" far="500" left="1" right="1" top="1" bottom="1">
+			<from x="25" y="25" z="25" />
+			<to x="0" y="0" z="0" />
+		</ortho>
 
 	</views>
 	<ambient>
@@ -94,21 +97,21 @@
 	<textures>
 		<!-- Deve existir um ou mais blocos "texture" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<texture id="texture1" file="nyan.jpg" />
-		<texture id="texture2" file="ball.jpg" />
-		<texture id="texture3" file="bamboo.jpg" />
-		<texture id="texture4" file="bridge.jpg" />
-		<texture id="texture5" file="float.jpg" />
-		<texture id="texture6" file="water.jpg" />
-		<texture id="texture7" file="wood.jpg" />
-		<texture id="grassTexture" file="grass.jpeg"/>
-		<texture id="sandTexture" file="sand.jpg"/>
-		<texture id="lhTexture" file="lh.jpg"/>
-		<texture id="glassTexture" file="glass.jpeg"/>
-		<texture id="lightHouseTexture" file="lighthouse.png"/>
-		<texture id="lightHouseWindowTexture" file="lighthousewindow2.png"/>
-		<texture id="lighthouseRed" file="lighthousered.png"/>
-		<texture id="lighthouseDoor" file="lighthousedoor.png"/>
+		<texture id="texture1" file="scenes/images/nyan.jpg" />
+		<texture id="texture2" file="scenes/images/ball.jpg" />
+		<texture id="texture3" file="scenes/images/bamboo.jpg" />
+		<texture id="texture4" file="scenes/images/bridge.jpg" />
+		<texture id="texture5" file="scenes/images/float.jpg" />
+		<texture id="texture6" file="scenes/images/water.jpg" />
+		<texture id="texture7" file="scenes/images/wood.jpg" />
+		<texture id="grassTexture" file="scenes/images/grass.jpeg"/>
+		<texture id="sandTexture" file="scenes/images/sand.jpg"/>
+		<texture id="lhTexture" file="scenes/images/lh.jpg"/>
+		<texture id="glassTexture" file="scenes/images/glass.jpeg"/>
+		<texture id="lightHouseTexture" file="scenes/images/lighthouse.png"/>
+		<texture id="lightHouseWindowTexture" file="scenes/images/lighthousewindow2.png"/>
+		<texture id="lighthouseRed" file="scenes/images/lighthousered.png"/>
+		<texture id="lighthouseDoor" file="scenes/images/lighthousedoor.png"/>
 	</textures>
 	<materials>
 		<!-- Deve existir um ou mais blocos "material" -->

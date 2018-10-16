@@ -47,9 +47,12 @@ class MyInterface extends CGFinterface {
 
     addViewsGroup(views) {
 
-        var group = this.gui.addFolder("Views");
-        group.open();
+        var element = this.gui.add(this.scene, 'viewId', views);
+        element.scene = this.scene;
 
-        group.add(this.scene, 'viewId', this.scene.viewId);
+        element.onChange(function(arg)
+        {
+            this.scene.setCamera();
+        });
     }
 }
