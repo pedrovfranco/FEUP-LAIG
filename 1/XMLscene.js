@@ -92,17 +92,28 @@ class XMLscene extends CGFscene {
         }
     }
 
+    setCamera()
+    {
+        if (this.graph.viewType == "prespective")
+        {
+            // this.camera = new CGFcamera(this.graph.views[this.graph.views[fov, this.graph.near, this.graph.far, vec3.fromValues(this.graph.v1[0], this.graph.v1[1], this.graph.v1[2]), vec3.fromValues(this.graph.v2[0], this.graph.v2[1], this.graph.v2[2]));
+
+            this.camera.near = this.graph.near;
+            this.camera.far = this.graph.far;
+            this.camera.fov = this.graph.fov;
+            this.camera.position = vec4.fromValues(this.graph.v1[0], this.graph.v1[1], this.graph.v1[2], 1);
+            this.camera.target = vec4.fromValues(this.graph.v2[0], this.graph.v2[1], this.graph.v2[2], 1);
+        }
+        else if (this.graph.viewType == "ortho")
+        {
+            this.camera = new CGFcameraOrtho();
+        }
+    }
     
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-
-        this.camera.near = this.graph.near;
-        this.camera.far = this.graph.far;
-        this.camera.fov = this.graph.fov;
-        this.camera.position = vec4.fromValues(this.graph.v1[0], this.graph.v1[1], this.graph.v1[2], 1);
-        this.camera.target = vec4.fromValues(this.graph.v2[0], this.graph.v2[1], this.graph.v2[2], 1);
 
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.referenceLength);
