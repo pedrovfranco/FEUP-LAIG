@@ -1161,7 +1161,7 @@ class MySceneGraph {
         }
         else if (componentX.texture[0] == "none")
         {
-            // componentX.material.loadTexture("");
+            // Doesn't load texture
         }
         else
         {
