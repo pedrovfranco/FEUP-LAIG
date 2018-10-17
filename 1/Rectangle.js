@@ -1,6 +1,6 @@
-class Rectangle extends CGFobject
+class Rectangle extends Primitive
 {
-	constructor(scene, x1, y1, x2, y2, nDivs = 10) 
+	constructor(scene, x1, y1, x2, y2) 
 	{
         super(scene);
         
@@ -8,40 +8,46 @@ class Rectangle extends CGFobject
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-
-        this.nDivs = nDivs;
         
 		this.initBuffers();
-	};
+
+        super.setBuffers(this.vertices, this.indices, this.normals, this.texCoords);
+	}
 
 	initBuffers() 
 	{
-        var incrementX = this.nDivs / (this.x2-this.x1);
-        var incrementY = this.nDivs / (this.y2-this.y1);
+        var deltaX = this.x2 - this.x1;
+        var deltaY = this.y2 - this.y1;
 
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = [];
+        //var deltaX = 2;
+        //var deltaY = 2;
 
-        for (var j = 0; j <= this.nDivs; j++) //x coordinate increment
-        {
-            for (var i = 0; i <= this.nDivs; i++) //y coordinate increment
-            {
-                this.vertices.push(this.x1 + i/incrementX, this.y1 + j/incrementY, 0);
+        this.vertices = [
+            this.x1, this.y1, 0,
+            this.x2, this.y1, 0,
+            this.x1, this.y2, 0,
+            this.x2, this.y2, 0
+        ];
 
-                if (i != this.nDivs && j != this.nDivs)
-                {
-                    this.indices.push(j * (this.nDivs+1) + i%(this.nDivs+1), j * (this.nDivs+1) + (i+1)%(this.nDivs+1), (j+1) * (this.nDivs+1) + (i+1)%(this.nDivs+1));
-                    this.indices.push(j * (this.nDivs+1) + i%(this.nDivs+1), (j+1) * (this.nDivs+1) + (i+1)%(this.nDivs+1), (j+1) * (this.nDivs+1) + i%(this.nDivs+1));
-                }
+        this.indices = [
+            0,1,3,
+            0,3,2
+        ];
 
-                this.normals.push(0, 0, 1);
-                this.texCoords.push(i/this.nDivs, 1 - j/this.nDivs);
-            }
-        }
-        
-		this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
-	};
-};
+        this.normals = [
+            0, 0, 1,
+            0, 0, 1,
+            0, 0, 1,
+            0, 0, 1
+        ];
+
+        this.texCoords = [
+            0, deltaY,
+            deltaX, deltaY,
+            0, 0,
+            deltaX, 0
+        ];
+
+        console.log(this);
+	}
+}

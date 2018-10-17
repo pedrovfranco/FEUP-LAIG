@@ -1,4 +1,4 @@
-class Cylinder extends CGFobject
+class Cylinder extends Primitive
 {
     constructor(scene, base, top, height, slices , stacks)
     {
@@ -11,6 +11,8 @@ class Cylinder extends CGFobject
         this.stacks = stacks;
 
         this.initBuffers();
+
+        super.setBuffers(this.vertices, this.indices, this.normals, this.texCoords);
     };
 
     initBuffers()

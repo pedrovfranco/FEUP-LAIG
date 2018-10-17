@@ -60,6 +60,7 @@ class Component extends CGFobject
 
         for (var i = 0; i < this.primitivesRef.length; i++)
         {
+            this.primitives[this.primitivesRef[i]]
             this.primitives[this.primitivesRef[i]].display();
         }
 

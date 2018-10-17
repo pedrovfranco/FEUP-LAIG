@@ -1175,7 +1175,7 @@ class MySceneGraph {
             componentX.material.loadTexture(this.textures[componentX.texture[0]]);
         }
 
-        componentX.material.setTextureWrap(componentX.texture[1], componentX.texture[2]);
+        componentX.material.setTextureWrap('REPEAT', 'REPEAT');
     }
 
 

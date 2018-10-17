@@ -6,7 +6,7 @@ function foo(input, max) // If input is greater than max then returns max instad
 		return input;
 }
 
-class Sphere extends CGFobject
+class Sphere extends Primitive
 {
     constructor(scene, radius, slices, stacks)
     {
@@ -16,6 +16,8 @@ class Sphere extends CGFobject
         this.stacks = stacks;
 
         this.initBuffers();
+
+        super.setBuffers(this.vertices, this.indices, this.normals, this.texCoords);
     }
 
     initBuffers()
@@ -88,10 +90,6 @@ class Sphere extends CGFobject
 		this.normals.push(0,0,-1); // Center
 		this.texCoords.push(0.5, 0.5);
 		
-		// console.log(this.indices);
-        
-        this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
     }
 
 

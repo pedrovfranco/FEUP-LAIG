@@ -1,4 +1,4 @@
-class Torus extends CGFobject
+class Torus extends Primitive
 {
     constructor(scene, inner, outer, slices, loops)
     {
@@ -9,6 +9,8 @@ class Torus extends CGFobject
         this.loops = loops;
 
         this.initBuffers();
+
+        super.setBuffers(this.vertices, this.indices, this.normals, this.texCoords);
     }
 
     initBuffers()
@@ -36,7 +38,5 @@ class Torus extends CGFobject
             }
         }        
 
-        this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
     }
 }
