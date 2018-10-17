@@ -34,7 +34,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        // File reading 
+        // File reading
         this.reader = new CGFXMLreader();
 
         /*
@@ -254,9 +254,9 @@ class MySceneGraph {
             if (children[i].nodeName == "perspective")
             {
                 this.views[viewId][0] = "perspective";
-                
+
                 this.views[viewId][3] = this.reader.getFloat(children[i], 'angle');
-                
+
                 if (!this.isValid(this.views[viewId][3]))
                     return "Unable to parse view id=\"" + viewId + "\"";
 
@@ -410,7 +410,7 @@ class MySceneGraph {
         this.lights = [];
         var numLights = 0;
 
-        var grandChildren = [];        
+        var grandChildren = [];
 
         for (var i = 0; i < children.length; i++)
         {
@@ -425,7 +425,7 @@ class MySceneGraph {
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
             this.lights[lightId] = [];
-                        
+
             this.lights[lightId][0] = this.reader.getBoolean(children[i], 'enabled');
 
             grandChildren = children[i].children;
@@ -439,7 +439,7 @@ class MySceneGraph {
                     this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                     continue;
                 }
-                
+
                 if (grandChildren[j].nodeName == "location")
                 {
                     x = this.reader.getFloat(grandChildren[j], 'x');
@@ -537,10 +537,10 @@ class MySceneGraph {
                 if (!(this.isValid(this.lights[lightId][6]) && this.isValid(y) && this.isValid(this.lights[lightId][7])))
                     return "Unable to parse light id=\"" + lightId + "\"";
             }
-                
+
 
             numLights++;
-        }   
+        }
 
         if (numLights == 0)
             return "at least one light must be defined";
@@ -553,7 +553,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <TEXTURES> block. 
+     * Parses the <TEXTURES> block.
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
@@ -565,7 +565,7 @@ class MySceneGraph {
         this.textures["inherit"] = "inherit";
         this.textures["none"] = "none";
         var numTextures = 0;
-        
+
         for (var i = 0; i < children.length; i++) {
 
             if (children[i].nodeName != "texture") {
@@ -585,8 +585,8 @@ class MySceneGraph {
 
             var filename = this.reader.getString(children[i], 'file');
             if (filename == null)
-                return "no Filename defined for texture";      
-                
+                return "no Filename defined for texture";
+
             this.textures[textureId] = filename;
 
             numTextures++;
@@ -605,7 +605,7 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
-        
+
         var children = materialsNode.children;
 
         this.materials = [];
@@ -626,7 +626,7 @@ class MySceneGraph {
 
             if (materialId == null)
                 return "no ID defined for material";
-        
+
             if (this.materials[materialId] != null)
                 return "ID must be unique for each material (conflict: ID = " + materialId + ")";
 
@@ -689,7 +689,7 @@ class MySceneGraph {
                     this.materials[materialId][3][2] = b;
                     this.materials[materialId][3][3] = a;
                 }
-    
+
                 else if (grandChildren[j].nodeName == "specular")
                 {
                     r = this.reader.getFloat(grandChildren[j], 'r');
@@ -716,12 +716,12 @@ class MySceneGraph {
 
             numMaterials++;
         }
-                
+
         if (numMaterials == 0)
             return "there must be defined at least one material";
 
         this.log("Parsed materials");
-        
+
         return null;
     }
 
@@ -730,7 +730,7 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
-        
+
         var children = transformationsNode.children;
 
         this.transformations = [];
@@ -745,17 +745,17 @@ class MySceneGraph {
 
                 if (!this.isValid(transformationId))
                     return "no ID defined for transformation";
-        
+
                 if (this.transformations[transformationId] != null)
                     return "ID must be unique for each transformation (conflict: ID = " + transformationId + ")";
-                
+
                 this.transformations[transformationId] = [];
 
                 grandChildren = children[i].children;
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
-                    if (grandChildren[i].nodeName == "translate") 
+                    if (grandChildren[i].nodeName == "translate")
                     {
                         this.transformations[transformationId][0] = 0;
                         this.transformations[transformationId][1] = this.reader.getFloat(grandChildren[i], 'x');
@@ -764,9 +764,9 @@ class MySceneGraph {
 
                         if (!(this.isValid(this.transformations[transformationId][0]) && this.isValid(this.transformations[transformationId][1]) && this.isValid(this.transformations[transformationId][2]) && this.isValid(this.transformations[transformationId][3])))
                             return "Unable to parse transformationl id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-        
+
                     }
-                    else if (grandChildren[i].nodeName == "rotate") 
+                    else if (grandChildren[i].nodeName == "rotate")
                     {
                         this.transformations[transformationId][0] = 1;
                         this.transformations[transformationId][1] = this.reader.getFloat(grandChildren[i], 'axis');
@@ -776,7 +776,7 @@ class MySceneGraph {
                             return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                     }
-                    else if (grandChildren[i].nodeName == "scale") 
+                    else if (grandChildren[i].nodeName == "scale")
                     {
                         this.transformations[transformationId][0] = 2;
                         this.transformations[transformationId][1] = this.reader.getFloat(grandChildren[i], 'x');
@@ -796,9 +796,9 @@ class MySceneGraph {
             else
             {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue; 
+                continue;
             }
-        
+
         }
 
         this.log("Parsed transformations");
@@ -830,10 +830,10 @@ class MySceneGraph {
                 var primitiveId = this.reader.getString(children[i], 'id');
                 if (!this.isValid(primitiveId))
                        return "no ID defined for primitive";
-           
+
                 if (this.primitives[primitiveId] != null)
                     return "ID must be unique for each primitve (conflict: ID = " + primitiveId + ")";
-                
+
                 grandChildren = children[i].children;
 
                 if (grandChildren.length != 1)
@@ -845,9 +845,9 @@ class MySceneGraph {
                     {
                         counter++;
                         var x1, y1, x2, y2;
-                        x1 = this.reader.getFloat(grandChildren[j], 'x1'); 
+                        x1 = this.reader.getFloat(grandChildren[j], 'x1');
                         y1 = this.reader.getFloat(grandChildren[j], 'y1');
-                        x2 = this.reader.getFloat(grandChildren[j], 'x2'); 
+                        x2 = this.reader.getFloat(grandChildren[j], 'x2');
                         y2 = this.reader.getFloat(grandChildren[j], 'y2');
 
                         if (!(this.isValid(x1) && this.isValid(y1) && this.isValid(x2) && this.isValid(y2)))
@@ -855,17 +855,17 @@ class MySceneGraph {
 
                         this.primitives[primitiveId] = new Rectangle(this.scene, x1,y1,x2,y2, 100);
                     }
-                            
+
                     else if (grandChildren[j].nodeName == "triangle")
                     {
                         var x1,x2,x3,y1,y2,y3,z1,z2,z3;
-                        x1 = this.reader.getFloat(grandChildren[j], 'x1'); 
+                        x1 = this.reader.getFloat(grandChildren[j], 'x1');
                         y1 = this.reader.getFloat(grandChildren[j], 'y1');
                         z1 = this.reader.getFloat(grandChildren[j], 'z1');
-                        x2 = this.reader.getFloat(grandChildren[j], 'x2'); 
+                        x2 = this.reader.getFloat(grandChildren[j], 'x2');
                         y2 = this.reader.getFloat(grandChildren[j], 'y2');
                         z2 = this.reader.getFloat(grandChildren[j], 'z2');
-                        x3 = this.reader.getFloat(grandChildren[j], 'x3'); 
+                        x3 = this.reader.getFloat(grandChildren[j], 'x3');
                         y3 = this.reader.getFloat(grandChildren[j], 'y3');
                         z3 = this.reader.getFloat(grandChildren[j], 'z3');
 
@@ -878,10 +878,10 @@ class MySceneGraph {
                     else if (grandChildren[j].nodeName == "cylinder")
                     {
                         var base, top, height, slices, stacks;
-                        base = this.reader.getFloat(grandChildren[j], 'base'); 
+                        base = this.reader.getFloat(grandChildren[j], 'base');
                         top = this.reader.getFloat(grandChildren[j], 'top');
                         height = this.reader.getFloat(grandChildren[j], 'height');
-                        slices = this.reader.getInteger(grandChildren[j], 'slices'); 
+                        slices = this.reader.getInteger(grandChildren[j], 'slices');
                         stacks = this.reader.getInteger(grandChildren[j], 'stacks');
 
                         if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
@@ -894,20 +894,20 @@ class MySceneGraph {
                     {
                         var radius, slices, stacks;
                         radius = this.reader.getFloat(grandChildren[j], 'radius');
-                        slices = this.reader.getInteger(grandChildren[j], 'slices'); 
+                        slices = this.reader.getInteger(grandChildren[j], 'slices');
                         stacks = this.reader.getInteger(grandChildren[j], 'stacks');
-                        
+
                         if (!(this.isValid(radius) && this.isValid(slices) && this.isValid(stacks)))
                             return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
                         this.primitives[primitiveId] = new Sphere(this.scene, radius, slices, stacks);
                     }
-                    
+
                     else if (grandChildren[j].nodeName == "torus")
                     {
                         var inner, outer, slices, loops;
                         inner = this.reader.getFloat(grandChildren[j], 'inner');
-                        outer = this.reader.getInteger(grandChildren[j], 'outer'); 
+                        outer = this.reader.getInteger(grandChildren[j], 'outer');
                         slices = this.reader.getInteger(grandChildren[j], 'slices');
                         loops = this.reader.getInteger(grandChildren[j], 'loops');
 
@@ -927,7 +927,7 @@ class MySceneGraph {
             }
         }
 
-        
+
         this.log("Parsed transformations");
         return null;
 
@@ -942,7 +942,7 @@ class MySceneGraph {
         var children = componentsNode.children;
         var grandChildren;
         var grandGrandChildren;
-        
+
         this.components = [];
         var componentsTemp = [];
 
@@ -956,10 +956,10 @@ class MySceneGraph {
                 componentId = this.reader.getString(children[i], 'id');
                 if (!this.isValid(componentId))
                     return "no ID defined for component";
-        
+
                 if (componentsTemp[componentId] != null)
                     return "ID must be unique for each component (conflict: ID = " + componentId + ")";
-                
+
                 componentsTemp[componentId] = [];
 
                 grandChildren = children[i].children;
@@ -972,7 +972,7 @@ class MySceneGraph {
                         var numTransformations = 0;
 
                         grandGrandChildren = grandChildren[j].children;
-                        
+
                         for (var k = 0; k < grandGrandChildren.length; k++)
                         {
                             componentsTemp[componentId][0][numTransformations] = [];
@@ -1023,11 +1023,11 @@ class MySceneGraph {
                                 this.onXMLMinorError("unknown tag <" + grandGrandChildren[k].nodeName + ">");
                                 continue;
                             }
-                            
+
 
                             numTransformations++;
                         }
-                        
+
                     }
 
                     else if (grandChildren[j].nodeName == "materials")
@@ -1042,7 +1042,7 @@ class MySceneGraph {
 
                             if (!(this.isValid(componentsTemp[componentId][1][k])))
                                 return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
-    
+
                         }
                     }
 
@@ -1108,7 +1108,7 @@ class MySceneGraph {
                         this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
                         continue;
                     }
-                    
+
                 }
             }
             else
@@ -1137,7 +1137,7 @@ class MySceneGraph {
         for (var i = 0; i < componentX.componentsRef.length; i++)
         {
             if (this.components[componentX.componentsRef[i]] == undefined)
-                console.log("Component \"" + componentX.id + "\" has reference to undefined component \"" + componentX.componentsRef[i] + "\" ");    
+                console.log("Component \"" + componentX.id + "\" has reference to undefined component \"" + componentX.componentsRef[i] + "\" ");
             else
                 this.checkBrokenRef(this.components[componentX.componentsRef[i]]);
         }
@@ -1145,9 +1145,9 @@ class MySceneGraph {
         for (var i = 0; i < componentX.primitivesRef.length; i++)
         {
             if (this.primitives[componentX.primitivesRef[i]] == undefined)
-                console.log("Component \"" + componentX.id + "\" has reference to undefined primitive \"" + componentX.primitivesRef[i] + "\" ");    
+                console.log("Component \"" + componentX.id + "\" has reference to undefined primitive \"" + componentX.primitivesRef[i] + "\" ");
         }
-        
+
     }
 
 
@@ -1181,11 +1181,8 @@ class MySceneGraph {
 
     fixInheritanceMaterials(componentX, componentLast)
     {
-        if (componentX.id == "lighthouse")
-            var a = 0+1;
-            
         if (componentX.materials[componentX.idMaterial] == "inherit")
-        {            
+        {
             componentX.material = new CGFappearance(this.scene);
 
             componentX.materialParameters = componentLast.materialParameters;
@@ -1219,7 +1216,7 @@ class MySceneGraph {
             componentX.material.setShininess(componentX.materialParameters[0]);
 
         }
-        
+
         for (var i = 0; i < componentX.componentsRef.length; i++)
         {
             if (this.components[componentX.componentsRef[i]] == undefined)

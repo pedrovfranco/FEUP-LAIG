@@ -112,6 +112,7 @@
 		<texture id="lightHouseWindowTexture" file="scenes/images/lighthousewindow2.png"/>
 		<texture id="lighthouseRed" file="scenes/images/lighthousered.png"/>
 		<texture id="lighthouseDoor" file="scenes/images/lighthousedoor.png"/>
+		<texture id="city" file="scenes/images/city.jpg"/>
 	</textures>
 	<materials>
 		<!-- Deve existir um ou mais blocos "material" -->
@@ -128,6 +129,7 @@
 			<ambient r="0" g="0" b="0" a="0" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="0" />
+			
 
 		</material>
 	</materials>
@@ -162,6 +164,9 @@
 		<primitive id="rectangle">
 			<rectangle x1="0" y1="0" x2="2" y2="2"/>
 		</primitive>
+		<primitive id="rectangle1x1">
+			<rectangle x1="0" y1="0" x2="1" y2="1"/>
+		</primitive>
 		<primitive id="sphere">
 			<sphere radius="5" slices="65" stacks="60" />
 		</primitive>
@@ -189,6 +194,7 @@
 				<componentref id="rope" />
 				<componentref id="land" />
 				<componentref id="sand" />
+				<componentref id="city" />
 				<componentref id="lighthouse" />
 				</children>
 		</component>
@@ -640,17 +646,29 @@
 				<primitiveref id="rectangle" />
 			</children>
 		</component>
+		<component id="city">
+			<transformation>
+				<rotate axis="y" angle = "90"/>
+				<scale x="60" y="60" z="1"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="city" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectangle1x1" />
+			</children>
+		</component>
 		<component id="lighthouse">
 			<transformation>
 			</transformation>
-
 			<materials>
 				<material id="inherit" />
 				<material id="material2" />
 			</materials>
 
 			<texture id="lightHouseTexture" length_s="1" length_t="1" />
-			
+
 			<children>
 				<componentref id="lighthouseCylinder" />
 				<componentref id="lighthouseWindowBase" />
