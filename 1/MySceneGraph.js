@@ -1153,7 +1153,11 @@ class MySceneGraph {
     {
         if (componentX.texture[0] == "inherit")
         {
-            componentX.material.loadTexture(this.textures[componentLast.texture[0]]);
+            if (componentLast.texture[0] != "none")
+            {
+                componentX.texture[0] = componentLast.texture[0];
+                componentX.material.loadTexture(this.textures[componentX.texture[0]]);
+            }
         }
         else if (componentX.texture[0] == "none")
         {
