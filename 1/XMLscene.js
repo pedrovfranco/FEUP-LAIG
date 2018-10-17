@@ -36,6 +36,8 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
 
         this.views = [];
+
+        this.setUpdatePeriod(1000/30);
     }
 
     /**
@@ -123,7 +125,10 @@ class XMLscene extends CGFscene {
 			text+=" M";
             keysPressed=true;
             
-            for (var i = 0; i < )
+            for (var id in this.graph.components)
+            {
+                this.graph.components[id].incrementMaterial();
+            }
 
 			this.graph.initMaterials();
 		}

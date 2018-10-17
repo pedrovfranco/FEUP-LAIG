@@ -122,6 +122,14 @@
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="0" />
 		</material>
+
+		<material id="material2" shininess="0" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="0" g="0" b="0" a="0" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="0" />
+
+		</material>
 	</materials>
 	<transformations>
 		<!-- Deve existir um ou mais blocos "transformation" -->
@@ -638,6 +646,7 @@
 
 			<materials>
 				<material id="inherit" />
+				<material id="material2" />
 			</materials>
 
 			<texture id="lightHouseTexture" length_s="1" length_t="1" />
