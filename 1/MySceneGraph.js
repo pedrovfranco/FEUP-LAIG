@@ -1038,7 +1038,7 @@ class MySceneGraph {
 
                         for (var k = 0; k < grandGrandChildren.length; k++)
                         {
-                            componentsTemp[componentId][1][k] = this.reader.getString(grandChildren[j].children[0], 'id');
+                            componentsTemp[componentId][1][k] = this.reader.getString(grandGrandChildren[k], 'id');
 
                             if (!(this.isValid(componentsTemp[componentId][1][k])))
                                 return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
@@ -1181,6 +1181,9 @@ class MySceneGraph {
 
     fixInheritanceMaterials(componentX, componentLast)
     {
+        if (componentX.id == "lighthouse")
+            var a = 0+1;
+            
         if (componentX.materials[componentX.idMaterial] == "inherit")
         {            
             componentX.material = new CGFappearance(this.scene);
