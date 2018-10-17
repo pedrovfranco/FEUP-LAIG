@@ -626,7 +626,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="sandTexture" length_s="1" length_t="1" />
+			<texture id="sandTexture" length_s="1" length_t="0.1" />
 			<children>
 				<primitiveref id="rectangle" />
 			</children>
@@ -641,7 +641,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="sandTexture" length_s="1" length_t="1" />
+			<texture id="sandTexture" length_s="1" length_t="0.1" />
 			<children>
 				<primitiveref id="rectangle" />
 			</children>
