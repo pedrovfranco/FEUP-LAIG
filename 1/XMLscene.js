@@ -118,36 +118,15 @@ class XMLscene extends CGFscene {
 		var text="Keys pressed:";
 		var keysPressed=false;
 
-		if (this.gui.isKeyPressed("KeyW"))
+		if (this.gui.isKeyPressed("KeyM"))
 		{
-			text+=" W";
-			keysPressed=true;
-			this.car.setAcceleration(1);
-		}
-		else if (this.gui.isKeyPressed("KeyS"))
-		{
-			text+=" S";
-			keysPressed=true;
-			this.car.setAcceleration(-1);
-		}
-		else
-			this.car.setAcceleration(0);
+			text+=" M";
+            keysPressed=true;
+            
+            for (var i = 0; i < )
 
-		if (this.gui.isKeyPressed("KeyA"))
-		{
-			text+=" A";
-			keysPressed=true;
-			this.car.setRotAcceleration(1);
-
+			this.graph.initMaterials();
 		}
-		else if (this.gui.isKeyPressed("KeyD"))
-		{
-			text+=" D";
-			keysPressed=true;
-			this.car.setRotAcceleration(-1);
-		}
-		else
-			this.car.setRotAcceleration(0);
 
 		if (keysPressed)
 			console.log(text);
