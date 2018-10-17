@@ -1,12 +1,12 @@
 class Component extends CGFobject
 {
-    constructor(scene, transformations, materialRef, texture, componentsRef, primitivesRef, components, primitives, id)
+    constructor(scene, transformations, materials, texture, componentsRef, primitivesRef, components, primitives, id)
     {
         super(scene);
 
         this.scene = scene;
         this.transformations = transformations;
-        this.materialRef = materialRef;
+        this.materials = materials;
         this.texture = texture;
         this.componentsRef = componentsRef;
         this.primitivesRef = primitivesRef;
@@ -14,9 +14,15 @@ class Component extends CGFobject
         this.primitives = primitives;
         this.id = id;
 
-        this.warned = [];
+        this.idMaterial = 0;
 
         this.material = new CGFappearance(scene);
+    }
+
+    incrementMaterial()
+    {
+        this.idMaterial++;
+        this.idMaterial %= this.materials.length;
     }
 
 

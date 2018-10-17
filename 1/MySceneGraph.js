@@ -1032,11 +1032,18 @@ class MySceneGraph {
 
                     else if (grandChildren[j].nodeName == "materials")
                     {
-                        componentsTemp[componentId][1] = this.reader.getString(grandChildren[j].children[0], 'id');
+                        componentsTemp[componentId][1] = [];
 
-                        if (!(this.isValid(componentsTemp[componentId][1])))
-                            return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+                        grandGrandChildren = grandChildren[j].children;
 
+                        for (var k = 0; k < grandGrandChildren.length; k++)
+                        {
+                            componentsTemp[componentId][1][k] = this.reader.getString(grandChildren[j].children[0], 'id');
+
+                            if (!(this.isValid(componentsTemp[componentId][1][k])))
+                                return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
+    
+                        }
                     }
 
                     else if (grandChildren[j].nodeName == "texture")
@@ -1174,21 +1181,21 @@ class MySceneGraph {
 
     fixInheritanceMaterials(componentX, componentLast)
     {
-        if (componentX.materialRef == "inherit")
-        {
-            componentX.materialRef = componentLast.materialRef;
-            
+        if (componentX.materials[componentX.idMaterial] == "inherit")
+        {            
             componentX.material = new CGFappearance(this.scene);
+
+            componentX.materialParameters = componentLast.materialParameters;
 
             this.fixInheritanceTextures(componentX, componentLast);
 
-            componentX.material.setEmission(this.materials[componentX.materialRef][1][0], this.materials[componentX.materialRef][1][1], this.materials[componentX.materialRef][1][2], this.materials[componentX.materialRef][1][3]);
-            componentX.material.setAmbient(this.materials[componentX.materialRef][2][0], this.materials[componentX.materialRef][2][1], this.materials[componentX.materialRef][2][2], this.materials[componentX.materialRef][2][3]);
-            componentX.material.setDiffuse(this.materials[componentX.materialRef][3][0], this.materials[componentX.materialRef][3][1], this.materials[componentX.materialRef][3][2], this.materials[componentX.materialRef][3][3]);
-            componentX.material.setSpecular(this.materials[componentX.materialRef][4][0], this.materials[componentX.materialRef][4][1], this.materials[componentX.materialRef][4][2], this.materials[componentX.materialRef][4][3]);
-            componentX.material.setShininess(this.materials[componentX.materialRef][0]);
+            componentX.material.setEmission(componentX.materialParameters[1][0], componentX.materialParameters[1][1], componentX.materialParameters[1][2], componentX.materialParameters[1][3]);
+            componentX.material.setAmbient(componentX.materialParameters[2][0], componentX.materialParameters[2][1], componentX.materialParameters[2][2], componentX.materialParameters[2][3]);
+            componentX.material.setDiffuse(componentX.materialParameters[3][0], componentX.materialParameters[3][1], componentX.materialParameters[3][2], componentX.materialParameters[3][3]);
+            componentX.material.setSpecular(componentX.materialParameters[4][0], componentX.materialParameters[4][1], componentX.materialParameters[4][2], componentX.materialParameters[4][3]);
+            componentX.material.setShininess(componentX.materialParameters[0]);
         }
-        else if (componentX.materialRef == "none")
+        else if (componentX.materials[componentX.idMaterial] == "none")
         {
             componentX.material = new CGFappearance(this.scene);
 
@@ -1198,13 +1205,15 @@ class MySceneGraph {
         {
             componentX.material = new CGFappearance(this.scene);
 
+            componentX.materialParameters = this.materials[componentX.materials[componentX.idMaterial]];
+
             this.fixInheritanceTextures(componentX, componentLast);
 
-            componentX.material.setEmission(this.materials[componentX.materialRef][1][0], this.materials[componentX.materialRef][1][1], this.materials[componentX.materialRef][1][2], this.materials[componentX.materialRef][1][3]);
-            componentX.material.setAmbient(this.materials[componentX.materialRef][2][0], this.materials[componentX.materialRef][2][1], this.materials[componentX.materialRef][2][2], this.materials[componentX.materialRef][2][3]);
-            componentX.material.setDiffuse(this.materials[componentX.materialRef][3][0], this.materials[componentX.materialRef][3][1], this.materials[componentX.materialRef][3][2], this.materials[componentX.materialRef][3][3]);
-            componentX.material.setSpecular(this.materials[componentX.materialRef][4][0], this.materials[componentX.materialRef][4][1], this.materials[componentX.materialRef][4][2], this.materials[componentX.materialRef][4][3]);
-            componentX.material.setShininess(this.materials[componentX.materialRef][0]);
+            componentX.material.setEmission(componentX.materialParameters[1][0], componentX.materialParameters[1][1], componentX.materialParameters[1][2], componentX.materialParameters[1][3]);
+            componentX.material.setAmbient(componentX.materialParameters[2][0], componentX.materialParameters[2][1], componentX.materialParameters[2][2], componentX.materialParameters[2][3]);
+            componentX.material.setDiffuse(componentX.materialParameters[3][0], componentX.materialParameters[3][1], componentX.materialParameters[3][2], componentX.materialParameters[3][3]);
+            componentX.material.setSpecular(componentX.materialParameters[4][0], componentX.materialParameters[4][1], componentX.materialParameters[4][2], componentX.materialParameters[4][3]);
+            componentX.material.setShininess(componentX.materialParameters[0]);
 
         }
         
@@ -1218,7 +1227,7 @@ class MySceneGraph {
                     console.log("Undefined component reference on component \"" + componentX.id + "\" to component \"" + componentX.componentsRef[i] + "\"");
                 }
             }
-            else if (this.materials[componentX.materialRef] == undefined && componentX.materialRef != "inherit" && componentX.materialRef != "inherit")
+            else if (componentX.materialParameters == undefined && componentX.materials[componentX.idMaterial] != "inherit" && componentX.materials[componentX.idMaterial] != "inherit")
             {
                 if (this.warned[1][componentX.componentsRef[i]] == undefined)
                 {

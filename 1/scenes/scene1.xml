@@ -25,7 +25,7 @@
 			<to x="0" y="0" z="0" />
 		</perspective>
 
- 		<ortho id="ortho" near="0.1" far="500" left="1" right="1" top="1" bottom="1">
+ 		<ortho id="ortho" near="0.1" far="500" left="-15" right="15" top="15" bottom="-15">
 			<from x="25" y="25" z="25" />
 			<to x="0" y="0" z="0" />
 		</ortho>
@@ -177,8 +177,6 @@
 				<componentref id="rectangleWater" />
 				<componentref id="bamboo" />
 				<componentref id="raftCylinder" />
-				<componentref id="raftCylinderFlag" />
-				<componentref id="flag" />
 				<componentref id="bridgeFloat" />
 				<componentref id="rope" />
 				<componentref id="land" />
@@ -453,6 +451,8 @@
 				<componentref id="raftCylinder3" />
 				<componentref id="raftCylinder4" />
 				<componentref id="raftCylinder5" />
+				<componentref id="raftCylinderFlag" />
+				<componentref id="flag" />
 			</children>
 		</component>
 		<component id="raftCylinder1">
@@ -529,7 +529,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="none" length_s="1" length_t="1" />
+			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="cylinder" />
 			</children>

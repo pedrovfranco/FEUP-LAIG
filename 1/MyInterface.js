@@ -20,8 +20,8 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
-        // add a group of controls (and open/expand by defult)
 
+        this.initKeys();
         return true;
     }
 
@@ -55,4 +55,31 @@ class MyInterface extends CGFinterface {
             this.scene.setCamera();
         });
     }
+
+    /**
+	 * processKeyboard
+	 * @param event {Event}
+	 */
+	initKeys()
+	{
+		this.scene.gui=this;
+		this.processKeyboard=function(){};
+		this.activeKeys={};
+	}
+
+
+	processKeyDown(event)
+	{
+		this.activeKeys[event.code]=true;
+	};
+
+	processKeyUp(event)
+	{
+		this.activeKeys[event.code]=false;
+	};
+
+	isKeyPressed(keyCode)
+	{
+		return this.activeKeys[keyCode] || false;
+	}
 }

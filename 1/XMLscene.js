@@ -112,6 +112,46 @@ class XMLscene extends CGFscene {
             this.interface.setActiveCamera(this.views[this.viewId]);
         }
     }
+
+    checkKeys()
+	{
+		var text="Keys pressed:";
+		var keysPressed=false;
+
+		if (this.gui.isKeyPressed("KeyW"))
+		{
+			text+=" W";
+			keysPressed=true;
+			this.car.setAcceleration(1);
+		}
+		else if (this.gui.isKeyPressed("KeyS"))
+		{
+			text+=" S";
+			keysPressed=true;
+			this.car.setAcceleration(-1);
+		}
+		else
+			this.car.setAcceleration(0);
+
+		if (this.gui.isKeyPressed("KeyA"))
+		{
+			text+=" A";
+			keysPressed=true;
+			this.car.setRotAcceleration(1);
+
+		}
+		else if (this.gui.isKeyPressed("KeyD"))
+		{
+			text+=" D";
+			keysPressed=true;
+			this.car.setRotAcceleration(-1);
+		}
+		else
+			this.car.setRotAcceleration(0);
+
+		if (keysPressed)
+			console.log(text);
+	};
     
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
@@ -143,6 +183,11 @@ class XMLscene extends CGFscene {
         this.initViews();
 
         this.setCamera();
+    }
+
+    update(currTime)
+    {
+        this.checkKeys();
     }
 
     /**
