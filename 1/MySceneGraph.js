@@ -985,6 +985,10 @@ class MySceneGraph {
                                     return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
 
                                 componentsTemp[componentId][0][numTransformations] = this.transformations[transformationId];
+
+                                if (this.transformations[transformationId] == undefined)
+                                    return "Undefined transformationref in component \"" + componentId + "\"";
+
                             }
                             else if (grandGrandChildren[k].nodeName == "translate")
                             {
