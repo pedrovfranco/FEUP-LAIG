@@ -1,24 +1,8 @@
-<!-- Os comentarios devem ter espacos no inicio e no fim, a -->
-<!-- separar dos hifens -->
-<!-- Nao devem ser usados caracteres especiais (p.ex. acentos) -->
-<!-- Todas as tags e atributos sao obrigatorios, exceto onde for -->
-<!-- referido o contrario -->
-<!-- Na descricao abaixo, os simbolos utilizados tem o seguinte significado: -->
-<!-- ii: integer value -->
-<!-- ff: float value -->
-<!-- ss: string value -->
-<!-- cc: character "x" or "y" or "z" -->
-<!-- tt: "0" or "1" with Boolean significance -->
-
 <yas>
-	<!-- deve definir-se um objeto para raiz da arvore, assim -->
-	<!-- como o comprimento dos tres eixos (cilindros) -->
 
 	<scene root="root" axis_length="8" />
-	<views default="camera" >
 
-		<!-- tem de existir, pelo menos, uma vista de -->
-		<!-- entre as seguintes (perspective ou ortho) -->
+	<views default="camera" >
 
 		<perspective id="camera" near="0.1" far="500" angle="0.4">
 			<from x="50" y="50" z="50" />
@@ -31,14 +15,15 @@
 		</ortho>
 
 	</views>
+
 	<ambient>
+
 		<ambient r="0" g="0" b="0" a="1" />
 		<background r="0" g="0" b="0" a="1" />
-	</ambient>
-	<lights>
 
-		<!-- Deve existir um ou mais blocos "omni" ou "spot" -->
-		<!-- Os identificadores "id" nao podem ser repetidos -->
+	</ambient>
+
+	<lights>
 
 		<omni id="omni1" enabled="1" >
 			<location x="2" y="20" z="2" w="1" />
@@ -46,36 +31,42 @@
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
+
 		<omni id="omni2" enabled="1" >
 			<location x="0" y="20" z="2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
+
 		<omni id="omni3" enabled="1" >
 			<location x="-6" y="20" z="0" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
+
 		<omni id="omni4" enabled="1" >
 			<location x="-2" y="20" z="-2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
+
 		<omni id="omni5" enabled="1" >
 			<location x="5" y="20" z="5" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
+
 		<omni id="omni6" enabled="1" >
 			<location x="1" y="20" z="-6" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
+
 		<omni id="omni7" enabled="1" >
 			<location x="-6" y="20" z="-13" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
@@ -84,19 +75,17 @@
 		</omni>
 
 		<spot id="spot1" enabled="1" angle="50" exponent="1">
-
-			<!-- atencao, "target" e' diferente de "direction" -->
-
 			<location x="0" y="2" z="-4" w="1" />
 			<target x="0" y="0" z="-4" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</spot>
+
 	</lights>
+
 	<textures>
-		<!-- Deve existir um ou mais blocos "texture" -->
-		<!-- Os identificadores "id" nao podem ser repetidos -->
+
 		<texture id="texture1" file="scenes/images/nyan.jpg" />
 		<texture id="texture2" file="scenes/images/ball.jpg" />
 		<texture id="texture3" file="scenes/images/bamboo.jpg" />
@@ -113,10 +102,11 @@
 		<texture id="lighthouseRed" file="scenes/images/lighthousered.png"/>
 		<texture id="lighthouseDoor" file="scenes/images/lighthousedoor.png"/>
 		<texture id="city" file="scenes/images/city.jpg"/>
+
 	</textures>
+
 	<materials>
-		<!-- Deve existir um ou mais blocos "material" -->
-		<!-- Os identificadores "id" nao podem ser repetidos -->
+
 		<material id="material1" shininess="0.3" >
 			<emission r="0" g="0" b="0" a="0" />
 			<ambient r="0" g="0" b="0" a="0" />
@@ -130,50 +120,56 @@
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="0" />
 			
-
 		</material>
+
 	</materials>
+
 	<transformations>
-		<!-- Deve existir um ou mais blocos "transformation" -->
-		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<!-- Os angulos sao expressos em graus -->
+
 		<transformation id="transformation1">
-			<!-- instrucoes a usar sem limite nem ordem -->
-			<!-- deve existir pelo menos uma transformacao -->
 			<translate x="0" y="0" z="0" />
 			<rotate axis="x" angle="0" />
 			<scale x="1" y="1" z="1" />
 		</transformation>
+
 	</transformations>
+
 	<primitives>
-		<!-- Uma "primitive" e' uma primitiva e pode ser usada em nos folha -->
-		<!-- Deve existir um ou mais blocos "primitive" -->
-		<!-- Os identificadores "id" nao podem ser repetidos -->
+
 		<primitive id="triangle">
 			<triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
 		</primitive>
+
 		<primitive id="torus">
 			<torus inner="1" outer="4" slices="100" loops="100" />
 		</primitive>
+		
 		<primitive id="cylinder">
-			<cylinder base="1" top="1" height="3" slices="30" stacks="30" />
+			<cylinder base="1" top="1" height="1" slices="30" stacks="30" />
 		</primitive>
+
 		<primitive id="lightHouseWindow">
 			<cylinder base="1" top="1" height="3" slices="6" stacks="30" />
 		</primitive>
+
 		<primitive id="rectangle">
 			<rectangle x1="0" y1="0" x2="2" y2="2"/>
 		</primitive>
+
 		<primitive id="rectangle1x1">
 			<rectangle x1="0" y1="0" x2="1" y2="1"/>
 		</primitive>
+
 		<primitive id="sphere">
 			<sphere radius="5" slices="65" stacks="60" />
 		</primitive>
+
 		<primitive id="torusCatwalk">
 			<torus inner="0.03" outer="4" slices="100" loops="100" />
 		</primitive>
-	</primitives >
+
+	</primitives>
+
 	<components>
 		<component id="root">
 			<transformation>
@@ -194,7 +190,7 @@
 				<componentref id="rope" />
 				<componentref id="land" />
 				<componentref id="sand" />
-				<componentref id="city" />
+				<!-- <componentref id="city" /> -->
 				<componentref id="lighthouse" />
 				</children>
 		</component>

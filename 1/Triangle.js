@@ -44,7 +44,6 @@ function distance(x1,y1,z1,x2,y2,z2,x3,y3,z3)
     
     var distanceX1X3 = Math.sqrt( Math.pow((x1-x3),2) + Math.pow((y1-y3),2) + Math.pow((z1-z3),2));
     distances.push(distanceX1X3); // a
-    console.log(distanceX1X3);
 
     var distanceX1X2 = Math.sqrt( Math.pow((x2-x1),2) + Math.pow((y2-y1),2) + Math.pow((z2-z1),2));
     distances.push(distanceX1X2); // b
@@ -125,7 +124,5 @@ class Triangle extends Primitive
             1,1
         ];     
 
-        
-        console.log(this.texCoords);
 	};
 };

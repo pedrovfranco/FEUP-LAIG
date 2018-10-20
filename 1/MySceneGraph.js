@@ -837,7 +837,7 @@ class MySceneGraph {
                 grandChildren = children[i].children;
 
                 if (grandChildren.length != 1)
-                return "there must be one and only one tag for each primitive";
+                    return "there must be one and only one tag for each primitive";
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
