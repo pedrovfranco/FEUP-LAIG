@@ -97,11 +97,11 @@ class XMLscene extends CGFscene {
         {
             if (this.graph.views[v][0] == "perspective")
             {
-                this.views[v] = new CGFcamera(this.graph.views[v][3], this.graph.views[v][1], this.graph.views[v][2], vec3.fromValues(this.graph.views[v][4][0], this.graph.views[v][4][1], this.graph.views[v][4][2]), vec3.fromValues(this.graph.views[v][5][0], this.graph.views[v][5][1], this.graph.views[v][5][2]));
+                this.views[v] = new CGFcamera(this.graph.views[v][3]*DEGREE_TO_RAD, this.graph.views[v][1], this.graph.views[v][2], vec3.fromValues(this.graph.views[v][4][0], this.graph.views[v][4][1], this.graph.views[v][4][2]), vec3.fromValues(this.graph.views[v][5][0], this.graph.views[v][5][1], this.graph.views[v][5][2]));
             }
             else if (this.graph.views[v][0] == "ortho")
             {
-                this.views[v] = new CGFcameraOrtho(this.graph.views[v][3], this.graph.views[v][4], this.graph.views[v][6], this.graph.views[v][5], this.graph.views[v][1], this.graph.views[v][2], vec3.fromValues(this.graph.views[v][7][0], this.graph.views[v][7][1], this.graph.views[v][7][2]), vec3.fromValues(this.graph.views[v][8][0], this.graph.views[v][8][1], this.graph.views[v][8][2]), vec3.fromValues(0, 1, 0));
+                this.views[v] = new CGFcameraOrtho(this.graph.views[v][3]*DEGREE_TO_RAD, this.graph.views[v][4], this.graph.views[v][6], this.graph.views[v][5], this.graph.views[v][1], this.graph.views[v][2], vec3.fromValues(this.graph.views[v][7][0], this.graph.views[v][7][1], this.graph.views[v][7][2]), vec3.fromValues(this.graph.views[v][8][0], this.graph.views[v][8][1], this.graph.views[v][8][2]), vec3.fromValues(0, 1, 0));
             }
         }
     }

@@ -751,40 +751,50 @@ class MySceneGraph {
 
                 this.transformations[transformationId] = [];
 
+                var transformationMatrix = mat4.create();
+
                 grandChildren = children[i].children;
 
                 for (var j = 0; j < grandChildren.length; j++)
                 {
                     if (grandChildren[i].nodeName == "translate")
-                    {
-                        this.transformations[transformationId][0] = 0;
-                        this.transformations[transformationId][1] = this.reader.getFloat(grandChildren[i], 'x');
-                        this.transformations[transformationId][2] = this.reader.getFloat(grandChildren[i], 'y');
-                        this.transformations[transformationId][3] = this.reader.getFloat(grandChildren[i], 'z');
+                    {                        
+                        var x = this.reader.getFloat(grandChildren[i], 'x');
+                        var y = this.reader.getFloat(grandChildren[i], 'y');
+                        var z = this.reader.getFloat(grandChildren[i], 'z');
+                       
+                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
+                            return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                        if (!(this.isValid(this.transformations[transformationId][0]) && this.isValid(this.transformations[transformationId][1]) && this.isValid(this.transformations[transformationId][2]) && this.isValid(this.transformations[transformationId][3])))
-                            return "Unable to parse transformationl id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
+                        mat4.translate(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
                     }
                     else if (grandChildren[i].nodeName == "rotate")
                     {
-                        this.transformations[transformationId][0] = 1;
-                        this.transformations[transformationId][1] = this.reader.getFloat(grandChildren[i], 'axis');
-                        this.transformations[transformationId][2] = this.reader.getFloat(grandChildren[i], 'angle');
+                        var axis = this.reader.getFloat(grandChildren[i], 'axis');
+                        var angle = this.reader.getFloat(grandChildren[i], 'angle');
 
-                        if (!(this.isValid(this.transformations[transformationId][0]) && this.isValid(this.transformations[transformationId][1]) && this.isValid(this.transformations[transformationId][2])))
+                        if (!(this.isValid(axis) && this.isValid(angle)))
                             return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
+                        if (axis == "x")
+                            mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(1,0,0));
+                        else if (axis == "y")
+                            mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(0,1,0));
+                        else if (axis == "z")
+                            mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(0,0,1));
+                        else
+                            return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\""; 
                     }
                     else if (grandChildren[i].nodeName == "scale")
                     {
-                        this.transformations[transformationId][0] = 2;
-                        this.transformations[transformationId][1] = this.reader.getFloat(grandChildren[i], 'x');
-                        this.transformations[transformationId][2] = this.reader.getFloat(grandChildren[i], 'y');
-                        this.transformations[transformationId][3] = this.reader.getFloat(grandChildren[i], 'z');
+                        var x = this.reader.getFloat(grandChildren[i], 'x');
+                        var y = this.reader.getFloat(grandChildren[i], 'y');
+                        var z = this.reader.getFloat(grandChildren[i], 'z');
 
-                        if (!(this.isValid(this.transformations[transformationId][0]) && this.isValid(this.transformations[transformationId][1]) && this.isValid(this.transformations[transformationId][2]) && this.isValid(this.transformations[transformationId][3])))
+                        if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+                    
+                        mat4.scale(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
                     }
                     else
                     {
@@ -792,6 +802,8 @@ class MySceneGraph {
                         continue;
                     }
                 }
+
+                this.transformations[transformationId] = transformationMatrix;
             }
             else
             {
@@ -971,6 +983,8 @@ class MySceneGraph {
                         componentsTemp[componentId][0] = [];
                         var numTransformations = 0;
 
+                        var transformationMatrix = mat4.create();
+
                         grandGrandChildren = grandChildren[j].children;
 
                         for (var k = 0; k < grandGrandChildren.length; k++)
@@ -988,50 +1002,59 @@ class MySceneGraph {
 
                                 if (this.transformations[transformationId] == undefined)
                                     return "Undefined transformationref in component \"" + componentId + "\"";
-
+                                
+                                if (grandGrandChildren.length != 1)
+                                    return "Only one transformation reference can be used";
                             }
                             else if (grandGrandChildren[k].nodeName == "translate")
-                            {
-                                componentsTemp[componentId][0][numTransformations][0] = 0;
-                                componentsTemp[componentId][0][numTransformations][1] = this.reader.getFloat(grandGrandChildren[k], 'x');
-                                componentsTemp[componentId][0][numTransformations][2] = this.reader.getFloat(grandGrandChildren[k], 'y');
-                                componentsTemp[componentId][0][numTransformations][3] = this.reader.getFloat(grandGrandChildren[k], 'z');
+                            {                        
+                                var x = this.reader.getFloat(grandGrandChildren[k], 'x');
+                                var y = this.reader.getFloat(grandGrandChildren[k], 'y');
+                                var z = this.reader.getFloat(grandGrandChildren[k], 'z');
+                            
+                                if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
+                                    return "Unable to parse transformationl id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-                                if (!(this.isValid(componentsTemp[componentId][0][numTransformations][1]) && this.isValid(componentsTemp[componentId][0][numTransformations][2]) && this.isValid(componentsTemp[componentId][0][numTransformations][3])))
-                                    return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
+                                mat4.translate(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
                             }
-
                             else if (grandGrandChildren[k].nodeName == "rotate")
                             {
-                                componentsTemp[componentId][0][numTransformations][0] = 1;
-                                componentsTemp[componentId][0][numTransformations][1] = this.reader.getString(grandGrandChildren[k], 'axis');
-                                componentsTemp[componentId][0][numTransformations][2] = this.reader.getFloat(grandGrandChildren[k], 'angle');
+                                var axis = this.reader.getFloat(grandGrandChildren[k], 'axis');
+                                var angle = this.reader.getFloat(grandGrandChildren[k], 'angle');
 
-                                if (!(this.isValid(componentsTemp[componentId][0][numTransformations][1]) && this.isValid(componentsTemp[componentId][0][numTransformations][2])))
-                                    return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
+                                if (!(this.isValid(axis) && this.isValid(angle)))
+                                    return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                                if (axis == "x")
+                                    mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(1,0,0));
+                                else if (axis == "y")
+                                    mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(0,1,0));
+                                else if (axis == "z")
+                                    mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(0,0,1));
+                                else
+                                    return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\""; 
                             }
-
                             else if (grandGrandChildren[k].nodeName == "scale")
                             {
-                                componentsTemp[componentId][0][numTransformations][0] = 2;
-                                componentsTemp[componentId][0][numTransformations][1] = this.reader.getFloat(grandGrandChildren[k], 'x');
-                                componentsTemp[componentId][0][numTransformations][2] = this.reader.getFloat(grandGrandChildren[k], 'y');
-                                componentsTemp[componentId][0][numTransformations][3] = this.reader.getFloat(grandGrandChildren[k], 'z');
+                                var x = this.reader.getFloat(grandGrandChildren[k], 'x');
+                                var y = this.reader.getFloat(grandGrandChildren[k], 'y');
+                                var z = this.reader.getFloat(grandGrandChildren[k], 'z');
 
-                                if (!(this.isValid(componentsTemp[componentId][0][numTransformations][1]) && this.isValid(componentsTemp[componentId][0][numTransformations][2]) && this.isValid(componentsTemp[componentId][0][numTransformations][3])))
-                                    return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + "on the \"" + grandGrandChildren[k].nodeName + "\" node";
+                                if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
+                                    return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+                            
+                                mat4.scale(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
                             }
-
                             else
                             {
                                 this.onXMLMinorError("unknown tag <" + grandGrandChildren[k].nodeName + ">");
                                 continue;
                             }
 
-
                             numTransformations++;
                         }
 
+                        componentsTemp[componentId][0] = transformationMatrix;
                     }
 
                     else if (grandChildren[j].nodeName == "materials")

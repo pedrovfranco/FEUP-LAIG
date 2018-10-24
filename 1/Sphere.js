@@ -33,7 +33,7 @@ class Sphere extends Primitive
 		{
 			for (var i = 0; i < this.slices; i++)
 			{
-				this.vertices.push(Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), j/this.stacks);				// A
+				this.vertices.push(this.radius*Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), this.radius*Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), this.radius*j/this.stacks);				// A
 
 				if (j == this.stacks -1)
 				{
@@ -53,7 +53,7 @@ class Sphere extends Primitive
 
 		}
 
-		this.vertices.push(0,0,1); // Center
+		this.vertices.push(0,0,this.radius); // Center
 		this.normals.push(0,0,1); // Center
 		this.texCoords.push(0.5, 0.5);
 		
@@ -67,7 +67,7 @@ class Sphere extends Primitive
 		{
 			for (var i = 0; i < this.slices; i++)
 			{
-				this.vertices.push(Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), -j/this.stacks);				// A
+				this.vertices.push(this.radius*Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), this.radius*Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), -this.radius*j/this.stacks);				// A
 
 				if (j == this.stacks - 1)
 				{
@@ -86,7 +86,7 @@ class Sphere extends Primitive
             
 		}
 
-		this.vertices.push(0,0,-1); // Center
+		this.vertices.push(0,0,-this.radius); // Center
 		this.normals.push(0,0,-1); // Center
 		this.texCoords.push(0.5, 0.5);
 		
