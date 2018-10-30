@@ -1,0 +1,920 @@
+<yas>
+
+	<scene root="root" axis_length="8" />
+
+	<views default="camera" >
+
+		<perspective id="camera" near="0.1" far="500" angle="20">
+			<from x="50" y="50" z="50" />
+			<to x="0" y="0" z="0" />
+		</perspective>
+
+ 		<ortho id="ortho" near="0.1" far="500" left="-15" right="15" top="15" bottom="-15">
+			<from x="25" y="25" z="25" />
+			<to x="0" y="0" z="0" />
+		</ortho>
+
+	</views>
+
+	<ambient>
+
+		<ambient r="0" g="0" b="0" a="1" />
+		<background r="0" g="0" b="0" a="1" />
+
+	</ambient>
+
+	<lights>
+
+		<omni id="omni1" enabled="1" >
+			<location x="2" y="20" z="2" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<omni id="omni2" enabled="1" >
+			<location x="0" y="20" z="2" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<omni id="omni3" enabled="1" >
+			<location x="-6" y="20" z="0" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<omni id="omni4" enabled="1" >
+			<location x="-2" y="20" z="-2" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<omni id="omni5" enabled="1" >
+			<location x="5" y="20" z="5" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<omni id="omni6" enabled="1" >
+			<location x="1" y="20" z="-6" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<omni id="omni7" enabled="1" >
+			<location x="-6" y="20" z="-13" w="1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</omni>
+
+		<spot id="spot1" enabled="1" angle="50" exponent="1">
+			<location x="0" y="2" z="-4" w="1" />
+			<target x="0" y="0" z="-4" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="1" />
+		</spot>
+
+	</lights>
+
+	<textures>
+
+		<texture id="texture1" file="scenes/images/nyan.jpg" />
+		<texture id="texture2" file="scenes/images/ball.jpg" />
+		<texture id="texture3" file="scenes/images/bamboo.jpg" />
+		<texture id="texture4" file="scenes/images/bridge.jpg" />
+		<texture id="texture5" file="scenes/images/float.jpg" />
+		<texture id="texture6" file="scenes/images/water.jpg" />
+		<texture id="texture7" file="scenes/images/wood.jpg" />
+		<texture id="grassTexture" file="scenes/images/grass.jpeg"/>
+		<texture id="sandTexture" file="scenes/images/sand.jpg"/>
+		<texture id="lhTexture" file="scenes/images/lh.jpg"/>
+		<texture id="glassTexture" file="scenes/images/glass.jpeg"/>
+		<texture id="lightHouseTexture" file="scenes/images/lighthouse.png"/>
+		<texture id="lightHouseWindowTexture" file="scenes/images/lighthousewindow2.png"/>
+		<texture id="lighthouseRed" file="scenes/images/lighthousered.png"/>
+		<texture id="lighthouseDoor" file="scenes/images/lighthousedoor.png"/>
+		<texture id="city" file="scenes/images/city.jpg"/>
+
+	</textures>
+
+	<materials>
+
+		<material id="material1" shininess="15" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="0" g="0" b="0" a="0" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="0" />
+		</material>
+
+		<material id="material2" shininess="10" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="0" g="0" b="0" a="0" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="0" />
+			
+		</material>
+
+		<material id="material3" shininess="0" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="1" g="1" b="1" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="0" g="0" b="0" a="0" />
+			
+		</material>
+
+	</materials>
+
+	<transformations>
+
+		<transformation id="transformation1">
+			<translate x="0" y="0" z="0" />
+			<rotate axis="x" angle="0" />
+			<scale x="1" y="1" z="1" />
+		</transformation>
+
+	</transformations>
+
+	<primitives>
+
+		<primitive id="triangle">
+			<triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
+		</primitive>
+
+		<primitive id="torus">
+			<torus inner="1" outer="4" slices="100" loops="100" />
+		</primitive>
+		
+		<primitive id="cylinder">
+			<cylinder base="1" top="1" height="1" slices="30" stacks="30" />
+		</primitive>
+
+		<primitive id="lightHouseWindow">
+			<cylinder base="1" top="1" height="1" slices="6" stacks="30" />
+		</primitive>
+
+		<primitive id="rectangle">
+			<rectangle x1="0" y1="0" x2="2" y2="2"/>
+		</primitive>
+
+		<primitive id="rectangle1x1">
+			<rectangle x1="0" y1="0" x2="1" y2="1"/>
+		</primitive>
+
+		<primitive id="sphere">
+			<sphere radius="1" slices="65" stacks="60" />
+		</primitive>
+
+		<primitive id="torusCatwalk">
+			<torus inner="0.03" outer="4" slices="100" loops="100" />
+		</primitive>
+
+	</primitives>
+
+	<components>
+		<component id="root">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="material1" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<componentref id="bridgeCylinder" />
+				<componentref id="bridgeRectangle" />
+				<componentref id="float" />
+				<componentref id="ball" />
+				<componentref id="rectangleWater" />
+				<componentref id="bamboo" />
+				<componentref id="raftCylinder" />
+				<componentref id="bridgeFloat" />
+				<componentref id="rope" />
+				<componentref id="land" />
+				<componentref id="sand" />
+				<!-- <componentref id="city" /> -->
+				<componentref id="lighthouse" />
+				</children>
+		</component>
+		<component id="bridgeCylinder">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<componentref id="bridgeCylinder1" />
+				<componentref id="bridgeCylinder2" />
+				<componentref id="bridgeCylinder3" />
+				<componentref id="bridgeCylinder4" />
+				<componentref id="bridgeCylinder5" />
+				<componentref id="bridgeCylinder6" />
+				<componentref id="bridgeCylinder7" />
+				<componentref id="bridgeCylinder8" />
+			</children>
+		</component>
+		<component id="bridgeCylinder1">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x ="0.5" y="0.5" z="3"/>
+				<translate x="0" y="0" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder2">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x ="0.5" y="0.5" z="3"/>
+				<translate x="0" y="-10" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder3">
+			<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x ="0.5" y="0.5" z="3"/>
+			<translate x="10" y="0" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder4">
+			<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x ="0.5" y="0.5" z="3"/>
+			<translate x="10" y="-10" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder5">
+			<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x ="0.5" y="0.5" z="3"/>
+			<translate x="20" y="0" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder6">
+			<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x ="0.5" y="0.5" z="3"/>
+			<translate x="20" y="-10" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder7">
+			<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x ="0.5" y="0.5" z="3"/>
+			<translate x="30" y="-10" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeCylinder8">
+			<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x ="0.5" y="0.5" z="3"/>
+			<translate x="30" y="0" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bridgeRectangle">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x="8" y="2.5" z="1"/>
+				<translate x="0" y="-2" z="0"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture4" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="float">
+			<transformation>
+				<scale x="0.25" y="0.25" z="0.25"/>
+				<translate x="30" y="-3" z="-30"/>
+				<rotate axis="x" angle="90" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="torus" />
+			</children>
+		</component>
+		<component id="ball">
+			<transformation>
+				<translate x="7" y="-0.5" z="10"/>
+				</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture2" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+		<component id="rectangleWater">
+			<transformation>
+				<translate x="0" y="-1" z="0"/>
+				<scale x ="15" y="1" z="30"/>
+				<translate x="-0.5" y="0" z="1"/>
+				<rotate axis="x" angle="-90"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture6" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="bamboo">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture3" length_s="1" length_t="1" />
+			<children>
+				<componentref id="bamboo1" />
+				<componentref id="bamboo2" />
+				<componentref id="bamboo3" />
+				<componentref id="bamboo4" />
+			</children>
+		</component>
+		<component id="bamboo1">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x ="0.15" y="0.15" z="3"/>
+				<translate x="20" y="-60" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bamboo2">
+			<transformation>
+				<rotate axis="x" angle="-60"/>
+				<scale x ="0.15" y="0.15" z="3"/>
+				<translate x="24" y="-60" z="1"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bamboo3">
+			<transformation>
+				<rotate axis="x" angle="60"/>
+				<scale x ="0.15" y="0.15" z="3"/>
+				<translate x="15" y="60" z="1.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="bamboo4">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x ="0.15" y="0.15" z="3"/>
+				<translate x="15" y="-65" z="-0.5"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="raftCylinder">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture7" length_s="1" length_t="1" />
+			<children>
+				<componentref id="raftCylinder1" />
+				<componentref id="raftCylinder2" />
+				<componentref id="raftCylinder3" />
+				<componentref id="raftCylinder4" />
+				<componentref id="raftCylinder5" />
+				<componentref id="raftCylinderFlag" />
+				<componentref id="flag" />
+			</children>
+		</component>
+		<component id="raftCylinder1">
+			<transformation>
+				<scale x="0.25" y="0.25" z="8"/>
+				<translate x="40" y="-2.5" z="2"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="raftCylinder2">
+			<transformation>
+				<scale x="0.25" y="0.25" z="8"/>
+				<translate x="42" y="-2.5" z="2"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="raftCylinder3">
+			<transformation>
+				<scale x="0.25" y="0.25" z="8"/>
+				<translate x="44" y="-2.5" z="2"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="raftCylinder4">
+			<transformation>
+				<scale x="0.25" y="0.25" z="8"/>
+				<translate x="46" y="-2.5" z="2"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="raftCylinder5">
+			<transformation>
+				<scale x="0.25" y="0.25" z="8"/>
+				<translate x="48" y="-2.5" z="2"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="raftCylinderFlag">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x="0.25" y="0.25" z="4"/>
+				<translate x="45" y="-75" z="-0.1" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="flag">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture1" length_s="1" length_t="1" />
+			<children>
+				<componentref id="flag1" />
+				<componentref id="flag2" />
+			</children>
+		</component>
+		<component id="flag1">
+			<transformation>
+				<rotate axis="y" angle="-90"/>
+				<scale x="3" y="3" z="1"/>
+				<translate x="6.25" y="0.2" z="-11.25"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="triangle" />
+			</children>
+		</component>
+		<component id="flag2">
+			<transformation>
+				<scale x="-1" y="1" z="1"/>
+				<rotate axis="x" angle="90"/>
+				<rotate axis="y" angle="90"/>
+				<scale x="3" y="3" z="1"/>
+			<translate x="0.2" y="6.25" z="-11.25" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="triangle" />
+			</children>
+		</component>
+		<component id="bridgeFloat">
+			<transformation>
+				<scale x="0.15" y="0.15" z="0.15"/>
+				<translate x="66.5" y="5" z="33"/>
+				<rotate axis="x" angle="90" />
+				</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture5" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="torus" />
+			</children>
+		</component>
+		<component id="rope">
+			<transformation>
+				<rotate axis="x" angle="8"/>
+				<scale x ="0.05" y="0.05" z="11"/>
+				<translate x="200" y="30" z="0.47"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="texture3" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="land">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x="4" y="30" z="1"/>
+				<translate x="-2" y="-1" z="0"/>-->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="sandTexture" length_s="1" length_t="0.1" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="sand">
+			<transformation>
+				<rotate axis="x" angle="-90"/>
+				<scale x="1" y="30" z="1"/>
+				<rotate axis="y" angle = "45"/>
+				<translate x="0" y="-1" z="0"/>-->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="sandTexture" length_s="1" length_t="0.1" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="city">
+			<transformation>
+				<rotate axis="y" angle = "90"/>
+				<scale x="60" y="60" z="1"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="city" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="rectangle1x1" />
+			</children>
+		</component>
+		<component id="lighthouse">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+				<material id="material3" />
+			</materials>
+
+			<texture id="lightHouseTexture" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="lighthouseCylinder" />
+				<componentref id="lighthouseWindowBase" />
+				<componentref id="lighthouseWindowTop" />
+				<componentref id="lighthouseWindowCherry" />
+				<componentref id="lighthouseWindowPost" />
+				<!-- <componentref id="lighthouseWindowFlag" /> -->
+				<componentref id="lighthouseCatwalkBase" />
+				<componentref id="lighthousecatwalkPost" />
+				<componentref id="lighthousecatwalkTorus" />
+			</children>
+		</component>
+		<component id="lighthouseCylinder">
+			<transformation>
+				<translate x="-5.25" y="0" z="-10.5" />
+				<scale x="1.5" y="10" z="1.5"/>
+				<rotate axis="x"  angle="-90" />
+				<rotate axis="z" angle="90"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lightHouseTexture" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthouseWindowBase">
+			<transformation>
+				<translate x="-5.2" y="10" z="-10.5" />
+				<scale x="0.8" y="2" z="0.8"/>
+				<rotate axis="x" angle="-90"/>
+				<rotate axis="z" angle="90"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lightHouseWindowTexture" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="lightHouseWindow" />
+			</children>
+		</component>
+		<component id="lighthouseWindowTop">
+			<transformation>
+				<translate x="-5.2" y="12" z="-10.5" />
+				<scale x="0.65" y="0.65" z="0.65"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lighthouseRed" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+		<component id="lighthouseWindowCherry">
+			<transformation>
+				<translate x="-5.2" y="12.8" z="-10.5" />
+				<scale x="0.2" y="0.2" z="0.2"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lighthouseRed" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+		<component id="lighthouseWindowPost">
+			<transformation>
+				<translate x="-5.2" y="13" z="-10.5" />
+				<scale x="0.02" y="2" z="0.02"/>
+				<rotate axis="x" angle="-90"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lighthouseRed" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthouseWindowFlag">
+			<transformation>
+				<!-- <translate x="-5.2" y="13.6" z="-10.5" /> -->
+				<scale x="0.2" y="0.2" z="0.2"/>
+				<!-- <rotate axis="y" angle="-90"/> -->
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="triangle" />
+			</children>
+		</component>
+		<component id="lighthouseCatwalkBase">
+			<transformation>
+				<translate x="-5.3" y="10" z="-10.5" />
+				<scale x="2.5" y="0.05" z="2.5"/>
+				<rotate axis="x"  angle="-90" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost">
+			<transformation>
+				<translate x="-3.8" y="10" z="-8.8" />
+				<scale x="0.02" y="1.1" z="0.02"/>
+				<rotate axis="x" angle="-90"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lighthouseRed" length_s="1" length_t="1" />
+			<children>
+				<componentref id="lighthousecatwalkPost1"/>
+				<componentref id="lighthousecatwalkPost2"/>
+				<componentref id="lighthousecatwalkPost3"/>
+				<componentref id="lighthousecatwalkPost4"/>
+				<componentref id="lighthousecatwalkPost5"/>
+				<componentref id="lighthousecatwalkPost6"/>
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost1">
+			<transformation>
+				<translate x="0" y="-3" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost2">
+			<transformation>
+				<translate x="40" y="100" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost3">
+			<transformation>
+				<translate x="-50" y="200" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost4">
+			<transformation>
+				<translate x="-155" y="170" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost5">
+			<transformation>
+				<translate x="-190" y="70" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkPost6">
+			<transformation>
+				<translate x="-110" y="-25" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkTorus">
+			<transformation>
+				<translate x="-5.3" y="10.05" z="-10.5" />
+				<scale x="0.58" y="0.6" z="0.58" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="lighthouseRed" length_s="1" length_t="1" />
+			<children>
+				<componentref id="lighthousecatwalkTorus1" />
+				<componentref id="lighthousecatwalkTorus2" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkTorus1">
+			<transformation>
+				<translate x="0" y="0.885" z="0" />
+				<rotate axis="x" angle="90" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="torusCatwalk" />
+			</children>
+		</component>
+		<component id="lighthousecatwalkTorus2">
+			<transformation>
+				<translate x="0" y="1.77" z="0" />
+				<rotate axis="x" angle="90" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="torusCatwalk" />
+			</children>
+		</component>
+	</components>
+</yas>
