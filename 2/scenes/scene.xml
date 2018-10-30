@@ -119,7 +119,7 @@
 			<ambient r="0" g="0" b="0" a="0" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="0" />
-			
+
 		</material>
 
 		<material id="material3" shininess="0" >
@@ -127,7 +127,7 @@
 			<ambient r="1" g="1" b="1" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="0" />
-			
+
 		</material>
 
 	</materials>
@@ -151,7 +151,7 @@
 		<primitive id="torus">
 			<torus inner="1" outer="4" slices="100" loops="100" />
 		</primitive>
-		
+
 		<primitive id="cylinder">
 			<cylinder base="1" top="1" height="1" slices="30" stacks="30" />
 		</primitive>
@@ -175,6 +175,11 @@
 		<primitive id="torusCatwalk">
 			<torus inner="0.03" outer="4" slices="100" loops="100" />
 		</primitive>
+
+		<primitive id="water">
+			<water idtexture="texture2" idwavemap="texture1" parts="5" heightscale="0.5" texscale="0.2"/>
+		</primitive>
+
 
 	</primitives>
 

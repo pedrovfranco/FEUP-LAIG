@@ -758,11 +758,11 @@ class MySceneGraph {
                 for (var j = 0; j < grandChildren.length; j++)
                 {
                     if (grandChildren[i].nodeName == "translate")
-                    {                        
+                    {
                         var x = this.reader.getFloat(grandChildren[i], 'x');
                         var y = this.reader.getFloat(grandChildren[i], 'y');
                         var z = this.reader.getFloat(grandChildren[i], 'z');
-                       
+
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
@@ -783,7 +783,7 @@ class MySceneGraph {
                         else if (axis == "z")
                             mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(0,0,1));
                         else
-                            return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\""; 
+                            return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\"";
                     }
                     else if (grandChildren[i].nodeName == "scale")
                     {
@@ -793,7 +793,7 @@ class MySceneGraph {
 
                         if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                             return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-                    
+
                         mat4.scale(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
                     }
                     else
@@ -928,7 +928,103 @@ class MySceneGraph {
 
                         this.primitives[primitiveId] = new Torus(this.scene, inner, outer, slices, loops);
                     }
+                    else if (grandChildren[j].nodeName == "plane")
+                    {
+                        var nPartsU,nPartsV ;
+                        nPartsU = this.reader.getInteger(grandChildren[j], 'npartsU');
+                        nPartsV = this.reader.getInteger(grandChildren[j], 'npartsV');
 
+                        if (!(this.isValid(nPartsU) && this.isValid(nPartsV)))
+                            return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                      //  this.primitives[primitiveId] = new Plane());
+                    }
+                    else if (grandChildren[j].nodeName == "patch")
+                    {
+                        var npointsU,npointsV, npartsU, npartsV ;
+
+                        npointsU = this.reader.getInteger(grandChildren[j], 'npointsU');
+                        npointsV = this.reader.getInteger(grandChildren[j], 'npointsV');
+                        npartsU = this.reader.getInteger(grandChildren[j], 'npartsU');
+                        npartsV = this.reader.getInteger(grandChildren[j], 'npartsV');
+
+                        if (!(this.isValid(npointsU) && this.isValid(npointsV) && this.isValid(npartsU) && this.isValid(npartsV)))
+                            return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+
+                        var greatGrandChildren = grandChildren[j].children;
+
+                        for( var p = 0; p < greatGrandChildren.length; p++)
+                        {
+                           if(greatgrandChildren[p].nodeName == "controlpoint")
+                           {
+                             var xx,yy,zz;
+
+                             xx = this.reader.getFloat(greatGrandChildren[p], 'xx');
+                             yy = this.reader.getFloat(greatGrandChildren[p], 'yy');
+                             zz = this.reader.getFloat(greatgrandChildren[p], 'zz');
+
+                             if (!(this.isValid(xx) && this.isValid(yy) && this.isValid(zz)))
+                                 return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+                           }
+                           else
+                           {
+                             this.onXMLMinorError("unknown tag <" + greatgrandChildren[j].nodeName + ">");
+                             continue;
+                           }
+                        }
+
+                      }
+                    else if (grandChildren[j].nodeName == "vehicle")
+                    {
+
+                      //  this.primitives[primitiveId] = new Vehicle());
+                    }
+
+                  else if (grandChildren[j].nodeName == "cylinder2")
+                  {
+                    var base,top,height,slices,stacks;
+
+                    base = this.reader.getFloat(grandChildren[j],'base');
+                    top = this.reader.getFloat(grandChildren[j],'top');
+                    height = this.reader.getFloat(grandChildren[j],'height');
+                    slices = this.reader.getInteger(grandChildren[j],'slices');
+                    stacks = this.reader.getInteger(grandChildren[j],'stacks');
+
+                    if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
+                        return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                    //  this.primitives[primitiveId] = new cylinder2());
+                  }
+                  else if (grandChildren[j].nodeName == "terrain")
+                  {
+                    var idtexture,idheightmap,parts,heightscale;
+
+                    idtexture = this.reader.getString(grandChildren[j], 'idtexture');
+                    idheightmap = this.reader.getString(grandChildren[j], 'idheightmap');
+                    parts = this.reader.getInteger(grandChildren[j], 'parts');
+                    heightscale = this.reader.getFloat(grandChildren[j], 'heightscale');
+
+                    if (!(this.isValid(idtexture) && this.isValid(idheightmap) && this.isValid(parts) && this.isValid(heightscale)))
+                        return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                    //  this.primitives[primitiveId] = new terrain());
+                  }
+                  else if (grandChildren[j].nodeName == "water")
+                  {
+                    var idtexture, idwavemap, parts, heightscale, texscale;
+
+                    idtexture = this.reader.getString(grandChildren[j],'idtexture');
+                    idwavemap = this.reader.getString(grandChildren[j],'idwavemap');
+                    parts = this.reader.getInteger(grandChildren[j],'parts');
+                    heightscale = this.reader.getFloat(grandChildren[j],'heightscale');
+                    texscale = this.reader.getFloat(grandChildren[j],'texscale');
+
+                    if (!(this.isValid(idtexture) && this.isValid(idwavemap) && this.isValid(parts) && this.isValid(heightscale) && this.isValid(texscale)))
+                        return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+                        //new water();
+                  }
                     else
                     {
                         this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
@@ -1002,16 +1098,16 @@ class MySceneGraph {
 
                                 if (this.transformations[transformationId] == undefined)
                                     return "Undefined transformationref in component \"" + componentId + "\"";
-                                
+
                                 if (grandGrandChildren.length != 1)
                                     return "Only one transformation reference can be used";
                             }
                             else if (grandGrandChildren[k].nodeName == "translate")
-                            {                        
+                            {
                                 var x = this.reader.getFloat(grandGrandChildren[k], 'x');
                                 var y = this.reader.getFloat(grandGrandChildren[k], 'y');
                                 var z = this.reader.getFloat(grandGrandChildren[k], 'z');
-                            
+
                                 if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                                     return "Unable to parse transformationl id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
@@ -1032,7 +1128,7 @@ class MySceneGraph {
                                 else if (axis == "z")
                                     mat4.rotate(transformationMatrix, transformationMatrix, angle*DEGREE_TO_RAD, vec3.fromValues(0,0,1));
                                 else
-                                    return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\""; 
+                                    return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\"";
                             }
                             else if (grandGrandChildren[k].nodeName == "scale")
                             {
@@ -1042,7 +1138,7 @@ class MySceneGraph {
 
                                 if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
                                     return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-                            
+
                                 mat4.scale(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
                             }
                             else
@@ -1157,6 +1253,7 @@ class MySceneGraph {
         return null;
 
     }
+
 
 
     checkBrokenRef(componentX)
