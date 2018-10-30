@@ -940,7 +940,7 @@ class MySceneGraph {
         }
 
 
-        this.log("Parsed transformations");
+        this.log("Parsed primitives");
         return null;
 
     }
