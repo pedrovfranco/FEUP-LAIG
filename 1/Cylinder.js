@@ -108,8 +108,6 @@ class Cylinder extends Primitive
         this.vertices.push(0, 0, this.height);
         this.normals.push(0, 0, 1);
         this.texCoords.push(1/2, 1/2);
-
-        console.log(this.normals);
     };
 
     crossProduct(a,b)

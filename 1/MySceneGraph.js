@@ -770,7 +770,7 @@ class MySceneGraph {
                     }
                     else if (grandChildren[i].nodeName == "rotate")
                     {
-                        var axis = this.reader.getFloat(grandChildren[i], 'axis');
+                        var axis = this.reader.getString(grandChildren[i], 'axis');
                         var angle = this.reader.getFloat(grandChildren[i], 'angle');
 
                         if (!(this.isValid(axis) && this.isValid(angle)))
@@ -1019,7 +1019,7 @@ class MySceneGraph {
                             }
                             else if (grandGrandChildren[k].nodeName == "rotate")
                             {
-                                var axis = this.reader.getFloat(grandGrandChildren[k], 'axis');
+                                var axis = this.reader.getString(grandGrandChildren[k], 'axis');
                                 var angle = this.reader.getFloat(grandGrandChildren[k], 'angle');
 
                                 if (!(this.isValid(axis) && this.isValid(angle)))

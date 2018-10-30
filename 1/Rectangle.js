@@ -47,7 +47,5 @@ class Rectangle extends Primitive
             0, 0,
             deltaX, 0
         ];
-
-        console.log(this);
 	}
 }
