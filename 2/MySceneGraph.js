@@ -973,7 +973,6 @@ class MySceneGraph {
                              continue;
                            }
                         }
-
                       }
                     else if (grandChildren[j].nodeName == "vehicle")
                     {

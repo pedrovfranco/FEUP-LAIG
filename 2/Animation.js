@@ -107,7 +107,7 @@ parseAnimations(animationsNode)
             this.animations[animationId][1][2] = zz;
           }
         }
-    }
+      }
     else if (children[i].nodeName == "circular")
     {
       var center, radius, startang, rotang;
@@ -118,4 +118,5 @@ parseAnimations(animationsNode)
       rotang = this.reader.getFloat(children[i],'rotang');
 
     }
+ }
 }
