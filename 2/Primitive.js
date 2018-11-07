@@ -15,7 +15,7 @@ class Primitive extends CGFobject
                 this.texCoords[i] = this.originalTexCoords[i] / t;
         }
 
-		// this.initGLBuffers();
+		this.updateTexCoordsGLBuffers();
     }
 
     setBuffers(vertices, indices, normals, texCoords)
