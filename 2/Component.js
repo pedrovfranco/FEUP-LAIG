@@ -1,6 +1,6 @@
 class Component extends CGFobject
 {
-    constructor(scene, transformationMatrix, materials, texture, componentsRef, primitivesRef, components, primitives, id)
+    constructor(scene, transformationMatrix, materials, texture, animationRef, componentsRef, primitivesRef, id)
     {
         super(scene);
 
@@ -8,10 +8,9 @@ class Component extends CGFobject
         this.transformationMatrix = transformationMatrix;
         this.materials = materials;
         this.texture = texture;
+        this.animationRef = animationRef;
         this.componentsRef = componentsRef;
         this.primitivesRef = primitivesRef;
-        this.components = components;
-        this.primitives = primitives;
         this.id = id;
 
         this.idMaterial = 0;
@@ -32,42 +31,45 @@ class Component extends CGFobject
 
         this.material.apply();
 
-        // for (var i = 0; i < this.transformations.length; i++)
-        // {
-        //     if (this.transformations[i][0] == 0)
-        //     {
-        //         this.scene.translate(this.transformations[i][1], this.transformations[i][2], this.transformations[i][3]);
-        //     }
-        //     else if (this.transformations[i][0] == 1)
-        //     {
-        //         if (this.transformations[i][1] == "x")
-        //             this.scene.rotate(this.transformations[i][2]*Math.PI/180, 1, 0, 0);
-        //         else if (this.transformations[i][1] == "y")
-        //             this.scene.rotate(this.transformations[i][2]*Math.PI/180, 0, 1, 0);
-        //         else if (this.transformations[i][1] == "z")
-        //             this.scene.rotate(this.transformations[i][2]*Math.PI/180, 0, 0, 1);
-        //     }
-        //     else if (this.transformations[i][0] == 2)
-        //     {
-        //         this.scene.scale(this.transformations[i][1], this.transformations[i][2], this.transformations[i][3]);
-        //     }
-        // }
-
         this.scene.multMatrix(this.transformationMatrix);
 
         for (var i = 0; i < this.componentsRef.length; i++)
         {
-            this.components[this.componentsRef[i]].display();
+            this.scene.graph.components[this.componentsRef[i]].display();
         }
 
         for (var i = 0; i < this.primitivesRef.length; i++)
         {
-            this.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2]);
-            this.primitives[this.primitivesRef[i]].display();
+            this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2], this.id);
+            this.scene.graph.primitives[this.primitivesRef[i]].display();
         }
 
         this.scene.popMatrix();
 
         this.scene.materialDefault.apply();
+    }
+
+    update(currTime)
+    {
+        // Do animation
+
+        if (this.animationRef != "")
+        {
+            this.scene.graph.animations[this.animationRef].setComponent(this);
+            this.scene.graph.animations[this.animationRef].update(currTime);
+        }
+
+        for (var i = 0; i < this.componentsRef.length; i++)
+            this.scene.graph.components[this.componentsRef[i]].update(currTime);
+
+    }
+
+    move(position)
+    {
+        for (var i = 0; i < this.componentsRef.length; i++)
+            this.scene.graph.components[this.componentsRef[i]].move(position);
+
+        for (var i = 0; i < this.primitivesRef.length; i++)
+            this.scene.graph.primitives[this.primitivesRef[i]].move(position);
     }
 }

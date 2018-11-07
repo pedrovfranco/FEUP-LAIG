@@ -37,7 +37,8 @@ class XMLscene extends CGFscene {
 
         this.views = [];
 
-        this.setUpdatePeriod(1000/30);
+        var framerate = 30;
+        this.setUpdatePeriod(1000/framerate);
     }
 
     /**
@@ -167,11 +168,20 @@ class XMLscene extends CGFscene {
         this.initViews();
 
         this.setCamera();
+
+        this.animations = [];
+
+        this.animations[0] = new LinearAnimation(this, this.graph.components['raftCylinder'], [[0,0,0], [5,0,5], [5,0,0]], 10);
     }
 
     update(currTime)
     {
         this.checkKeys();
+
+        if (this.sceneInited)
+        {
+            // this.graph.components[this.graph.idRoot].update(currTime);
+        }   
     }
 
     /**

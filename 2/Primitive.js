@@ -6,7 +6,7 @@ class Primitive extends CGFobject
     }
 
     updateTexCoords(s, t)
-    {		
+    {
         for (var i = 0; i < this.texCoords.length; i++)
         {
             if (i % 2 == 0)
@@ -15,12 +15,18 @@ class Primitive extends CGFobject
                 this.texCoords[i] = this.originalTexCoords[i] / t;
         }
 
-		this.initGLBuffers();
+		// this.initGLBuffers();
     }
 
     setBuffers(vertices, indices, normals, texCoords)
     {
         this.vertices = vertices;
+
+        this.originalVertices = [];
+        this.originalVertices[0] = vertices[0];
+        this.originalVertices[1] = vertices[1];
+        this.originalVertices[2] = vertices[2];
+        
         this.indices = indices;
         this.normals = normals;
         this.texCoords = texCoords;
@@ -33,5 +39,13 @@ class Primitive extends CGFobject
 
         this.primitiveType=this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
+    }
+
+    move(position)
+    {
+        for (var i = 0; i < 3; i++)
+        {
+            this.vertices[i] = this.originalVertices[i] + position[i];
+        }
     }
 }
