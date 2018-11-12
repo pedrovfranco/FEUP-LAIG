@@ -900,7 +900,8 @@ var COMPONENTS_INDEX = 9;
 	  * Parses the <primitives> node.
 	  * @param {primitives block element} primitivesNode
 	  */
-	  parsePrimitives(primitivesNode) {
+	  parsePrimitives(primitivesNode) 
+	{
 
 		var children = primitivesNode.children;
 
@@ -1018,106 +1019,117 @@ var COMPONENTS_INDEX = 9;
 
 							 //  this.primitives[primitiveId] = new Plane());
 							}
-							else if (grandChildren[j].nodeName == "patch")
+					else if (grandChildren[j].nodeName == "patch")
+					{
+						var npointsU,npointsV, npartsU, npartsV ;
+
+						npointsU = this.reader.getInteger(grandChildren[j], 'npointsU');
+						npointsV = this.reader.getInteger(grandChildren[j], 'npointsV');
+						npartsU = this.reader.getInteger(grandChildren[j], 'npartsU');
+						npartsV = this.reader.getInteger(grandChildren[j], 'npartsV');
+
+						if (!(this.isValid(npointsU) && this.isValid(npointsV) && this.isValid(npartsU) && this.isValid(npartsV)))
+							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+
+						var greatgrandChildren = grandChildren[j].children;
+
+						this.controlpoints = [];
+			
+						for( var p = 0 ; p < greatgrandChildren.length; p++)
+						{ 
+							if(greatgrandChildren[p].nodeName == "controlpoint")
 							{
-								var npointsU,npointsV, npartsU, npartsV ;
+								var xx,yy,zz;
 
-								npointsU = this.reader.getInteger(grandChildren[j], 'npointsU');
-								npointsV = this.reader.getInteger(grandChildren[j], 'npointsV');
-								npartsU = this.reader.getInteger(grandChildren[j], 'npartsU');
-								npartsV = this.reader.getInteger(grandChildren[j], 'npartsV');
+								xx = this.reader.getFloat(greatgrandChildren[p], 'xx');
+								yy = this.reader.getFloat(greatgrandChildren[p], 'yy');
+								zz = this.reader.getFloat(greatgrandChildren[p], 'zz');
 
-								if (!(this.isValid(npointsU) && this.isValid(npointsV) && this.isValid(npartsU) && this.isValid(npartsV)))
+								if (!(this.isValid(xx) && this.isValid(yy) && this.isValid(zz)))
 									return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+								
+								var cp = [xx,yy,zz];
 
-
-								var greatGrandChildren = grandChildren[j].children;
-
-								for( var p = 0; p < greatGrandChildren.length; p++)
-								{
-									if(greatgrandChildren[p].nodeName == "controlpoint")
-									{
-										var xx,yy,zz;
-
-										xx = this.reader.getFloat(greatGrandChildren[p], 'xx');
-										yy = this.reader.getFloat(greatGrandChildren[p], 'yy');
-										zz = this.reader.getFloat(greatgrandChildren[p], 'zz');
-
-										if (!(this.isValid(xx) && this.isValid(yy) && this.isValid(zz)))
-											return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-									}
-									else
-									{
-										this.onXMLMinorError("unknown tag <" + greatgrandChildren[j].nodeName + ">");
-										continue;
-									}
-								}
-							}
-							else if (grandChildren[j].nodeName == "vehicle")
-							{
-
-							 //  this.primitives[primitiveId] = new Vehicle());
+								this.controlpoints.push(cp);
 							}
 
-							else if (grandChildren[j].nodeName == "cylinder2")
-							{
-								var base,top,height,slices,stacks;
-
-								base = this.reader.getFloat(grandChildren[j],'base');
-								top = this.reader.getFloat(grandChildren[j],'top');
-								height = this.reader.getFloat(grandChildren[j],'height');
-								slices = this.reader.getInteger(grandChildren[j],'slices');
-								stacks = this.reader.getInteger(grandChildren[j],'stacks');
-
-								if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
-									return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-						  //  this.primitives[primitiveId] = new cylinder2());
-						}
-						else if (grandChildren[j].nodeName == "terrain")
-						{
-							var idtexture,idheightmap,parts,heightscale;
-
-							idtexture = this.reader.getString(grandChildren[j], 'idtexture');
-							idheightmap = this.reader.getString(grandChildren[j], 'idheightmap');
-							parts = this.reader.getInteger(grandChildren[j], 'parts');
-							heightscale = this.reader.getFloat(grandChildren[j], 'heightscale');
-
-							if (!(this.isValid(idtexture) && this.isValid(idheightmap) && this.isValid(parts) && this.isValid(heightscale)))
-								return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-						  //  this.primitives[primitiveId] = new terrain());
-						}
-						else if (grandChildren[j].nodeName == "water")
-						{
-							var idtexture, idwavemap, parts, heightscale, texscale;
-
-							idtexture = this.reader.getString(grandChildren[j],'idtexture');
-							idwavemap = this.reader.getString(grandChildren[j],'idwavemap');
-							parts = this.reader.getInteger(grandChildren[j],'parts');
-							heightscale = this.reader.getFloat(grandChildren[j],'heightscale');
-							texscale = this.reader.getFloat(grandChildren[j],'texscale');
-
-							if (!(this.isValid(idtexture) && this.isValid(idwavemap) && this.isValid(parts) && this.isValid(heightscale) && this.isValid(texscale)))
-								return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-
-								//new water();
-							}
 							else
 							{
-								this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+								this.onXMLMinorError("unknown tag <" + greatgrandChildren[j].nodeName + ">");
 								continue;
 							}
 						}
 
+						this.primitives[primitiveId] = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, this.controlpoints);
 					}
+					
+					else if (grandChildren[j].nodeName == "vehicle")
+					{
+
+					 //  this.primitives[primitiveId] = new Vehicle());
+					}
+
+					else if (grandChildren[j].nodeName == "cylinder2")
+					{
+						var base,top,height,slices,stacks;
+
+						base = this.reader.getFloat(grandChildren[j],'base');
+						top = this.reader.getFloat(grandChildren[j],'top');
+						height = this.reader.getFloat(grandChildren[j],'height');
+						slices = this.reader.getInteger(grandChildren[j],'slices');
+						stacks = this.reader.getInteger(grandChildren[j],'stacks');
+
+						if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
+							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+				  //  this.primitives[primitiveId] = new cylinder2());
+					}
+					else if (grandChildren[j].nodeName == "terrain")
+					{
+						var idtexture,idheightmap,parts,heightscale;
+
+						idtexture = this.reader.getString(grandChildren[j], 'idtexture');
+						idheightmap = this.reader.getString(grandChildren[j], 'idheightmap');
+						parts = this.reader.getInteger(grandChildren[j], 'parts');
+						heightscale = this.reader.getFloat(grandChildren[j], 'heightscale');
+
+						if (!(this.isValid(idtexture) && this.isValid(idheightmap) && this.isValid(parts) && this.isValid(heightscale)))
+							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+					  //  this.primitives[primitiveId] = new terrain());
+					}
+					else if (grandChildren[j].nodeName == "water")
+					{
+						var idtexture, idwavemap, parts, heightscale, texscale;
+
+						idtexture = this.reader.getString(grandChildren[j],'idtexture');
+						idwavemap = this.reader.getString(grandChildren[j],'idwavemap');
+						parts = this.reader.getInteger(grandChildren[j],'parts');
+						heightscale = this.reader.getFloat(grandChildren[j],'heightscale');
+						texscale = this.reader.getFloat(grandChildren[j],'texscale');
+
+						if (!(this.isValid(idtexture) && this.isValid(idwavemap) && this.isValid(parts) && this.isValid(heightscale) && this.isValid(texscale)))
+							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
+
+							//new water();
+						}
+					else
+					{
+						this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+						continue;
+					}
+
 				}
+
+			}
+		}
 
 
 				this.log("Parsed primitives");
 				return null;
 
-			}
+	}
 
 	 /**
 	  * Parses the <components> node.

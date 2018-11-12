@@ -205,51 +205,35 @@
 		</primitive>
 
 		<!-- Nova primitiva: plano, gerado por NURBS -->
-		<!-- <plane id="ss" npartsU="ii" npartsV="ii" /> -->
-		<!-- ex: <plane npartsU="5" npartsU="8" /> um plano de dimensões -->
-		<!-- 1 x 1 unidades assente em XZ, centrado na origem -->
+		<primitive id="plane">
+			<plane npartsU="5" npartsV="8" />
+		</primitive>
+		<!-- ex: <plane npartsU=“5” npartsU=“8” /-->
+		<!-- um plano de dimensões 1 x 1 unidades assente-->
+		<!-- em XZ, centrado na origem -->
 		<!-- e com a face visível apontando para +Y -->
 		<!-- com divisão em cinco partes por oito partes -->
 		<!-- Nova primitiva: patch, gerada por NURBS -->
-		<!-- - parâmetros: -->
-		<!-- - npartsU: divisão em partes no domínio U a -->
+		<!-- — parâmetros: -->
+		<!-- — npartsU: divisão em partes no domínio U a -->
 		<!-- ser usada para o cálculo da superfície -->
-		<!-- - npartsV: divisão em partes no domínio V -->
+		<!-- — npartsV: divisão em partes no domínio V -->
 		<!-- a ser usada para o cálculo da superficie -->
-		<!--- - o número de pontos de controlo dentro da -->
+		<!-- - o número de pontos de controlo dentro da -->
 		<!-- primitiva patch é npointsU * npointsV -->
-		<!-- <patch id="ss" npointsU="ii" npointsV="ii" npartsU="11" npartsV="ii" > -->
-			<!-- <controlpoint xx="ff" yy="f£" zz="ff" /> -->
-		<!-- </patch> -->
-		<!-- Nova primitiva vehicle: corresponde a um veículo voador. Inclui
-		pelo menos uma superfície não plana gerada utilizando NURBS e
-		em código javascript -->
-		<!-- <vehicle id="ss" /> -->
-		<!-- - Nova primitiva: cilindro baseado em NURBS -->
+		<primitive id="patchaOImperador"> 
+			<patch npointsU="1" npointsV="1" npartsU="2" npartsV="2" > 
+				<controlpoint xx="1.1" yy="1.1" zz="1.1" />
+			</patch>
+		</primitive>
+		 <!-- Nova primitiva vehicle: corresponde a um veículo voador.
+		Inclui pelo menos uma superfície não plana gerada
+		utilizando NURBS e em código javascript -->
+		<!-- <vehicle /> -->
+		<!-- — Nova primitiva: cilindro baseado em NURBS -->
 		<!-- parâmetros iguais ao cilindro original -->
-		<!-- <cylinder2 base="ff" top="ff" height="ff" slices="ii" stacks="ii" /> -->
-		<!-- Nova primitiva: terreno baseado em shaders -->
-		<!-- parametros: -->
-		<!-- id da textura que deve ser visualizada sobre o terreno
-		(dimensões devem ser potências de 2) -->
-		<!-- id da textura que deve ser usada como mapa de alturas para
-		formar o terreno (dimensões devem ser potencias de 2) -->
-		<!-- numero de divisoes em s e t (parts="5" => plano com 5x5
-		divisoes -->
-		<!-- fator de escala das alturas -->
-		<!-- <terrain id="ss" idtexture="ss" idheightmap="ss" parts="i1i" heightscale="ff"/> -->
-		<!-- Nova primitiva: plano de água baseado em shaders -->
-		<!-- parametros: -->
-		<!-- id da textura que deve ser visualizada sobre o terreno
-		(dimensões devem ser potências de 2) -->
-		<!-- id da textura que deve ser usada como mapa de ondulação para
-		formar o terreno (dimensões devem ser potencias de 2) -->
-		<!-- numero de divisoes em s e t (parts="5" => plano com 5x5
-		divisoes -->
-		<!-- fator de escala das alturas -->
-		<!-- fator de escala das coordenadas de textura (para o numero de
-		repeticoes no plano) -->
-		<!-- <water id="ss" idtexture="ss" idwavemap="ss" parts="ii" heightscale="ff" texscale="ff" /> -->
+		<!-- <cylinder2 base="ff" top="ff" height="ff" slices="ii"
+		stacks="ii" /> -->
 
 	</primitives>
 
@@ -273,7 +257,7 @@
 				<componentref id="rope" />
 				<componentref id="land" />
 				<componentref id="sand" />
-				<!-- <componentref id="city" /> -->
+				<componentref id="test" />
 				<componentref id="lighthouse" />
 				</children>
 		</component>
@@ -736,6 +720,19 @@
 				<primitiveref id="rectangle" />
 			</children>
 		</component>
+
+		<component id="test">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="sandTexture" length_s="1" length_t="0.1" />
+			<children>
+				<primitiveref id="cylinder" />
+			</children>
+		</component>
+
 		<component id="city">
 			<transformation>
 				<rotate axis="y" angle = "90"/>
