@@ -13,6 +13,11 @@ class Component extends CGFobject
         this.primitivesRef = primitivesRef;
         this.id = id;
 
+        if (this.animationRef != "")
+        {
+            this.scene.graph.animations[this.animationRef].setComponent(this);
+        }
+
         this.idMaterial = 0;
 
         this.material = new CGFappearance(scene);
@@ -30,6 +35,11 @@ class Component extends CGFobject
         this.scene.pushMatrix();
 
         this.material.apply();
+
+        if (this.animationRef != "")
+        {
+            this.scene.graph.animations[this.animationRef].apply();
+        }
 
         this.scene.multMatrix(this.transformationMatrix);
 
@@ -51,11 +61,11 @@ class Component extends CGFobject
 
     update(currTime)
     {
-        // Do animation
-
+        if (this.id = "raftCylinder")
+            var a = 0;
+            
         if (this.animationRef != "")
         {
-            this.scene.graph.animations[this.animationRef].setComponent(this);
             this.scene.graph.animations[this.animationRef].update(currTime);
         }
 
@@ -64,12 +74,4 @@ class Component extends CGFobject
 
     }
 
-    move(position)
-    {
-        for (var i = 0; i < this.componentsRef.length; i++)
-            this.scene.graph.components[this.componentsRef[i]].move(position);
-
-        for (var i = 0; i < this.primitivesRef.length; i++)
-            this.scene.graph.primitives[this.primitivesRef[i]].move(position);
-    }
 }

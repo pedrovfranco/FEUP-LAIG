@@ -180,7 +180,7 @@ class XMLscene extends CGFscene {
 
         if (this.sceneInited)
         {
-            // this.graph.components[this.graph.idRoot].update(currTime);
+         	this.graph.components[this.graph.idRoot].update(currTime);
         }   
     }
 
