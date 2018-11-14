@@ -41,11 +41,26 @@ class Primitive extends CGFobject
 		this.initGLBuffers();
     }
 
-    move(position)
+    getVerticeAverage()
     {
-        for (var i = 0; i < 3; i++)
+        var sum = [0, 0, 0, 0], count = 0;
+        this.getVerticeAverageRecursive(sum, count);
+
+        sum[0] /= sum[3];
+        sum[1] /= sum[3];
+        sum[2] /= sum[3];
+        
+        return sum;
+    }
+
+    getVerticeAverageRecursive(sum, count)
+    {
+        for (let i = 0; i < this.vertices.length; i++)
         {
-            this.vertices[i] = this.originalVertices[i] + position[i];
+            sum[i%3] += this.vertices[i];
+
+            if ((i % 3) == 2)
+                sum[3]++;
         }
     }
 }

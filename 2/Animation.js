@@ -3,12 +3,22 @@ class Animation
 	constructor(scene)
 	{
 		this.scene = scene;
+
+		this.transformationMatrix = mat4.create();
+
+		this.lastTime = -1;
+		this.sumTime = 0;
 	};
 
 
 	update(currTime)
 	{
+		if (this.lastTime == -1)
+				this.lastTime = currTime;
 
+		this.deltaTime = (currTime - this.lastTime)/1000;
+
+		this.sumTime += this.deltaTime;
 	}
 
 
@@ -36,22 +46,14 @@ class LinearAnimation extends Animation
 		this.controlPoints = controlPoints;
 		this.totalTime = time;
 		this.intervalTime = this.totalTime/(this.controlPoints.length);
-
-		this.lastTime = -1;
-		this.sumTime = 0;
 	};
 
 	update(currTime)
 	{
+		super.update(currTime);
+
 		if (this.component != undefined)
 		{
-			if (this.lastTime == -1)
-				this.lastTime = currTime;
-
-			this.deltaTime = (currTime - this.lastTime)/1000;
-
-			this.sumTime += this.deltaTime;
-
 			var i = Math.floor(((this.sumTime / this.totalTime) % 1)* (this.controlPoints.length));
 			var j = (this.sumTime / this.intervalTime) % 1;
 			var coords = [];
@@ -59,9 +61,7 @@ class LinearAnimation extends Animation
 			coords[0] = this.controlPoints[i][0] + ( this.controlPoints[(i+1) % (this.controlPoints.length)][0]-this.controlPoints[i][0] ) * j;
 			coords[1] = this.controlPoints[i][1] + ( this.controlPoints[(i+1) % (this.controlPoints.length)][1]-this.controlPoints[i][1] ) * j;
 			coords[2] = this.controlPoints[i][2] + ( this.controlPoints[(i+1) % (this.controlPoints.length)][2]-this.controlPoints[i][2] ) * j;
-			
-			this.transformationMatrix = mat4.create();
-			
+						
 			var x = (this.controlPoints[(i+1) % (this.controlPoints.length)][0]-this.controlPoints[i][0]);
 			var z = (this.controlPoints[(i+1) % (this.controlPoints.length)][2]-this.controlPoints[i][2]);
 
@@ -79,12 +79,17 @@ class LinearAnimation extends Animation
 					angle = Math.PI;
 			}
 
-			// console.log(ratio);
+			// let center = this.component.getCenter();
+			// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
 
-			// console.log(angle);
+			this.transformationMatrix = mat4.create();
 
 			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
+			
+			// mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], center[1], center[2]));
 			mat4.rotate(this.transformationMatrix, this.transformationMatrix, angle, vec3.fromValues(0,1,0));
+			// mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], -center[1], -center[2]));
+
 
 
 			// var defaultVector = [0, 0, 1];
@@ -98,8 +103,10 @@ class LinearAnimation extends Animation
 
 			// vector[0] = thi
 
-			this.lastTime = currTime;
+			
 		}
+
+		this.lastTime = currTime;
 	}
 }
 
@@ -107,21 +114,31 @@ class LinearAnimation extends Animation
 class CircularAnimation extends Animation
 {
 
-	constructor(scene, center, radius, initialAngle, rotationAngle,time)
+	constructor(scene, center, radius, initialAngle, rotationAngle, totalTime)
 	{
 		super(scene);
 
-		var radiusPerSecond = rotationAngle / time;
+		this.center = center;
+		this.radius = radius;
+		this.initialAngle = initialAngle;
+		this.rotationAngle = rotationAngle;
+		this.totalTime = totalTime;
 
-		var s = radius * rotationAngle;
-
-		var alpha = initialAngle;
-
-		var i,u;
-
-		  //for ( i = 0; i < ;i++)
-
-		  // radius * Math.cos(alpha) + center[0], radius * Math.sin(alpha) + center[1], 0 + center[2]
 	};
 
+	update(currTime)
+	{
+		super.update(currTime);
+
+		if (this.component != undefined)
+		{
+			this.transformationMatrix = mat4.create();
+
+			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
+
+			
+		}
+
+		this.lastTime = currTime;
+	}
 }

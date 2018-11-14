@@ -289,6 +289,9 @@
 				<material id="inherit" />
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
+			<animations>
+				<animationref id="linear1" />
+			</animations>
 			<children>
 				<primitiveref id="cylinder" />
 			</children>
@@ -528,9 +531,7 @@
 			<!-- declarar-se imediatamente após as transformacoes -->
 			<!-- do componente -->
 			<animations>
-				<!-- pode conter uma referencia a uma das "animations" -->
-				<!-- declaradas anteriormente. Este elemento é opcional -->
-				<animationref id="linear1" />
+				<!-- <animationref id="linear1" /> -->
 			</animations>
 			<children>
 				<componentref id="raftCylinder1" />
