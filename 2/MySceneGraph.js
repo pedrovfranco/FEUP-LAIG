@@ -855,15 +855,17 @@ var COMPONENTS_INDEX = 9;
 
 			if (children[i].nodeName == "linear")
 			{
-				var span = this.reader.getFloat(children[i], 'span');
-				var controlPoints = [];
+				this.animations[animationId] = [];
+				this.animations[animationId][0] = 0;											// type of animation
+				this.animations[animationId][2] = this.reader.getFloat(children[i], 'span');	// span
+				this.animations[animationId][1] = [];											// control points
 				var xx,yy,zz;
 
 				for (var j = 0; j < grandChildren.length; j++)
 				{
 					if (grandChildren[j].nodeName == "controlpoint")
 					{
-						controlPoints[j] = [];
+						this.animations[animationId][1][j] = [];
 						xx = this.reader.getFloat(grandChildren[j], 'xx');
 						yy = this.reader.getFloat(grandChildren[j], 'yy');
 						zz = this.reader.getFloat(grandChildren[j], 'zz');
@@ -871,22 +873,21 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(xx) && this.isValid(yy) && this.isValid(zz)))
 							return "Unable to parse animation id=\"" + animationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-						controlPoints[j][0] = xx;
-						controlPoints[j][1] = yy;
-						controlPoints[j][2] = zz;
+						this.animations[animationId][1][j][0] = xx;
+						this.animations[animationId][1][j][1] = yy;
+						this.animations[animationId][1][j][2] = zz;
 					}
 				}
-
-				this.animations[animationId] = new LinearAnimation(this.scene, controlPoints, span);
 			}
 			else if (children[i].nodeName == "circular")
 			{
-				var center, radius, startang, rotang;
+				this.animations[animationId] = [];
+				this.animations[animationId][0] = 1;				
 
-				center = this.reader.getString(children[i],'center').split(" ");
-				radius = this.reader.getFloat(children[i],'radius');
-				startang = this.reader.getFloat(children[i],'startang');
-				rotang = this.reader.getFloat(children[i],'rotang');
+				this.animations[animationId][1] = this.reader.getString(children[i],'center').split(" ");
+				this.animations[animationId][2] = this.reader.getFloat(children[i],'radius');
+				this.animations[animationId][3] = this.reader.getFloat(children[i],'startang');
+				this.animations[animationId][4] = this.reader.getFloat(children[i],'rotang');
 			}
 			else
 			{
@@ -1159,7 +1160,7 @@ var COMPONENTS_INDEX = 9;
 					return "ID must be unique for each component (conflict: ID = " + componentId + ")";
 
 				componentsTemp[componentId] = [];
-				componentsTemp[componentId][3] = "";
+				componentsTemp[componentId][3] = null;
 
 				grandChildren = children[i].children;
 
@@ -1273,10 +1274,15 @@ var COMPONENTS_INDEX = 9;
 
 					else if (grandChildren[j].nodeName == "animations")
 					{						
-						componentsTemp[componentId][3] = this.reader.getString(grandChildren[j].children[0] , 'id');
+						var id = this.reader.getString(grandChildren[j].children[0] , 'id');
 
-						if (componentsTemp[componentId][3] )
-							componentsTemp[componentId][3] = "";
+						if (this.isValid(id))
+						{
+							if (this.animations[id][0] == 0) // Linear
+							{
+								componentsTemp[componentId][3] = new LinearAnimation(this.scene, this.animations[id][1], this.animations[id][2]);
+							}
+						}
 					}
 
 					else if (grandChildren[j].nodeName == "children")

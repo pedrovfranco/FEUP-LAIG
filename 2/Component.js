@@ -1,6 +1,6 @@
 class Component extends CGFobject
 {
-    constructor(scene, transformationMatrix, materials, texture, animationRef, componentsRef, primitivesRef, id)
+    constructor(scene, transformationMatrix, materials, texture, animation, componentsRef, primitivesRef, id)
     {
         super(scene);
 
@@ -8,14 +8,14 @@ class Component extends CGFobject
         this.transformationMatrix = transformationMatrix;
         this.materials = materials;
         this.texture = texture;
-        this.animationRef = animationRef;
+        this.animation = animation;
         this.componentsRef = componentsRef;
         this.primitivesRef = primitivesRef;
         this.id = id;
 
-        if (this.animationRef != "")
+        if (this.animation != null)
         {
-            this.scene.graph.animations[this.animationRef].setComponent(this);
+            this.animation.setComponent(this);
         }
 
         this.idMaterial = 0;
@@ -36,9 +36,9 @@ class Component extends CGFobject
 
         this.material.apply();
 
-        if (this.animationRef != "")
+        if (this.animation != null)
         {
-            this.scene.graph.animations[this.animationRef].apply();
+            this.animation.apply();
         }
 
         this.scene.multMatrix(this.transformationMatrix);
@@ -60,13 +60,10 @@ class Component extends CGFobject
     }
 
     update(currTime)
-    {
-        if (this.id = "raftCylinder")
-            var a = 0;
-            
-        if (this.animationRef != "")
+    {            
+        if (this.animation != null)
         {
-            this.scene.graph.animations[this.animationRef].update(currTime);
+            this.animation.update(currTime);
         }
 
         for (var i = 0; i < this.componentsRef.length; i++)

@@ -257,7 +257,7 @@
 				<componentref id="rope" />
 				<componentref id="land" />
 				<componentref id="sand" />
-				<componentref id="test" />
+				<!-- <componentref id="test" /> -->
 				<componentref id="lighthouse" />
 				</children>
 		</component>
