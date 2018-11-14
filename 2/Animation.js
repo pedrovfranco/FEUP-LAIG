@@ -79,13 +79,13 @@ class LinearAnimation extends Animation
 					angle = Math.PI;
 			}
 
-			// let center = this.component.getCenter();
-			// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
+			let center = this.component.getCenter();
+			console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
 
 			this.transformationMatrix = mat4.create();
-
-			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 			
+			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
+
 			// mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], center[1], center[2]));
 			mat4.rotate(this.transformationMatrix, this.transformationMatrix, angle, vec3.fromValues(0,1,0));
 			// mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], -center[1], -center[2]));
