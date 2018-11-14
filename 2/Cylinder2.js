@@ -10,8 +10,6 @@ class Cylinder2 extends Primitive
         this.slices = slices;
         this.stacks = stacks;
 
-        this.texCoords = [];
-
         this.initBuffers();
     };
 
