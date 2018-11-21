@@ -770,21 +770,21 @@ var COMPONENTS_INDEX = 9;
 
 				for (var j = 0; j < grandChildren.length; j++)
 				{
-					if (grandChildren[i].nodeName == "translate")
+					if (grandChildren[j].nodeName == "translate")
 					{
-						var x = this.reader.getFloat(grandChildren[i], 'x');
-						var y = this.reader.getFloat(grandChildren[i], 'y');
-						var z = this.reader.getFloat(grandChildren[i], 'z');
+						var x = this.reader.getFloat(grandChildren[j], 'x');
+						var y = this.reader.getFloat(grandChildren[j], 'y');
+						var z = this.reader.getFloat(grandChildren[j], 'z');
 
 						if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
 							return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
 						mat4.translate(transformationMatrix, transformationMatrix, vec3.fromValues(x, y, z));
 					}
-					else if (grandChildren[i].nodeName == "rotate")
+					else if (grandChildren[j].nodeName == "rotate")
 					{
-						var axis = this.reader.getString(grandChildren[i], 'axis');
-						var angle = this.reader.getFloat(grandChildren[i], 'angle');
+						var axis = this.reader.getString(grandChildren[j], 'axis');
+						var angle = this.reader.getFloat(grandChildren[j], 'angle');
 
 						if (!(this.isValid(axis) && this.isValid(angle)))
 							return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
@@ -798,11 +798,11 @@ var COMPONENTS_INDEX = 9;
 						else
 							return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node. Axis must be \"x\", \"y\" or \"z\"";
 					}
-					else if (grandChildren[i].nodeName == "scale")
+					else if (grandChildren[j].nodeName == "scale")
 					{
-						var x = this.reader.getFloat(grandChildren[i], 'x');
-						var y = this.reader.getFloat(grandChildren[i], 'y');
-						var z = this.reader.getFloat(grandChildren[i], 'z');
+						var x = this.reader.getFloat(grandChildren[j], 'x');
+						var y = this.reader.getFloat(grandChildren[j], 'y');
+						var z = this.reader.getFloat(grandChildren[j], 'z');
 
 						if (!(this.isValid(x) && this.isValid(y) && this.isValid(z)))
 							return "Unable to parse transformation id=\"" + transformationId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
@@ -811,7 +811,7 @@ var COMPONENTS_INDEX = 9;
 					}
 					else
 					{
-						this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+						this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
 						continue;
 					}
 				}
@@ -1098,7 +1098,7 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(idtexture) && this.isValid(idheightmap) && this.isValid(parts) && this.isValid(heightscale)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-					  //  this.primitives[primitiveId] = new terrain());
+					   this.primitives[primitiveId] = new Terrain(this.scene , idtexture, idheightmap, parts, heightscale);
 					}
 					else if (grandChildren[j].nodeName == "water")
 					{

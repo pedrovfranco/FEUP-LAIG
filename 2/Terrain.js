@@ -1,4 +1,4 @@
-class Terrain extends Primitive
+class Terrain
 {
 
 	constructor(scene , idtexture, idheightmap, parts, heightscale)
@@ -14,9 +14,9 @@ class Terrain extends Primitive
 	initializeShaders()
 	{
 
-	// this.texture = new CGFtexture(this, "textures/texture.jpg");
-	// this.appearance.setTexture(this.texture);
-	// this.appearance.setTextureWrap ('REPEAT', 'REPEAT');
+	this.texture = new CGFtexture(this, "scenes/iamges/.jpg");
+	this.appearance.setTexture(this.texture);
+	this.appearance.setTextureWrap ('REPEAT', 'REPEAT');
 
 
 	// texture will have to be bound to unit 1 later, when using the shader, with "this.texture2.bind(1);"
@@ -45,9 +45,9 @@ class Terrain extends Primitive
 	this.testShaders[5].setUniformsValues({uSampler2: 1});
 	this.testShaders[8].setUniformsValues({selColor: [1.0, 0.0, 0.0, 1.0] });
 
-	this.texture2 = new CGFtexture(this, "textures/FEUP.jpg");
+	this.texture2 = new CGFtexture(this.scene, "scenes/images/heightmap.jpg");
 	
-	this.updateScaleFactor();
+	// this.updateScaleFactor();
 
 	};
 
@@ -66,6 +66,11 @@ class Terrain extends Primitive
 	display()
 	{
 		this.setActiveShader(this.testShaders[this.selectedExampleShader]);
+		
+		this.texture2.bind(1);
+
+		this.terrain.display();
+		
 		this.setActiveShader(this.defaultShader);
 	};
 

@@ -177,11 +177,11 @@
 		</primitive>
 
 		<primitive id="cylinder">
-			<cylinder base="3" top="2" height="1" slices="4" stacks="30" />
+			<cylinder base="3" top="2" height="1" slices="30" stacks="30" />
 		</primitive>
 
 		<primitive id="lightHouseWindow">
-			<cylinder base="3" top="2" height="1" slices="6" stacks="30" />
+			<cylinder base="3" top="2" height="1" slices="30" stacks="30" />
 		</primitive>
 
 		<primitive id="rectangle">
@@ -202,6 +202,10 @@
 
 		<primitive id="water">
 			<water idtexture="texture2" idwavemap="texture1" parts="5" heightscale="0.5" texscale="0.2"/>
+		</primitive>
+
+		<primitive id="terrain">
+			<terrain idtexture="scenes/images/terrain.jpg" idheightmap="scenes/images/heightmap.jpg" parts="10" heightscale="5"/>
 		</primitive>
 
 		<!-- Nova primitiva: plano, gerado por NURBS -->
@@ -259,7 +263,8 @@
 				<componentref id="sand" />
 				<!-- <componentref id="test" /> -->
 				<componentref id="lighthouse" />
-				</children>
+				<primitiveref id ="terrain"/>
+			</children>
 		</component>
 		<component id="bridgeCylinder">
 			<transformation>
