@@ -10,39 +10,44 @@ class Cylinder2 extends Primitive
         this.slices = slices;
         this.stacks = stacks;
 
-        this.initBuffers();
-    };
-
-    initBuffers()
-    {
         this.degree = 2;
         this.controlPoints = [];
 
-        var r = this.base;
-        var unity = r*Math.tan(30 * Math.PI/180);
-        var h = Math.sqrt(3)* unity;
+        var rb = this.base;
+        var rt = this.top;
 
-        //Part z = 0
-        this.controlPoints.push([-unity,r,0]);
-        this.controlPoints.push([0,r,0]);
-        this.controlPoints.push([unity,r,0]);
-        this.controlPoints.push([-r,0,0]);
-        this.controlPoints.push([r,0,0]);
-        this.controlPoints.push([0,-h/2,0]);
+        var P0 = [-rb, 0, 0, 1];
+        var P1 = [-rb, rb, 0, Math.sqrt(2)/2];
+        var P2 = [0, rb, 0, 1];
+        var P3 = [rb, rb, 0, Math.sqrt(2)/2];
+        var P4 = [rb, 0, 0, 1];
+        var P5 = [rb, -rb, 0, Math.sqrt(2)/2];
+        var P6 = [0, -rb, 0, 1];
+        var P7 = [-rb, -rb, 0, Math.sqrt(2)/2];
+        var P8 = [-rb, 0, 0, 1];
 
-        //Part z = 1
-        this.controlPoints.push([-unity,r,1]);
-        this.controlPoints.push([0,r,1]);
-        this.controlPoints.push([unity,r,1]);
-        this.controlPoints.push([-r,0,1]);
-        this.controlPoints.push([r,0,1]);
-        this.controlPoints.push([0,-h/2,1]);        
+        var P00 = [-rt, 0, this.height, 1];
+        var P11 = [-rt, rt, this.height, Math.sqrt(2)/2];
+        var P22 = [0, rt, this.height, 1];
+        var P33 = [rt, rt, this.height, Math.sqrt(2)/2];
+        var P44 = [rt, 0, this.height, 1];
+        var P55 = [rt, -rt, this.height, Math.sqrt(2)/2];
+        var P66 = [0, -rt, this.height, 1];
+        var P77 = [-rt, -rt, this.height, Math.sqrt(2)/2];
+        var P88 = [-rt, 0, this.height, 1];
 
-        var f = new oo(this); 
-        this.nurbsSurface = new CGFnurbsSurface(this.degree, this.degree, this.controlPoints);
-        this.nurbsObject = new CGFnurbsObject(this.scene, this.slices, this.stacks, f);
 
-       
+        this.controlPoints = [
+                               [
+                                 P0,P1,P2,P3,P4,P5,P6,P7,P8   
+                               ],
+                               [
+                                 P00,P11,P22,P33,P44,P55,P66,P77,P88
+                               ]
+
+                             ];
+         this.nurbsSurface = new CGFnurbsSurface(1, 8, this.controlPoints);
+         this.nurbsObject = new CGFnurbsObject(this.scene, this.slices, this.stacks, this.nurbsSurface);
     };
 
     
@@ -50,7 +55,7 @@ class Cylinder2 extends Primitive
     display()
     {
         this.nurbsObject.display();
-    }
+    };
 
 };
 

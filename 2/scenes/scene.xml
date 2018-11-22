@@ -177,11 +177,11 @@
 		</primitive>
 
 		<primitive id="cylinder">
-			<cylinder base="3" top="2" height="1" slices="30" stacks="30" />
+			<cylinder base="1" top="1" height="1" slices="30" stacks="30" />
 		</primitive>
 
 		<primitive id="lightHouseWindow">
-			<cylinder base="3" top="2" height="1" slices="30" stacks="30" />
+			<cylinder base="1" top="1" height="1" slices="30" stacks="30" />
 		</primitive>
 
 		<primitive id="rectangle">
