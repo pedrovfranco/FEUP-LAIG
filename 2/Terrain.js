@@ -11,7 +11,7 @@ class Terrain extends Primitive
 		this.parts = parts;
 		this.heightscale = heightscale;
 
-		this.plane = new Plane(scene, 1, 1);
+		this.plane = new Plane(scene, 50, 50);
 
 		this.initializeShaders();
 	}
@@ -22,7 +22,7 @@ class Terrain extends Primitive
 		this.shader = new CGFshader(this.scene.gl, "terrain.vert", "terrain.frag"),
 
 		this.shader.setUniformsValues({uSampler2: 1});
-		this.shader.setUniformsValues({normScale: 1});
+		this.shader.setUniformsValues({normScale: 0.15});
 
 		this.texture1 = new CGFtexture(this.scene, this.idtexture);
 		this.texture2 = new CGFtexture(this.scene, this.idheightmap);

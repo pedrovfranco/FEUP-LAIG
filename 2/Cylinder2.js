@@ -16,25 +16,25 @@ class Cylinder2 extends Primitive
         var rb = this.base;
         var rt = this.top;
 
-        var P0 = [-rb, 0, 0, 1];
-        var P1 = [-rb, rb, 0, Math.sqrt(2)/2];
-        var P2 = [0, rb, 0, 1];
-        var P3 = [rb, rb, 0, Math.sqrt(2)/2];
-        var P4 = [rb, 0, 0, 1];
-        var P5 = [rb, -rb, 0, Math.sqrt(2)/2];
-        var P6 = [0, -rb, 0, 1];
-        var P7 = [-rb, -rb, 0, Math.sqrt(2)/2];
-        var P8 = [-rb, 0, 0, 1];
+        var P0 = [-rb*2/Math.sqrt(2), 0, 0, 1];
+        var P1 = [-rb*2/Math.sqrt(2), rb*2/Math.sqrt(2), 0, Math.sqrt(2)/2];
+        var P2 = [0, rb*2/Math.sqrt(2), 0, 1];
+        var P3 = [rb*2/Math.sqrt(2), rb*2/Math.sqrt(2), 0, Math.sqrt(2)/2];
+        var P4 = [rb*2/Math.sqrt(2), 0, 0, 1];
+        var P5 = [rb*2/Math.sqrt(2), -rb*2/Math.sqrt(2), 0, Math.sqrt(2)/2];
+        var P6 = [0, -rb*2/Math.sqrt(2), 0, 1];
+        var P7 = [-rb*2/Math.sqrt(2), -rb*2/Math.sqrt(2), 0, Math.sqrt(2)/2];
+        var P8 = [-rb*2/Math.sqrt(2), 0, 0, 1];
 
-        var P00 = [-rt, 0, this.height, 1];
-        var P11 = [-rt, rt, this.height, Math.sqrt(2)/2];
-        var P22 = [0, rt, this.height, 1];
-        var P33 = [rt, rt, this.height, Math.sqrt(2)/2];
-        var P44 = [rt, 0, this.height, 1];
-        var P55 = [rt, -rt, this.height, Math.sqrt(2)/2];
-        var P66 = [0, -rt, this.height, 1];
-        var P77 = [-rt, -rt, this.height, Math.sqrt(2)/2];
-        var P88 = [-rt, 0, this.height, 1];
+        var P00 = [-rt*2/Math.sqrt(2), 0, this.height, 1];
+        var P11 = [-rt*2/Math.sqrt(2), rt*2/Math.sqrt(2), this.height, Math.sqrt(2)/2];
+        var P22 = [0, rt*2/Math.sqrt(2), this.height, 1];
+        var P33 = [rt*2/Math.sqrt(2), rt*2/Math.sqrt(2), this.height, Math.sqrt(2)/2];
+        var P44 = [rt*2/Math.sqrt(2), 0, this.height, 1];
+        var P55 = [rt*2/Math.sqrt(2), -rt*2/Math.sqrt(2), this.height, Math.sqrt(2)/2];
+        var P66 = [0, -rt*2/Math.sqrt(2), this.height, 1];
+        var P77 = [-rt*2/Math.sqrt(2), -rt*2/Math.sqrt(2), this.height, Math.sqrt(2)/2];
+        var P88 = [-rt*2/Math.sqrt(2), 0, this.height, 1];
 
 
         this.controlPoints = [
