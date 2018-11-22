@@ -51,7 +51,10 @@ class Component extends CGFobject
 
         for (var i = 0; i < this.primitivesRef.length; i++)
         {
-            this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2], this.id);
+            if (this.scene.graph.primitives[this.primitivesRef[i]] == undefined) 
+                var a = 0;
+                
+            this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2]);
             this.scene.graph.primitives[this.primitivesRef[i]].display();
         }
 

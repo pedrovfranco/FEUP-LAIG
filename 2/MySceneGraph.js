@@ -1508,9 +1508,11 @@ var COMPONENTS_INDEX = 9;
 	 /**
 	  * Displays the scene, processing each node, starting in the root node.
 	  */
-	  displayScene() {
+	  displayScene() 
+	  {
 		  // entry point for graph rendering
 		  //TODO: Render loop starting at root of graph
+
 
 		  this.components[this.idRoot].display();
 

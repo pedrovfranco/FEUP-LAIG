@@ -261,9 +261,8 @@
 				<componentref id="rope" />
 				<componentref id="land" />
 				<componentref id="sand" />
-				<!-- <componentref id="test" /> -->
 				<componentref id="lighthouse" />
-				<primitiveref id ="terrain"/>
+				<componentref id ="terrain"/>
 			</children>
 		</component>
 		<component id="bridgeCylinder">
@@ -1001,6 +1000,19 @@
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="torusCatwalk" />
+			</children>
+		</component>
+		<component id="terrain">
+			<transformation>
+				<translate x="0" y="3" z="0"/>
+				<scale x="10" y="10" z="10" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="terrain" />
 			</children>
 		</component>
 	</components>

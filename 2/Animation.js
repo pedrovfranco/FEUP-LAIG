@@ -80,7 +80,7 @@ class LinearAnimation extends Animation
 			}
 
 			let center = this.component.getCenter();
-			console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
+			// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
 
 			this.transformationMatrix = mat4.create();
 			
