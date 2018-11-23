@@ -243,13 +243,16 @@
 			<patch npointsU="5" npointsV="5" npartsU="3" npartsV="2" > 
 				<controlpoint xx="-1.5" yy="-1.5" zz="0" />
 				<controlpoint xx="-1.5" yy="1.5" zz="0" />
-				<controlpoint xx="0" yy="-1.5" zz="3" />
-				<controlpoint xx="0" yy="1.5" zz="3" />
+				<controlpoint xx="0" yy="-1.5" zz="1.1" />
+				<controlpoint xx="0" yy="1.5" zz="1.1" />
 				<controlpoint xx="1.5" yy="-1.5" zz="0" />
 				<controlpoint xx="1.5" yy="1.5" zz="0" />
 			</patch>
 		</primitive>
 
+		<primitive id="cylinder2">
+			<cylinder base="1" top="1" height="1" slices="30" stacks="30" />
+		</primitive>
 		 <!-- Nova primitiva vehicle: corresponde a um veículo voador.
 		Inclui pelo menos uma superfície não plana gerada
 		utilizando NURBS e em código javascript -->
@@ -284,6 +287,13 @@
 				<componentref id="lighthouse" />
 				<!-- <componentref id ="terrain"/> -->
 				<!-- <componentref id ="patchTest"/> -->
+				<componentref id="patch1"/>
+				<componentref id="patch2"/>
+				<componentref id="sideCylinder1"/>
+				<componentref id="sideCylinder2"/>
+				<componentref id="cylinderConnection1"/>
+				<componentref id="cylinderFly"/>
+				<componentref id="patchFly1"/>
 			</children>
 		</component>
 		<component id="bridgeCylinder">
@@ -1035,9 +1045,10 @@
 				<primitiveref id="terrain" />
 			</children>
 		</component>
-		<component id="patchTest">
+		<component id="patch1">    <!-- VEICULO -->
 			<transformation>
 				<translate x="0" y="7" z="0"/>
+				<rotate axis="x" angle="-90"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -1045,6 +1056,87 @@
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="patch"/>
+			</children>
+		</component>
+		<component id="patch2">
+			<transformation>
+				<translate x="0" y="7" z="0"/>
+				<rotate axis="x" angle="90"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="patch"/>
+			</children>
+		</component>
+		<component id="sideCylinder1">   
+			<transformation>
+				<translate x="-1.5" y="7" z="1.45"/>
+				<rotate axis="y" angle="90"/>
+				<scale x="0.1" y="0.8" z="3.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="sideCylinder2">   
+			<transformation>
+				<translate x="-1.5" y="7" z="-1.45"/>
+				<rotate axis="y" angle="90"/>
+				<scale x="0.1" y="0.8" z="3.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderConnection1">   
+			<transformation>
+				<translate x="0" y="9" z="0"/>
+				<rotate axis="x" angle="90"/>
+				<scale x="0.2" y="0.2" z="3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderFly">   
+			<transformation>
+				<translate x="0" y="9.2" z="0"/>
+				<rotate axis="x" angle="90"/>
+				<scale x="1" y="1" z="0.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="patchFly1">   
+			<transformation>
+				<translate x="0" y="2" z="0"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="patch2"/>
 			</children>
 		</component>
 	</components>
