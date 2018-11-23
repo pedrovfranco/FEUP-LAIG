@@ -1068,7 +1068,7 @@ var COMPONENTS_INDEX = 9;
 					else if (grandChildren[j].nodeName == "vehicle")
 					{
 
-					 //  this.primitives[primitiveId] = new Vehicle());
+					  this.primitives[primitiveId] = new Vehicle(this.scene);
 					}
 
 					else if (grandChildren[j].nodeName == "cylinder2")
