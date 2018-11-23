@@ -102,6 +102,7 @@
 		<texture id="lighthouseRed" file="scenes/images/lighthousered.png"/>
 		<texture id="lighthouseDoor" file="scenes/images/lighthousedoor.png"/>
 		<texture id="city" file="scenes/images/city.jpg"/>
+		<texture id="sandHeightmap" file="scenes/images/sandHeightmap.jpg"/>
 
 	</textures>
 
@@ -205,7 +206,11 @@
 		</primitive>
 
 		<primitive id="terrain">
-			<terrain idtexture="scenes/images/terrain.jpg" idheightmap="scenes/images/heightmap.jpg" parts="10" heightscale="5"/>
+			<terrain idtexture="sandTexture" idheightmap="sandHeightmap" parts="10" heightscale="1"/>
+		</primitive>
+
+		<primitive id="sand">
+			<terrain idtexture="sandTexture" idheightmap="sandHeightmap" parts="50" heightscale="2.5"/>
 		</primitive>
 
 		<!-- Nova primitiva: plano, gerado por NURBS -->
@@ -275,10 +280,10 @@
 				<componentref id="bridgeFloat" />
 				<componentref id="rope" />
 				<componentref id="land" />
-				<componentref id="sand" />
+				<!-- <componentref id="sand" /> -->
 				<componentref id="lighthouse" />
-				<componentref id ="terrain"/>
-				<componentref id ="patchTest"/>
+				<!-- <componentref id ="terrain"/> -->
+				<!-- <componentref id ="patchTest"/> -->
 			</children>
 		</component>
 		<component id="bridgeCylinder">
@@ -714,16 +719,15 @@
 		</component>
 		<component id="land">
 			<transformation>
-				<rotate axis="x" angle="-90"/>
-				<scale x="4" y="30" z="1"/>
-				<translate x="-2" y="-1" z="0"/>-->
+				<translate x="-3" y="-1" z="0"/> -->
+				<scale x="10" y="1" z="60"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="sandTexture" length_s="1" length_t="0.1" />
+			<texture id="inheit" length_s="1" length_t="0.1" />
 			<children>
-				<primitiveref id="rectangle" />
+				<primitiveref id="sand" />
 			</children>
 		</component>
 		<component id="sand">
@@ -1021,7 +1025,7 @@
 		<component id="terrain">
 			<transformation>
 				<translate x="0" y="3" z="0"/>
-				<scale x="10" y="10" z="10" />
+				<scale x="10" y="1" z="10" />
 			</transformation>
 			<materials>
 				<material id="inherit" />

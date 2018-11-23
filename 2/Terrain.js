@@ -11,7 +11,9 @@ class Terrain extends Primitive
 		this.parts = parts;
 		this.heightscale = heightscale;
 
-		this.plane = new Plane(scene, 50, 50);
+		this.plane = new Plane(scene, this.parts, this.parts);
+
+		this.texCoordsSet = false;
 
 		this.initializeShaders();
 	}
@@ -22,12 +24,22 @@ class Terrain extends Primitive
 		this.shader = new CGFshader(this.scene.gl, "terrain.vert", "terrain.frag"),
 
 		this.shader.setUniformsValues({uSampler2: 1});
-		this.shader.setUniformsValues({normScale: 0.15});
+		this.shader.setUniformsValues({normScale: this.heightscale});
 
-		this.texture1 = new CGFtexture(this.scene, this.idtexture);
-		this.texture2 = new CGFtexture(this.scene, this.idheightmap);
-
+		this.texture1 = new CGFtexture(this.scene, this.scene.graph.textures[this.idtexture]);
+		this.texture2 = new CGFtexture(this.scene, this.scene.graph.textures[this.idheightmap]);
 	};
+
+	updateTexCoords(s, t)
+    {
+        if (this.texCoordsSet != undefined && !this.texCoordsSet)
+        {
+            this.shader.setUniformsValues({length_s: s});
+            this.shader.setUniformsValues({length_t: t});
+    
+            this.texCoordsSet = true;
+        }
+    }
 
 
 	display()
