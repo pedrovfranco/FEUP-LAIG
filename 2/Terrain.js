@@ -1,6 +1,5 @@
 class Terrain extends Primitive
 {
-
 	constructor(scene , idtexture, idheightmap, parts, heightscale)
 	{
 		super(scene);

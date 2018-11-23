@@ -73,6 +73,13 @@ class Component extends CGFobject
         for (var i = 0; i < this.componentsRef.length; i++)
             this.scene.graph.components[this.componentsRef[i]].update(currTime);
 
+        for (var i = 0; i < this.primitivesRef.length; i++)
+        {
+            if (typeof(this.scene.graph.primitives[this.primitivesRef[i]].update) === typeof(Function))
+            {
+                this.scene.graph.primitives[this.primitivesRef[i]].update(currTime);
+            }
+        }
     }
 
     getVerticeAverage()

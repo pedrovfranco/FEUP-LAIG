@@ -19,6 +19,8 @@ class Animation
 		this.deltaTime = (currTime - this.lastTime)/1000;
 
 		this.sumTime += this.deltaTime;
+
+		this.lastTime = currTime;
 	}
 
 
@@ -106,7 +108,6 @@ class LinearAnimation extends Animation
 			
 		}
 
-		this.lastTime = currTime;
 	}
 }
 

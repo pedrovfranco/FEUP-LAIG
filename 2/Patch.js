@@ -11,32 +11,22 @@ class Patch extends Primitive
     this.npartsV = npartsV;
     this.controlPoints = controlPoints;
 
-    this.totalControlPoints = this.npartsU * this.npartsV;
+    this.totalControlPoints = this.npointsU * this.npointsV;
 
     if(this.totalControlPoints != this.controlPoints.length)
       return "Error on Patch control points";
 
-    this.degreeU = npartsU-1;
-    this.degreeV = npartsV-1;
-
-    /*this.degreeArray = [];
-    
-    for(var i = 0; i < this.degree; i++)
-    {
-      if (i < this.degree/2)
-        this.degreeArray.push(0);
-      else
-        this.degreeArray.push(1);
-    }*/
+    this.degreeU = npointsU-1;
+    this.degreeV = npointsV-1;
 
     let controlPoints4R = [];
 
-    for (let i = 0; i < this.npartsU; i++)
+    for (let i = 0; i < this.npointsU; i++)
     {
       controlPoints4R[i] = [];
-      for (let j = 0; j < this.npartsV; j++)
+      for (let j = 0; j < this.npointsV; j++)
       {
-        controlPoints4R[i][j] = this.controlPoints[i*this.npartsV+j];
+        controlPoints4R[i][j] = this.controlPoints[i*this.npointsV+j];
         controlPoints4R[i][j].push(1);
       }
 
@@ -45,7 +35,7 @@ class Patch extends Primitive
     // console.log(controlPoints4R);
 
     this.nurbsSurface = new CGFnurbsSurface(this.degreeU, this.degreeV, controlPoints4R);
-    this.nurbsObject = new CGFnurbsObject(this.scene, this.npointsU, this.npointsV, this.nurbsSurface);
+    this.nurbsObject = new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, this.nurbsSurface);
          
   };
 

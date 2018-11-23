@@ -1,4 +1,4 @@
-class Vehicle extends CGFObject
+class Vehicle extends CGFobject
 {
 
 	constructor(scene)

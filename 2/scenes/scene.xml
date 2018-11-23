@@ -103,6 +103,7 @@
 		<texture id="lighthouseDoor" file="scenes/images/lighthousedoor.png"/>
 		<texture id="city" file="scenes/images/city.jpg"/>
 		<texture id="sandHeightmap" file="scenes/images/sandHeightmap.jpg"/>
+		<texture id="waterHeightmap" file="scenes/images/waterHeightmap3.jpg"/>
 
 	</textures>
 
@@ -202,7 +203,7 @@
 		</primitive>
 
 		<primitive id="water">
-			<water idtexture="texture2" idwavemap="texture1" parts="5" heightscale="0.5" texscale="0.2"/>
+			<water idtexture="texture6" idwavemap="waterHeightmap" parts="200" heightscale="4" texscale="0.25"/>
 		</primitive>
 
 		<primitive id="terrain">
@@ -240,7 +241,7 @@
 		</primitive>
 
 			<primitive id="patch"> 
-			<patch npointsU="5" npointsV="5" npartsU="3" npartsV="2" > 
+			<patch npointsU="3" npointsV="2" npartsU="5" npartsV="5" > 
 				<controlpoint xx="-1.5" yy="-1.5" zz="0" />
 				<controlpoint xx="-1.5" yy="1.5" zz="0" />
 				<controlpoint xx="0" yy="-1.5" zz="1.1" />
@@ -277,13 +278,12 @@
 				<componentref id="bridgeRectangle" />
 				<componentref id="float" />
 				<componentref id="ball" />
-				<componentref id="rectangleWater" />
+				<componentref id="water" />
 				<componentref id="bamboo" />
 			 	<componentref id="raftCylinder" />
 				<componentref id="bridgeFloat" />
 				<componentref id="rope" />
-				<componentref id="land" />
-				<!-- <componentref id="sand" /> -->
+				<componentref id="sand" />
 				<componentref id="lighthouse" />
 				<!-- <componentref id ="terrain"/> -->
 				<!-- <componentref id ="patchTest"/> -->
@@ -469,19 +469,19 @@
 				<primitiveref id="sphere" />
 			</children>
 		</component>
-		<component id="rectangleWater">
+		<component id="water">
 			<transformation>
-				<translate x="0" y="-1" z="0"/>
-				<scale x ="15" y="1" z="30"/>
-				<translate x="-0.5" y="0" z="1"/>
-				<rotate axis="x" angle="-90"/>
+				<translate x="10" y="-3" z="0"/>
+				<scale x ="35" y="1" z="60"/>
+				<!-- <translate x="-0.5" y="0" z="1"/> -->
+				<!-- <rotate axis="x" angle="-90"/> -->
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="texture6" length_s="1" length_t="1" />
+			<texture id="texture6" length_s="0.25" length_t="0.1" />
 			<children>
-				<primitiveref id="rectangle" />
+				<primitiveref id="water" />
 			</children>
 		</component>
 		<component id="bamboo">
@@ -727,9 +727,9 @@
 				<primitiveref id="cylinder" />
 			</children>
 		</component>
-		<component id="land">
+		<component id="sand">
 			<transformation>
-				<translate x="-3" y="-1" z="0"/> -->
+				<translate x="-3" y="-0.5" z="0"/> -->
 				<scale x="10" y="1" z="60"/>
 			</transformation>
 			<materials>
@@ -738,21 +738,6 @@
 			<texture id="inheit" length_s="1" length_t="0.1" />
 			<children>
 				<primitiveref id="sand" />
-			</children>
-		</component>
-		<component id="sand">
-			<transformation>
-				<rotate axis="x" angle="-90"/>
-				<scale x="1" y="30" z="1"/>
-				<rotate axis="y" angle = "45"/>
-				<translate x="0" y="-1" z="0"/>-->
-			</transformation>
-			<materials>
-				<material id="inherit" />
-			</materials>
-			<texture id="sandTexture" length_s="1" length_t="0.1" />
-			<children>
-				<primitiveref id="rectangle" />
 			</children>
 		</component>
 

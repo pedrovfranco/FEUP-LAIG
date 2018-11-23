@@ -980,7 +980,7 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-						this.primitives[primitiveId] = new Cylinder2(this.scene, base, top, height, slices, stacks);
+						this.primitives[primitiveId] = new Cylinder(this.scene, base, top, height, slices, stacks);
 					}
 
 					else if (grandChildren[j].nodeName == "sphere")
@@ -1113,8 +1113,8 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(idtexture) && this.isValid(idwavemap) && this.isValid(parts) && this.isValid(heightscale) && this.isValid(texscale)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-							//new water();
-						}
+						this.primitives[primitiveId] = new Water(this.scene , idtexture, idwavemap, parts, heightscale, texscale);							
+					}
 					else
 					{
 						this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
@@ -1127,9 +1127,8 @@ var COMPONENTS_INDEX = 9;
 		}
 
 
-				this.log("Parsed primitives");
-				return null;
-
+		this.log("Parsed primitives");
+		return null;
 	}
 
 	 /**
