@@ -18,6 +18,8 @@ class Plane extends Primitive
 											]
 										];
 
+      // console.log(this.controlPoints);              
+
 			this.nurbsSurface = new CGFnurbsSurface(1, 1, this.controlPoints);
 			this.nurbsObject = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, this.nurbsSurface);
 		};

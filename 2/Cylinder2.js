@@ -46,6 +46,8 @@ class Cylinder2 extends Primitive
                                ]
 
                              ];
+
+        console.log(this.controlPoints);
          this.nurbsSurface = new CGFnurbsSurface(1, 8, this.controlPoints);
          this.nurbsObject = new CGFnurbsObject(this.scene, this.slices, this.stacks, this.nurbsSurface);
     };

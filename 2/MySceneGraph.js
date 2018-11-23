@@ -1049,10 +1049,8 @@ var COMPONENTS_INDEX = 9;
 
 								if (!(this.isValid(xx) && this.isValid(yy) && this.isValid(zz)))
 									return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-								
-								var cp = [xx,yy,zz];
-
-								this.controlpoints.push(cp);
+							
+								this.controlpoints.push([xx,yy,zz]);
 							}
 
 							else
@@ -1062,6 +1060,8 @@ var COMPONENTS_INDEX = 9;
 							}
 						}
 
+						// this.log("controlpoints: ");
+						// console.log(this.controlpoints);
 						this.primitives[primitiveId] = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, this.controlpoints);
 					}
 					
@@ -1084,7 +1084,7 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-				  //  this.primitives[primitiveId] = new cylinder2());
+				    this.primitives[primitiveId] = new Cylinder2(this.scene, base, top, height, slices ,stacks);
 					}
 					else if (grandChildren[j].nodeName == "terrain")
 					{

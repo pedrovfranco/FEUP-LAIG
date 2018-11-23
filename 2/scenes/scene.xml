@@ -225,11 +225,26 @@
 		<!-- a ser usada para o cálculo da superficie -->
 		<!-- - o número de pontos de controlo dentro da -->
 		<!-- primitiva patch é npointsU * npointsV -->
-		<primitive id="patchaOImperador"> 
-			<patch npointsU="1" npointsV="1" npartsU="2" npartsV="2" > 
-				<controlpoint xx="1.1" yy="1.1" zz="1.1" />
+		<primitive id="patch2"> 
+			<patch npointsU="2" npointsV="2" npartsU="2" npartsV="2" > 
+				<controlpoint xx="1" yy="0" zz="0" />
+				<controlpoint xx="0" yy="0" zz="0" />
+				<controlpoint xx="1" yy="0" zz="1" />
+				<controlpoint xx="0" yy="0" zz="1" />
 			</patch>
 		</primitive>
+
+			<primitive id="patch"> 
+			<patch npointsU="5" npointsV="5" npartsU="3" npartsV="2" > 
+				<controlpoint xx="-1.5" yy="-1.5" zz="0" />
+				<controlpoint xx="-1.5" yy="1.5" zz="0" />
+				<controlpoint xx="0" yy="-1.5" zz="3" />
+				<controlpoint xx="0" yy="1.5" zz="3" />
+				<controlpoint xx="1.5" yy="-1.5" zz="0" />
+				<controlpoint xx="1.5" yy="1.5" zz="0" />
+			</patch>
+		</primitive>
+
 		 <!-- Nova primitiva vehicle: corresponde a um veículo voador.
 		Inclui pelo menos uma superfície não plana gerada
 		utilizando NURBS e em código javascript -->
@@ -263,6 +278,7 @@
 				<componentref id="sand" />
 				<componentref id="lighthouse" />
 				<componentref id ="terrain"/>
+				<componentref id ="patchTest"/>
 			</children>
 		</component>
 		<component id="bridgeCylinder">
@@ -1013,6 +1029,18 @@
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="terrain" />
+			</children>
+		</component>
+		<component id="patchTest">
+			<transformation>
+				<translate x="0" y="7" z="0"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="patch"/>
 			</children>
 		</component>
 	</components>
