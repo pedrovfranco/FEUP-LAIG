@@ -51,9 +51,6 @@ class Component extends CGFobject
 
         for (var i = 0; i < this.primitivesRef.length; i++)
         {
-            if (this.scene.graph.primitives[this.primitivesRef[i]] == undefined) 
-                var a = 0;
-                
             this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2]);
             this.scene.graph.primitives[this.primitivesRef[i]].display();
         }
@@ -84,8 +81,10 @@ class Component extends CGFobject
 
     getVerticeAverage()
     {
-        var sum = [0, 0, 0, 0], count = 0;
-        this.getVerticeAverageRecursive(sum, count);
+        var sum = [0, 0, 0, 0];
+        let matrix = mat4.create();
+
+        this.getVerticeAverageRecursive(sum, matrix);
 
         sum[0] /= sum[3];
         sum[1] /= sum[3];
@@ -94,30 +93,24 @@ class Component extends CGFobject
         return sum;
     }
 
-    getVerticeAverageRecursive(sum, count)
+    getVerticeAverageRecursive(sum, matrix)
     {
+        let matrix2 = mat4.create();
+
+        mat4.multiply(matrix2, matrix, this.transformationMatrix);
+
         for (var i = 0; i < this.componentsRef.length; i++)
-            this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, count);
+            this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, matrix2);
 
         for (var i = 0; i < this.primitivesRef.length; i++)
-            this.scene.graph.primitives[this.primitivesRef[i]].getVerticeAverageRecursive(sum, count);
+            this.scene.graph.primitives[this.primitivesRef[i]].getVerticeAverageRecursive(sum, matrix2);
     }
 
-    getCenter()
+    getCenter(matrix)
     {
-        let sum = [0, 0, 0.5];
+        let sum = this.getVerticeAverage();
 
-        let pointMatrix = this.createMatrix(sum[0], sum[1], sum[2], 1,
-                                          0, 0, 0, 0,
-                                          0, 0, 0, 0,
-                                          0, 0, 0, 0);
-        
-        let foobar = mat4.create();
-
-        mat4.multiply(foobar, this.animation.transformationMatrix, this.transformationMatrix);
-        mat4.multiply(pointMatrix, foobar, pointMatrix);
-
-        return [pointMatrix[0], pointMatrix[1], pointMatrix[2]];
+        return [sum[0], sum[1], sum[2]];
     }
 
     createMatrix(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)

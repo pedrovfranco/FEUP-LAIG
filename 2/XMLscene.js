@@ -37,14 +37,6 @@ class XMLscene extends CGFscene {
 
 		this.views = [];
 
-		this.shader = new CGFshader(this.gl, "terrain.vert", "terrain.frag"),
-
-		this.shader.setUniformsValues({uSampler2: 1});
-
-		this.texture1 = new CGFtexture(this, "scenes/images/terrain.jpg");
-		this.texture2 = new CGFtexture(this, "scenes/images/heightmap.jpg");
-
-
 		var framerate = 30;
 		this.setUpdatePeriod(1000/framerate);
 	}
@@ -176,10 +168,6 @@ class XMLscene extends CGFscene {
 		this.initViews();
 
 		this.setCamera();
-
-		this.animations = [];
-
-		this.animations[0] = new LinearAnimation(this, this.graph.components['raftCylinder'], [[0,0,0], [5,0,5], [5,0,0]], 10);
 	}
 
 	update(currTime)

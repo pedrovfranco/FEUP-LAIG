@@ -16,7 +16,7 @@ class Animation
 	update(currTime)
 	{
 		if (this.lastTime == -1)
-				this.lastTime = currTime;
+			this.lastTime = currTime;
 
 		this.deltaTime = (currTime - this.lastTime)/1000;
 
@@ -28,11 +28,7 @@ class Animation
 
 	apply()
 	{
-		// this.scene.pushMatrix();
-	
-			this.scene.multMatrix(this.transformationMatrix);
-
-		// this.scene.popMatrix();
+		this.scene.multMatrix(this.transformationMatrix);
 	}
 
 	setComponent(component)
@@ -90,24 +86,10 @@ class LinearAnimation extends Animation
 			
 			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 
-			// mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], center[1], center[2]));
+			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], 0, center[2]));
 			mat4.rotate(this.transformationMatrix, this.transformationMatrix, angle, vec3.fromValues(0,1,0));
-			// mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], -center[1], -center[2]));
+			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], 0, -center[2]));
 
-
-
-			// var defaultVector = [0, 0, 1];
-			// var v = [x, 0, z];
-
-			// var angle2 = Math.atan2(defaultVector[0]*v[2] - defaultVector[2]*v[0], defaultVector[0]*v[0] + defaultVector[2]*v[2]);
-
-			// console.log(angle2);
-
-			// var vector = this.[];
-
-			// vector[0] = thi
-
-			
 		}
 
 	}
@@ -134,41 +116,35 @@ class CircularAnimation extends Animation
 
 	update(currTime)
 	{
-		super.update(currTime);
-
 		if (this.component != undefined)
 		{
+			super.update(currTime);
+
 			let coords = [];
 			let ratio = this.rotationAngle/this.totalTime;
 
 			this.angle = this.initialAngle + ratio*this.sumTime;
 
-			coords[0] = this.center[0] + this.radius*Math.cos(this.angle);
+			coords[0] = this.center[0] + this.radius*Math.sin(this.angle);
 			coords[1] = this.center[1];
-			coords[2] = this.center[2] + this.radius*Math.sin(this.angle);
+			coords[2] = this.center[2] + this.radius*Math.cos(this.angle);
 
-			let x = this.radius*Math.sin(this.angle);
-			let z = -this.radius*Math.cos(this.angle);
+			var directionRatio, directionAngle = this.angle + Math.PI/2; 
 
-			var directionRatio, directionAngle;
-			if (x != 0)
-			{
-				directionRatio = x/z;
-				directionAngle = Math.atan(directionRatio);
-			}
-			else
-			{
-				if (z > 0)
-					directionAngle = 0;
-				else
-					directionAngle = Math.PI;
-			}
+			let center = this.component.getCenter();
+			// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
 
+			// console.log("directionAngle = " + directionAngle);
+			// console.log("this.sumTime = " + this.sumTime);
+			
 			this.transformationMatrix = mat4.create();
 
 			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 
+			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], 0, center[2]));
 			mat4.rotate(this.transformationMatrix, this.transformationMatrix, directionAngle, vec3.fromValues(0,1,0));
+			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], 0, -center[2]));
+
 		}
 	}
 }

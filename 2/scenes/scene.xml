@@ -323,7 +323,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<animations>
-				<animationref id="circular" />
+				<!-- <animationref id="circular" /> -->
 			</animations>
 			<children>
 				<primitiveref id="cylinder" />
@@ -559,12 +559,8 @@
 				<material id="inherit" />
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
-			<!-- bloco "animations" e' opcional -->
-			<!-- as transformacoes resultantes da animacao devem -->
-			<!-- declarar-se imediatamente após as transformacoes -->
-			<!-- do componente -->
 			<animations>
-				<!-- <animationref id="linear1" /> -->
+				<animationref id="linear1" />
 			</animations>
 			<children>
 				<componentref id="raftCylinder1" />
