@@ -723,7 +723,7 @@
 		</component>
 		<component id="sand">
 			<transformation>
-				<translate x="-3" y="-0.5" z="0"/> -->
+				<translate x="-3" y="-0.5" z="0"/>
 				<scale x="10" y="1" z="60"/>
 			</transformation>
 			<materials>
