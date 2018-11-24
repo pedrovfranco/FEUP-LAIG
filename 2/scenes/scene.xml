@@ -1232,7 +1232,6 @@
 				<primitiveref id="patch2"/>
 			</children>
 		</component>
-
 		<component id="helicopterLand">   
 			<transformation>
 				<translate x="10.5" y="0.1" z="0.5"/>
