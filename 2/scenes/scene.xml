@@ -1035,7 +1035,7 @@
 				<material id="inherit" />
 			</materials>
 			<animations>
-				<animationref id="circular" />
+				<!-- <animationref id="circular" /> -->
 			</animations>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
@@ -1044,7 +1044,13 @@
 				<componentref id="sideCylinder1" />
 				<componentref id="sideCylinder2" />
 				<componentref id="cylinderConnection1" />
-				<componentref id="cylinderFly" />
+				<componentref id="cylinderConnection2" />
+				<componentref id="cylinderConnection3" />
+				<componentref id="cylinderFly1"/>
+				<componentref id="cylinderFly2"/>
+				<componentref id="cylinderFly3"/>
+				<componentref id="cylinderFly4"/>
+				<componentref id="camera"/>
 				<componentref id="patchFly1" />
 			</children>
 		</component>
@@ -1104,9 +1110,8 @@
 		</component>
 		<component id="cylinderConnection1">   
 			<transformation>
-				<translate x="0" y="9" z="0"/>
-				<rotate axis="x" angle="90"/>
-				<scale x="0.2" y="0.2" z="3"/>
+				<translate x="0" y="7" z="-3"/>
+				<scale x="0.2" y="0.2" z="6"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -1116,11 +1121,95 @@
 				<primitiveref id="cylinder2"/>
 			</children>
 		</component>
-		<component id="cylinderFly">   
+		<component id="cylinderConnection2">   
 			<transformation>
-				<translate x="0" y="9.2" z="0"/>
+				<translate x="3" y="7" z="3"/>
+				<rotate axis="y" angle="-90"/>
+				<scale x="0.2" y="0.2" z="6"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderConnection3">   
+			<transformation>
+				<translate x="3" y="7" z="-3"/>
+				<rotate axis="y" angle="-90"/>
+				<scale x="0.2" y="0.2" z="6"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderFly1">   
+			<transformation>
+				<translate x="-3.9" y="7.2" z="3"/>
 				<rotate axis="x" angle="90"/>
 				<scale x="1" y="1" z="0.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderFly2">   
+			<transformation>
+				<translate x="3.9" y="7.2" z="3"/>
+				<rotate axis="x" angle="90"/>
+				<scale x="1" y="1" z="0.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderFly3">   
+			<transformation>
+				<translate x="-3.9" y="7.2" z="-3"/>
+				<rotate axis="x" angle="90"/>
+				<scale x="1" y="1" z="0.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="cylinderFly4">   
+			<transformation>
+				<translate x="3.9" y="7.2" z="-3"/>
+				<rotate axis="x" angle="90"/>
+				<scale x="1" y="1" z="0.3"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<primitiveref id="cylinder2"/>
+			</children>
+		</component>
+		<component id="camera">   
+			<transformation>
+				<translate x="0" y="6" z="0"/>
+				<rotate axis="x" angle="-90"/>
+				<scale x="0.2" y="0.2" z="1"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
