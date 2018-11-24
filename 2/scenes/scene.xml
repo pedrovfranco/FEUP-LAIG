@@ -165,6 +165,8 @@
 		<!-- ao angulo inicial (em graus) e -->
 		<!-- total de rotação (em graus) -->
 		<!-- <circular id="ss" span="ff" center="ff ff ff" radius="ff" startang="ff" rotang="ff" /> -->
+
+		<circular id="circular" span="1" center="0 0 0" radius="5" startang="40" rotang="20" />
 	</animations>
 
 
@@ -287,13 +289,8 @@
 				<componentref id="lighthouse" />
 				<!-- <componentref id ="terrain"/> -->
 				<!-- <componentref id ="patchTest"/> -->
-				<componentref id="patch1"/>
-				<componentref id="patch2"/>
-				<componentref id="sideCylinder1"/>
-				<componentref id="sideCylinder2"/>
-				<componentref id="cylinderConnection1"/>
-				<componentref id="cylinderFly"/>
-				<componentref id="patchFly1"/>
+				<componentref id="drone"/>
+
 			</children>
 		</component>
 		<component id="bridgeCylinder">
@@ -325,7 +322,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<animations>
-				<animationref id="linear1" />
+				<animationref id="circular" />
 			</animations>
 			<children>
 				<primitiveref id="cylinder" />
@@ -1028,6 +1025,27 @@
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="terrain" />
+			</children>
+		</component>
+
+		<component id="drone">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<animations>
+				<animationref id="circular" />
+			</animations>
+			<texture id="inherit" length_s="1" length_t="1" />
+			<children>
+				<componentref id="patch1" />
+				<componentref id="patch2" />
+				<componentref id="sideCylinder1" />
+				<componentref id="sideCylinder2" />
+				<componentref id="cylinderConnection1" />
+				<componentref id="cylinderFly" />
+				<componentref id="patchFly1" />
 			</children>
 		</component>
 		<component id="patch1">    <!-- VEICULO -->

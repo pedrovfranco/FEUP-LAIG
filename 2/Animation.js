@@ -1,3 +1,5 @@
+var DEGREE_TO_RAD = Math.PI / 180;
+
 class Animation
 {
 	constructor(scene)
@@ -119,12 +121,15 @@ class CircularAnimation extends Animation
 	{
 		super(scene);
 
-		this.center = center;
-		this.radius = radius;
-		this.initialAngle = initialAngle;
-		this.rotationAngle = rotationAngle;
-		this.totalTime = totalTime;
+		this.center = [];
+		this.center[0] = parseFloat(center[0]);
+		this.center[1] = parseFloat(center[1]);
+		this.center[2] = parseFloat(center[2]);
 
+		this.radius = radius;
+		this.initialAngle = initialAngle*DEGREE_TO_RAD;
+		this.rotationAngle = rotationAngle*DEGREE_TO_RAD;
+		this.totalTime = totalTime;
 	};
 
 	update(currTime)
@@ -133,13 +138,37 @@ class CircularAnimation extends Animation
 
 		if (this.component != undefined)
 		{
+			let coords = [];
+			let ratio = this.rotationAngle/this.totalTime;
+
+			this.angle = this.initialAngle + ratio*this.sumTime;
+
+			coords[0] = this.center[0] + this.radius*Math.cos(this.angle);
+			coords[1] = this.center[1];
+			coords[2] = this.center[2] + this.radius*Math.sin(this.angle);
+
+			let x = this.radius*Math.sin(this.angle);
+			let z = -this.radius*Math.cos(this.angle);
+
+			var directionRatio, directionAngle;
+			if (x != 0)
+			{
+				directionRatio = x/z;
+				directionAngle = Math.atan(directionRatio);
+			}
+			else
+			{
+				if (z > 0)
+					directionAngle = 0;
+				else
+					directionAngle = Math.PI;
+			}
+
 			this.transformationMatrix = mat4.create();
 
 			mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 
-			
+			mat4.rotate(this.transformationMatrix, this.transformationMatrix, directionAngle, vec3.fromValues(0,1,0));
 		}
-
-		this.lastTime = currTime;
 	}
 }

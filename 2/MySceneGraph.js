@@ -888,6 +888,7 @@ var COMPONENTS_INDEX = 9;
 				this.animations[animationId][2] = this.reader.getFloat(children[i],'radius');
 				this.animations[animationId][3] = this.reader.getFloat(children[i],'startang');
 				this.animations[animationId][4] = this.reader.getFloat(children[i],'rotang');
+				this.animations[animationId][5] = this.reader.getFloat(children[i],'span');
 			}
 			else
 			{
@@ -1280,6 +1281,10 @@ var COMPONENTS_INDEX = 9;
 							if (this.animations[id][0] == 0) // Linear
 							{
 								componentsTemp[componentId][3] = new LinearAnimation(this.scene, this.animations[id][1], this.animations[id][2]);
+							}
+							else if (this.animations[id][0] == 1) // Circular
+							{
+								componentsTemp[componentId][3] = new CircularAnimation(this.scene, this.animations[id][1], this.animations[id][2], this.animations[id][3], this.animations[id][4], this.animations[id][5]);
 							}
 						}
 					}
