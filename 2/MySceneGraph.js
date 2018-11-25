@@ -1085,7 +1085,7 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(base) && this.isValid(top) && this.isValid(height) && this.isValid(slices) && this.isValid(stacks)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-				    this.primitives[primitiveId] = new Cylinder2(this.scene, base, top, height, slices ,stacks);
+					this.primitives[primitiveId] = new Cylinder2(this.scene, base, top, height, slices ,stacks);
 					}
 					else if (grandChildren[j].nodeName == "terrain")
 					{
@@ -1273,20 +1273,29 @@ var COMPONENTS_INDEX = 9;
 					}
 
 					else if (grandChildren[j].nodeName == "animations")
-					{						
-						var id = this.reader.getString(grandChildren[j].children[0] , 'id');
+					{
+						componentsTemp[componentId][3] = [];
 
-						if (this.isValid(id))
+						grandGrandChildren = grandChildren[j].children;
+
+						for (var k = 0; k < grandGrandChildren.length; k++)
 						{
+							var id = this.reader.getString(grandGrandChildren[k], 'id');
+
+							if (!this.isValid(id))
+								return "Unable to parse component id=\"" + componentId + "\" on the \"" + grandChildren[j].nodeName + "\" node" + " on the \"" + grandGrandChildren[k].nodeName + "\" node";
+
 							if (this.animations[id][0] == 0) // Linear
 							{
-								componentsTemp[componentId][3] = new LinearAnimation(this.scene, this.animations[id][1], this.animations[id][2]);
+								componentsTemp[componentId][3].push(new LinearAnimation(this.scene, this.animations[id][1], this.animations[id][2]));
 							}
 							else if (this.animations[id][0] == 1) // Circular
 							{
-								componentsTemp[componentId][3] = new CircularAnimation(this.scene, this.animations[id][1], this.animations[id][2], this.animations[id][3], this.animations[id][4], this.animations[id][5]);
+								componentsTemp[componentId][3].push(new CircularAnimation(this.scene, this.animations[id][1], this.animations[id][2], this.animations[id][3], this.animations[id][4], this.animations[id][5]));
 							}
 						}
+
+						
 					}
 
 					else if (grandChildren[j].nodeName == "children")

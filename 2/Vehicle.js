@@ -12,7 +12,7 @@ class Vehicle extends Primitive
 
 	initBuffers()
 	{
-		this.cylinder2 = new Cylinder2(this.scene, 1, 1, 1, 30, 30);
+		this.cylinder2 = new Cylinder(this.scene, 1, 1, 1, 30, 30);
 
 		this.controlPointsPatch = [ [-1.5,-1.5, 0], [-1.5,1.5,0], [0,-1.5,1.1], [0,1.5,1.1], [1.5,-1.5,0], [1.5,1.5,0]];
 		this.controlPointsPatch2 = [ [1,0,0], [0,0,0], [1,0,1], [0,0,1]];
@@ -20,7 +20,7 @@ class Vehicle extends Primitive
 		this.patch = new Patch(this.scene, 3, 2, 5, 5, this.controlPointsPatch);
   		this.patch2 = new Patch(this.scene, 2, 2, 2, 2, this.controlPointsPatch2);
 
-  		this.plane = new Plane(this.scene, 5, 5)
+  		this.plane = new Plane(this.scene, 5, 5);
 		
 
   		this.red = new CGFappearance(this.scene);
@@ -53,10 +53,26 @@ class Vehicle extends Primitive
 		this.initGLBuffers();
 	};
 
+	getVerticeAverageRecursive(sum, matrix)
+    {
+    	let pointMatrix = this.createMatrix(0, 0, 0, 1,
+                                              0, 0, 0, 1,
+                                              0, 0, 0, 1,
+                                              0, 0, 0, 1);
+            
+        mat4.multiply(pointMatrix, matrix, pointMatrix);
+
+        sum[0] += pointMatrix[0];
+        sum[1] += pointMatrix[1];
+        sum[2] += pointMatrix[2];
+        sum[3]++;
+    }
+   
+
 	display()
 	{
-
-		this.scene.translate(5, 0, 0);
+		this.scene.rotate(-Math.PI/2, 0, 1, 0);
+		this.scene.translate(0, -7, 0);
 
 		this.scene.pushMatrix();  //up part
 		this.scene.translate(0, 7, 0);

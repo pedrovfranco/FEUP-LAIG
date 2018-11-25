@@ -23,7 +23,7 @@ class Water extends Primitive
 	initializeShaders()
 	{
 
-		this.shader = new CGFshader(this.scene.gl, "water.vert", "terrain.frag"),
+		this.shader = new CGFshader(this.scene.gl, "scenes/shaders/water.vert", "scenes/shaders/terrain.frag"),
 
 		this.shader.setUniformsValues({uSampler2: 1});
         this.shader.setUniformsValues({normScale: this.heightscale});

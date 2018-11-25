@@ -46,8 +46,10 @@ class Primitive extends CGFobject
 
     getVerticeAverage()
     {
-        var sum = [0, 0, 0, 0], count = 0;
-        this.getVerticeAverageRecursive(sum, count);
+        var sum = [0, 0, 0, 0];
+        let matrix = mat4.create();
+
+        this.getVerticeAverageRecursive(sum, matrix);
 
         sum[0] /= sum[3];
         sum[1] /= sum[3];
@@ -58,22 +60,32 @@ class Primitive extends CGFobject
 
     getVerticeAverageRecursive(sum, matrix)
     {
-        let pointMatrix;
+        let tempSum = [0, 0, 0, 0];
         for (let i = 0; i < this.vertices.length; i+=3)
         {
-            pointMatrix = this.createMatrix(this.vertices[i], this.vertices[i+1], this.vertices[i+2], 1,
+
+            tempSum[0] += this.vertices[i];
+            tempSum[1] += this.vertices[i+1];
+            tempSum[2] += this.vertices[i+2];
+
+            tempSum[3]++;
+        }
+
+        tempSum[0] /= tempSum[3];
+        tempSum[1] /= tempSum[3];
+        tempSum[2] /= tempSum[3];
+
+        let pointMatrix = this.createMatrix(tempSum[0], tempSum[1], tempSum[2], 1,
                                               0, 0, 0, 1,
                                               0, 0, 0, 1,
                                               0, 0, 0, 1);
             
-            mat4.multiply(pointMatrix, matrix, pointMatrix);
+        mat4.multiply(pointMatrix, matrix, pointMatrix);
 
-            sum[0] += pointMatrix[0];
-            sum[1] += pointMatrix[1];
-            sum[2] += pointMatrix[2];
-
-            sum[3] += 1;
-        }
+        sum[0] += pointMatrix[0];
+        sum[1] += pointMatrix[1];
+        sum[2] += pointMatrix[2];
+        sum[3]++;
     }
 
     createMatrix(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)

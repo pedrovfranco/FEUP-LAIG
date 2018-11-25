@@ -145,27 +145,22 @@
 
 	</transformations>
 
-	<!-- informacao de animacao -->
-	<!-- o bloco "animations" deve ser declarado -->
-	<!-- imediatamente antes do bloco "oprimitives" -->
+
 	<animations>
-		<!-- O bloco animations pode ser vazio, isto é, pode -->
-		<!-- não ser declarada qualquer animação, linear ou circular -->
-		<!-- Span é o tempo, em segundos, que a animação deve demorar -->
 		<linear id="linear1" span="10" >
-			<!-- devem existir pelo menos dois pontos de controlo -->
 			<controlpoint xx="0" yy="0" zz="0" />
 			<controlpoint xx="5" yy="0" zz="5" />
 			<controlpoint xx="5" yy="0" zz="0" />
 		</linear>
-		<!-- center corresponde ao ponto que serve -->
-		<!-- de centro da animação circular -->
-		<!-- radius corresponde ao raio da rotacao -->
-		<!-- para a animação circular -->
-		<!-- startang e rotang correspondem, nomeadamente, -->
-		<!-- ao angulo inicial (em graus) e -->
-		<!-- total de rotação (em graus) -->
-		<!-- <circular id="ss" span="ff" center="ff ff ff" radius="ff" startang="ff" rotang="ff" /> -->
+
+		<linear id="drone1" span="6" >
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="0" yy="10" zz="0" />
+			<controlpoint xx="-11" yy="10" zz="-15" />
+		</linear>
+
+		<circular id="drone2" span="8" center="-17.7 10 -13" radius="6" startang="100" rotang="250" />
+
 
 		<circular id="circular" span="1" center="0 0 0" radius="5" startang="40" rotang="20" />
 	</animations>
@@ -563,7 +558,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<animations>
-				<animationref id="linear1" />
+				<!-- <animationref id="linear1" /> -->
 			</animations>
 			<children>
 				<componentref id="raftCylinder1" />
@@ -1030,12 +1025,15 @@
 
 		<component id="drone">
 			<transformation>
+				<translate x="12.5" y="0" z="2.5"/>
+				<!-- <rotate axis="y" angle="90"/> -->
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
 			<animations>
-				<!-- <animationref id="circular" /> -->
+				<animationref id="drone1" />
+				<animationref id="drone2" />
 			</animations>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>

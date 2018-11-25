@@ -1,140 +1,193 @@
 class Component extends CGFobject
 {
-    constructor(scene, transformationMatrix, materials, texture, animation, componentsRef, primitivesRef, id)
-    {
-        super(scene);
+	constructor(scene, transformationMatrix, materials, texture, animations, componentsRef, primitivesRef, id)
+	{
+		super(scene);
 
-        this.scene = scene;
-        this.transformationMatrix = transformationMatrix;
-        this.materials = materials;
-        this.texture = texture;
-        this.animation = animation;
-        this.componentsRef = componentsRef;
-        this.primitivesRef = primitivesRef;
-        this.id = id;
+		this.scene = scene;
+		this.transformationMatrix = transformationMatrix;
+		this.materials = materials;
+		this.texture = texture;
+		this.animations = animations;
+		this.componentsRef = componentsRef;
+		this.primitivesRef = primitivesRef;
+		this.id = id;
 
-        if (this.animation != null)
-        {
-            this.animation.setComponent(this);
-        }
+		if (this.animations == null)
+		{
+			this.animations = [];
+		}
 
-        this.idMaterial = 0;
+		for (var i = 0; i < this.animations.length; i++)
+		{
+			this.animations[i].setComponent(this);
+		}
 
-        this.material = new CGFappearance(scene);
-    }
+		this.idMaterial = 0;
 
-    incrementMaterial()
-    {
-        this.idMaterial++;
-        this.idMaterial %= this.materials.length;
-    }
+		this.material = new CGFappearance(scene);
+	}
 
-
-    display()
-    {
-        this.scene.pushMatrix();
-
-        this.material.apply();
+	incrementMaterial()
+	{
+		this.idMaterial++;
+		this.idMaterial %= this.materials.length;
+	}
 
 
-        if (this.animation != null)
-        {
-            this.animation.apply();
-        }
+	display()
+	{
+		this.scene.pushMatrix();
 
-        this.scene.multMatrix(this.transformationMatrix);
+		this.material.apply();
 
-        for (var i = 0; i < this.componentsRef.length; i++)
-        {
-            this.scene.graph.components[this.componentsRef[i]].display();
-        }
 
-        for (var i = 0; i < this.primitivesRef.length; i++)
-        {
-            this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2]);
-            this.scene.graph.primitives[this.primitivesRef[i]].display();
-        }
+		let resetFlag = false;
+		for (var i = 0; i < this.animations.length; i++)
+		{
+			if (i == 1)
+				var a = 0;
 
-        this.scene.popMatrix();
+			resetFlag = true;
+			if (!this.animations[i].finished)
+			{
+				this.animations[i].apply();
+				resetFlag = false;
+				this.lastAnimation = i;
+				break;
+			}
+		}
 
-        this.scene.materialDefault.apply();
-    }
+		if (resetFlag)
+		{
+			for (var i = 0; i < this.animations.length; i++)
+				this.animations[i].reset();
 
-    update(currTime)
-    {            
-        if (this.animation != null)
-        {
-            this.animation.update(currTime);
-        }
+			var currDate = new Date();
+			this.animations[0].update(currDate.getTime());
+			this.animations[0].apply();
+		}
 
-        for (var i = 0; i < this.componentsRef.length; i++)
-            this.scene.graph.components[this.componentsRef[i]].update(currTime);
+		this.scene.multMatrix(this.transformationMatrix);
 
-        for (var i = 0; i < this.primitivesRef.length; i++)
-        {
-            if (typeof(this.scene.graph.primitives[this.primitivesRef[i]].update) === typeof(Function))
-            {
-                this.scene.graph.primitives[this.primitivesRef[i]].update(currTime);
-            }
-        }
-    }
+		for (var i = 0; i < this.componentsRef.length; i++)
+		{
+			this.scene.graph.components[this.componentsRef[i]].display();
+		}
 
-    getVerticeAverage()
-    {
-        var sum = [0, 0, 0, 0];
-        let matrix = mat4.create();
+		for (var i = 0; i < this.primitivesRef.length; i++)
+		{
+			this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2]);
+			this.scene.graph.primitives[this.primitivesRef[i]].display();
+		}
 
-        this.getVerticeAverageRecursive(sum, matrix);
+		this.scene.popMatrix();
 
-        sum[0] /= sum[3];
-        sum[1] /= sum[3];
-        sum[2] /= sum[3];
-        
-        return sum;
-    }
+		this.scene.materialDefault.apply();
+	}
 
-    getVerticeAverageRecursive(sum, matrix)
-    {
-        let matrix2 = mat4.create();
+	update(currTime)
+	{
+		let resetFlag = false;
+		for (var i = 0; i < this.animations.length; i++)
+		{
+			resetFlag = true;
+			if (!this.animations[i].finished)
+			{
+				this.animations[i].update(currTime);
+				resetFlag = false;
+				break;
+			}
+		}
 
-        mat4.multiply(matrix2, matrix, this.transformationMatrix);
+		if (resetFlag)
+		{
+			for (var i = 0; i < this.animations.length; i++)
+				this.animations[i].reset();
 
-        for (var i = 0; i < this.componentsRef.length; i++)
-            this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, matrix2);
+			this.animations[0].update(currTime);
+		}
 
-        for (var i = 0; i < this.primitivesRef.length; i++)
-            this.scene.graph.primitives[this.primitivesRef[i]].getVerticeAverageRecursive(sum, matrix2);
-    }
+		for (var i = 0; i < this.componentsRef.length; i++)
+			this.scene.graph.components[this.componentsRef[i]].update(currTime);
 
-    getCenter(matrix)
-    {
-        let sum = this.getVerticeAverage();
+		for (var i = 0; i < this.primitivesRef.length; i++)
+		{
+			if (typeof(this.scene.graph.primitives[this.primitivesRef[i]].update) === typeof(Function))
+			{
+				this.scene.graph.primitives[this.primitivesRef[i]].update(currTime);
+			}
+		}
+	}
 
-        return [sum[0], sum[1], sum[2]];
-    }
+	passLastTime(lastTime)
+	{
+		for (var i = 0; i < this.animations.length; i++)
+		{
+			if (!this.animations[i].finished)
+			{
+				this.animations[i].lastTime = lastTime;
+				break;
+			}
+		}
+	}
 
-    createMatrix(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
-    {
-        let out = mat4.create();
+	getVerticeAverage()
+	{
+		var sum = [0, 0, 0, 0];
+		let matrix = mat4.create();
 
-        out[0] = m00;
-        out[1] = m01;
-        out[2] = m02;
-        out[3] = m03;
-        out[4] = m10;
-        out[5] = m11;
-        out[6] = m12;
-        out[7] = m13;
-        out[8] = m20;
-        out[9] = m21;
-        out[10] = m22;
-        out[11] = m23;
-        out[12] = m30;
-        out[13] = m31;
-        out[14] = m32;
-        out[15] = m33;
+		this.getVerticeAverageRecursive(sum, matrix);
 
-        return out;
-      }
+		sum[0] /= sum[3];
+		sum[1] /= sum[3];
+		sum[2] /= sum[3];
+		
+		return sum;
+	}
+
+	getVerticeAverageRecursive(sum, matrix)
+	{
+		let matrix2 = mat4.create();
+
+		mat4.multiply(matrix2, matrix, this.transformationMatrix);
+
+		for (var i = 0; i < this.componentsRef.length; i++)
+			this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, matrix2);
+
+		for (var i = 0; i < this.primitivesRef.length; i++)
+			this.scene.graph.primitives[this.primitivesRef[i]].getVerticeAverageRecursive(sum, matrix2);
+	}
+
+	getCenter(matrix)
+	{
+		let sum = this.getVerticeAverage();
+
+		return [sum[0], sum[1], sum[2]];
+	}
+
+	createMatrix(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
+	{
+		let out = mat4.create();
+
+		out[0] = m00;
+		out[1] = m01;
+		out[2] = m02;
+		out[3] = m03;
+		out[4] = m10;
+		out[5] = m11;
+		out[6] = m12;
+		out[7] = m13;
+		out[8] = m20;
+		out[9] = m21;
+		out[10] = m22;
+		out[11] = m23;
+		out[12] = m30;
+		out[13] = m31;
+		out[14] = m32;
+		out[15] = m33;
+
+		return out;
+	  }
 
 }
