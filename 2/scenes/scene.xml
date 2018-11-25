@@ -161,12 +161,17 @@
 			<controlpoint xx="-13.1" yy="10" zz="-16.5" />
 		</linear>
 
-		<circular id="drone2" span="8" center="-17.7 10 -13" radius="6" startang="130" rotang="190" />
+		<circular id="drone2" span="5" center="-17.7 10 -13" radius="6" startang="130" rotang="205" />
 
 		<linear id="drone3" span="6" >
-			<controlpoint xx="-13.1" yy="10" zz="-16.5" />
-			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="-20" yy="10" zz="-7.5" />
 			<controlpoint xx="0" yy="10" zz="0" />
+			<controlpoint xx="0" yy="0" zz="0" />
+		</linear>
+
+		<linear id="drone4" span="5" >
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="0" yy="0" zz="0" />
 		</linear>
 
 	</animations>
@@ -1040,6 +1045,8 @@
 			<animations>
 				<animationref id="drone1" />
 				<animationref id="drone2" />
+				<animationref id="drone3" />
+				<animationref id="drone4" />
 			</animations>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>
