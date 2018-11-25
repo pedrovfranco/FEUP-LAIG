@@ -153,16 +153,22 @@
 			<controlpoint xx="5" yy="0" zz="0" />
 		</linear>
 
+		<circular id="circular" span="1" center="0 0 0" radius="5" startang="40" rotang="20" />
+
 		<linear id="drone1" span="6" >
 			<controlpoint xx="0" yy="0" zz="0" />
 			<controlpoint xx="0" yy="10" zz="0" />
-			<controlpoint xx="-11" yy="10" zz="-15" />
+			<controlpoint xx="-13.1" yy="10" zz="-16.5" />
 		</linear>
 
-		<circular id="drone2" span="8" center="-17.7 10 -13" radius="6" startang="100" rotang="250" />
+		<circular id="drone2" span="8" center="-17.7 10 -13" radius="6" startang="130" rotang="190" />
 
+		<linear id="drone3" span="6" >
+			<controlpoint xx="-13.1" yy="10" zz="-16.5" />
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="0" yy="10" zz="0" />
+		</linear>
 
-		<circular id="circular" span="1" center="0 0 0" radius="5" startang="40" rotang="20" />
 	</animations>
 
 

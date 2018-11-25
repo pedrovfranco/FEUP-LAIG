@@ -88,6 +88,12 @@ class Component extends CGFobject
 
 	update(currTime)
 	{
+		if (this.id == "drone")
+		{
+			let center = this.getCenterAnimation();
+			console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
+		}
+
 		let resetFlag = false;
 		for (var i = 0; i < this.animations.length; i++)
 		{
@@ -146,6 +152,28 @@ class Component extends CGFobject
 		return sum;
 	}
 
+	getVerticeAverageAnimation()
+	{
+		var sum = [0, 0, 0, 0];
+		let matrix = mat4.create();
+		for (var i = 0; i < this.animations.length; i++)
+		{
+			if (!this.animations[i].finished)
+			{
+				matrix = this.animations[i].transformationMatrix
+				break;
+			}
+		}
+
+		this.getVerticeAverageRecursive(sum, matrix);
+
+		sum[0] /= sum[3];
+		sum[1] /= sum[3];
+		sum[2] /= sum[3];
+		
+		return sum;
+	}
+
 	getVerticeAverageRecursive(sum, matrix)
 	{
 		let matrix2 = mat4.create();
@@ -165,12 +193,21 @@ class Component extends CGFobject
 		}
 	}
 
-	getCenter(matrix)
+
+	getCenter()
 	{
 		let sum = this.getVerticeAverage();
 
 		return [sum[0], sum[1], sum[2]];
 	}
+
+	getCenterAnimation()
+	{
+		let sum = this.getVerticeAverageAnimation();
+
+		return [sum[0], sum[1], sum[2]];
+	}
+
 
 	createMatrix(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
 	{
