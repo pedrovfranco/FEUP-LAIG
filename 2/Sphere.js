@@ -14,7 +14,6 @@ class Sphere extends Primitive
         this.radius = radius;
         this.slices = slices;
         this.stacks = stacks;
-
         this.initBuffers();
 
         super.setBuffers(this.vertices, this.indices, this.normals, this.texCoords);
@@ -91,6 +90,4 @@ class Sphere extends Primitive
 		this.texCoords.push(0.5, 0.5);
 		
     }
-
-
 }

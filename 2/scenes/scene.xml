@@ -454,7 +454,7 @@
 		<component id="float">
 			<transformation>
 				<scale x="0.25" y="0.25" z="0.25"/>
-				<translate x="30" y="-3" z="-30"/>
+				<translate x="62" y="1" z="-10"/>
 				<rotate axis="x" angle="90" />
 			</transformation>
 			<materials>
@@ -467,7 +467,7 @@
 		</component>
 		<component id="ball">
 			<transformation>
-				<translate x="7" y="-0.5" z="10"/>
+				<translate x="5.5" y="-0.5" z="-8.3"/>
 				</transformation>
 			<materials>
 				<material id="inherit" />
