@@ -4,15 +4,24 @@ class Vehicle extends Primitive
 	constructor(scene)
 	{
 		super(scene);
+
+		this.animation = new Animation(this.scene);
+		
+		this.propellerAngle = 0;
 		this.initBuffers();
 	};
 
+	update(currTime)
+    {
+        this.animation.update(currTime);
 
-	//move(deltaTime)
+        this.propellerAngle += 30;
+    }
+
 
 	initBuffers()
 	{
-		this.cylinder2 = new Cylinder(this.scene, 1, 1, 1, 30, 30);
+		this.cylinder2 = new Cylinder2(this.scene, 1, 1, 1, 30, 30);
 
 		this.controlPointsPatch = [ [-1.5,-1.5, 0], [-1.5,1.5,0], [0,-1.5,1.1], [0,1.5,1.1], [1.5,-1.5,0], [1.5,1.5,0]];
 		this.controlPointsPatch2 = [ [1,0,0], [0,0,0], [1,0,1], [0,0,1]];
@@ -198,6 +207,7 @@ class Vehicle extends Primitive
 
 		this.scene.pushMatrix(); // propeller1
 		this.scene.translate(-3.25, 7, 1.9);
+		this.scene.rotate(this.propellerAngle,0,1,0);
 		this.scene.scale(0.2, 1.2, 1.5);
 		this.black.apply();
 		this.plane.display();
@@ -205,6 +215,7 @@ class Vehicle extends Primitive
 
 		this.scene.pushMatrix(); // propeller2
 		this.scene.translate(3.25, 7, 1.9);
+		this.scene.rotate(this.propellerAngle,0,1,0);
 		this.scene.scale(0.2, 1.2, 1.5);
 		this.black.apply();
 		this.plane.display();
@@ -212,6 +223,7 @@ class Vehicle extends Primitive
 
 		this.scene.pushMatrix(); // propeller3
 		this.scene.translate(-3.25, 7, -1.9);
+		this.scene.rotate(this.propellerAngle,0,1,0);
 		this.scene.scale(0.2, 1.2, 1.5);
 		this.black.apply();
 		this.plane.display();
@@ -219,6 +231,7 @@ class Vehicle extends Primitive
 
 		this.scene.pushMatrix(); // propeller4
 		this.scene.translate(3.25, 7, -1.9);
+		this.scene.rotate(this.propellerAngle,0,1,0);
 		this.scene.scale(0.2,1.2,1.5);
 		this.black.apply();
 		this.plane.display();
