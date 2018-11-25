@@ -10,36 +10,38 @@ class Animation
 
 		this.lastTime = -1;
 		this.sumTime = 0;
-		this.totalTime = 999;
+		this.totalTime = 9999999999;
 		this.finished = false;
 	};
 
 
 	update(currTime)
 	{
-		if (this.component != undefined)
-		{
-			if (this.lastTime == -1)
-				this.lastTime = currTime;
-
-			this.deltaTime = (currTime - this.lastTime)/1000;
-
-			this.sumTime += this.deltaTime;
-
-			if (this.sumTime >= this.totalTime)
-			{
-				this.finished = true;
-
-				if (this.component != undefined)
-				{
-					this.component.passLastTime(currTime);
-				}
-			}
-			else
-				this.calculateMatrix();
-
+		if (this.lastTime == -1)
 			this.lastTime = currTime;
+
+		this.deltaTime = (currTime - this.lastTime)/1000;
+
+		this.sumTime += this.deltaTime;
+
+		if (this.sumTime >= this.totalTime)
+		{
+			this.finished = true;
+
+			if (this.component != undefined)
+			{
+				this.component.passLastTime(currTime);
+			}
 		}
+		else
+			this.calculateMatrix();
+
+		this.lastTime = currTime;
+	}
+
+	calculateMatrix()
+	{
+		
 	}
 
 	apply()

@@ -15,7 +15,7 @@ class Vehicle extends Primitive
     {
         this.animation.update(currTime);
 
-        this.propellerAngle = (30 * 60) * this.animation.sumTime;
+        this.propellerAngle = Math.PI*7 * this.animation.sumTime;
     }
 
 
