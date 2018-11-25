@@ -558,7 +558,7 @@
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
 			<animations>
-				<!-- <animationref id="linear1" /> -->
+				<animationref id="linear1" />
 			</animations>
 			<children>
 				<componentref id="raftCylinder1" />

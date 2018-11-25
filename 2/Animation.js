@@ -33,7 +33,7 @@ class Animation
 				this.component.passLastTime(currTime);
 			}
 		}
-		else
+		else if (this.component != undefined)
 			this.calculateMatrix();
 
 		this.lastTime = currTime;
@@ -41,7 +41,7 @@ class Animation
 
 	calculateMatrix()
 	{
-		
+
 	}
 
 	apply()

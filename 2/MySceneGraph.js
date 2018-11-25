@@ -1397,8 +1397,8 @@ var COMPONENTS_INDEX = 9;
 		this.fixInheritanceMaterials(this.components[this.idRoot], undefined);
 	  }
 
-	  fixInheritanceTextures(componentX, componentLast)
-	  {
+	fixInheritanceTextures(componentX, componentLast)
+	{
 		if (componentX.texture[0] == "inherit")
 		{
 			if (componentLast.texture[0] != "none")
@@ -1409,16 +1409,13 @@ var COMPONENTS_INDEX = 9;
 		}
 		else if (componentX.texture[0] == "none")
 		{
-				// Doesn't load texture
-			}
-			else
-			{
-				componentX.material.loadTexture(this.textures[componentX.texture[0]]);
-			}
-
-			componentX.material.setTextureWrap('REPEAT', 'REPEAT');
+			// Doesn't load texture			
 		}
-
+		else
+		{
+			componentX.material.loadTexture(this.textures[componentX.texture[0]]);
+		}
+	}
 
 		fixInheritanceMaterials(componentX, componentLast)
 		{

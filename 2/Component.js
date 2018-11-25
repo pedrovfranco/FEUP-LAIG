@@ -153,10 +153,16 @@ class Component extends CGFobject
 		mat4.multiply(matrix2, matrix, this.transformationMatrix);
 
 		for (var i = 0; i < this.componentsRef.length; i++)
-			this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, matrix2);
+		{
+			if (this.scene.graph.components[this.componentsRef[i]] != undefined) 
+				this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, matrix2);
+		}
 
 		for (var i = 0; i < this.primitivesRef.length; i++)
-			this.scene.graph.primitives[this.primitivesRef[i]].getVerticeAverageRecursive(sum, matrix2);
+		{
+			if (this.scene.graph.primitives[this.primitivesRef[i]] != undefined)
+				this.scene.graph.primitives[this.primitivesRef[i]].getVerticeAverageRecursive(sum, matrix2);
+		}
 	}
 
 	getCenter(matrix)
