@@ -105,6 +105,7 @@
 		<texture id="sandHeightmap" file="scenes/images/sandHeightmap.jpg"/>
 		<texture id="waterHeightmap" file="scenes/images/waterHeightmap3.jpg"/>
 		<texture id="helicopter" file="scenes/images/h.png"/>
+		<texture id="islandHeightmap" file="scenes/images/islandHeightmap.jpg"/>
 
 	</textures>
 
@@ -164,7 +165,7 @@
 		<circular id="drone2" span="5" center="-17.7 10 -13" radius="6" startang="130" rotang="205" />
 
 		<linear id="drone3" span="6" >
-			<controlpoint xx="-20" yy="10" zz="-7.5" />
+			<controlpoint xx="-20.25" yy="10" zz="-7.57" />
 			<controlpoint xx="0" yy="10" zz="0" />
 			<controlpoint xx="0" yy="0" zz="0" />
 		</linear>
@@ -220,7 +221,7 @@
 		</primitive>
 
 		<primitive id="sand">
-			<terrain idtexture="sandTexture" idheightmap="sandHeightmap" parts="50" heightscale="2.5"/>
+			<terrain idtexture="sandTexture" idheightmap="islandHeightmap" parts="50" heightscale="7"/>
 		</primitive>
 
 		<!-- Nova primitiva: plano, gerado por NURBS -->
@@ -478,8 +479,8 @@
 		</component>
 		<component id="water">
 			<transformation>
-				<translate x="10" y="-3" z="0"/>
-				<scale x ="35" y="1" z="60"/>
+				<translate x="0" y="-3" z="0"/>
+				<scale x ="70" y="1" z="70"/>
 				<!-- <translate x="-0.5" y="0" z="1"/> -->
 				<!-- <rotate axis="x" angle="-90"/> -->
 			</transformation>
@@ -732,13 +733,13 @@
 		</component>
 		<component id="sand">
 			<transformation>
-				<translate x="-3" y="-0.5" z="0"/>
-				<scale x="10" y="1" z="60"/>
+				<translate x="-3" y="-2.2" z="0"/>
+				<scale x="50" y="1" z="50"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inheit" length_s="1" length_t="0.1" />
+			<texture id="inheit" length_s="0.1" length_t="0.1" />
 			<children>
 				<primitiveref id="sand" />
 			</children>

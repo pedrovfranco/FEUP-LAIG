@@ -81,6 +81,7 @@ class Vehicle extends Primitive
 	display()
 	{
 		this.scene.rotate(-Math.PI/2, 0, 1, 0);
+		this.scene.scale(0.5, 0.5, 0.5);
 		this.scene.translate(0, -7, 0);
 
 		this.scene.pushMatrix();  //up part
