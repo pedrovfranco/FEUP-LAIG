@@ -83,31 +83,14 @@ class LinearAnimation extends Animation
 		var j = (this.sumTime / this.intervalTime) % 1;
 		var coords = [];
 
-		coords[0] = this.controlPoints[i][0] + ( this.controlPoints[(i+1)][0]-this.controlPoints[i][0] ) * j;
-		coords[1] = this.controlPoints[i][1] + ( this.controlPoints[(i+1)][1]-this.controlPoints[i][1] ) * j;
-		coords[2] = this.controlPoints[i][2] + ( this.controlPoints[(i+1)][2]-this.controlPoints[i][2] ) * j;
-					
-		// console.log("x = " + coords[0] + " y = " + coords[1] + " z = " + coords[2]);
+		coords[0] = this.controlPoints[i][0] + ( this.controlPoints[i+1][0]-this.controlPoints[i][0] ) * j;
+		coords[1] = this.controlPoints[i][1] + ( this.controlPoints[i+1][1]-this.controlPoints[i][1] ) * j;
+		coords[2] = this.controlPoints[i][2] + ( this.controlPoints[i+1][2]-this.controlPoints[i][2] ) * j;
+										
+		var x = (this.controlPoints[i+1][0]-this.controlPoints[i][0]);
+		var z = (this.controlPoints[i+1][2]-this.controlPoints[i][2]);
 
-		// console.log("sumTime = " + this.sumTime);
-
-					
-		var x = (this.controlPoints[(i+1) % (this.controlPoints.length)][0]-this.controlPoints[i][0]);
-		var z = (this.controlPoints[(i+1) % (this.controlPoints.length)][2]-this.controlPoints[i][2]);
-
-		var ratio, angle;
-		if (x != 0)
-		{
-			ratio = x/z;
-			angle = Math.atan(ratio);
-		}
-		else
-		{
-			if (z > 0)
-				angle = 0;
-			else
-				angle = Math.PI;
-		}
+		this.directionAngle = Math.atan2(x, z);
 
 		let center = this.component.getCenter();
 		// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
@@ -117,7 +100,7 @@ class LinearAnimation extends Animation
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], 0, center[2]));
-		mat4.rotate(this.transformationMatrix, this.transformationMatrix, angle, vec3.fromValues(0,1,0));
+		mat4.rotate(this.transformationMatrix, this.transformationMatrix, this.directionAngle, vec3.fromValues(0,1,0));
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], 0, -center[2]));
 
 	}
@@ -155,20 +138,17 @@ class CircularAnimation extends Animation
 		coords[1] = this.center[1];
 		coords[2] = this.center[2] + this.radius*Math.cos(this.angle);
 
-		var directionRatio, directionAngle = this.angle + Math.PI/2; 
+		this.directionAngle = this.angle + Math.PI/2; 
 
 		let center = this.component.getCenter();
 		// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
-
-		// console.log("directionAngle = " + directionAngle);
-		// console.log("this.sumTime = " + this.sumTime);
 		
 		this.transformationMatrix = mat4.create();
 
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], 0, center[2]));
-		mat4.rotate(this.transformationMatrix, this.transformationMatrix, directionAngle, vec3.fromValues(0,1,0));
+		mat4.rotate(this.transformationMatrix, this.transformationMatrix, this.directionAngle, vec3.fromValues(0,1,0));
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], 0, -center[2]));
 	}
 }

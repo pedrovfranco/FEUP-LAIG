@@ -6,16 +6,47 @@ class Vehicle extends Primitive
 		super(scene);
 
 		this.animation = new Animation(this.scene);
+
+		this.cameraId = "drone";
+
+		this.fov = 1.2;
+		this.near = 0.1;
+		this.far = 500;
+
+		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+		this.scene.graph.viewIds.push(this.cameraId);
 		
 		this.propellerAngle = 0;
 		this.initBuffers();
 	};
 
-	update(currTime)
+	update(currTime, component)
     {
         this.animation.update(currTime);
 
         this.propellerAngle = Math.PI*7 * this.animation.sumTime;
+
+        let center = component.getCenterAnimation();
+        let angle = 0;
+
+        for (var i = 0; i < component.animations.length; i++)
+		{
+			if (!component.animations[i].finished)
+			{
+				angle = component.animations[i].directionAngle;
+				break;
+			}
+		}
+
+		this.scene.views[this.cameraId].fov = this.fov;
+		this.scene.views[this.cameraId].near = this.near;
+		this.scene.views[this.cameraId].far = this.far;
+
+        this.scene.views[this.cameraId].setPosition(vec3.fromValues(center[0], center[1], center[2]));
+
+        let target = vec3.fromValues(center[0] + 5*Math.sin(angle), center[1] - 5, center[2] + 5*Math.cos(angle));
+
+        this.scene.views[this.cameraId].setTarget(target);
     }
 
 

@@ -156,21 +156,33 @@
 
 		<circular id="circular" span="1" center="0 0 0" radius="5" startang="40" rotang="20" />
 
-		<linear id="drone1" span="6" >
+		<linear id="drone1" span="3" >
 			<controlpoint xx="0" yy="0" zz="0" />
 			<controlpoint xx="0" yy="10" zz="0" />
-			<controlpoint xx="-13.1" yy="10" zz="-16.5" />
 		</linear>
 
-		<circular id="drone2" span="5" center="-17.7 10 -13" radius="6" startang="130" rotang="205" />
+		<circular id="drone2" span="3" center="0 10 0" radius="0" startang="-90" rotang="-141.55" />
 
 		<linear id="drone3" span="6" >
+			<controlpoint xx="0" yy="10" zz="0" />
+			<controlpoint xx="-13.1" yy="10" zz="-16.85" />
+		</linear>
+
+		<circular id="drone4" span="5" center="-17.7 10 -13" radius="6" startang="130" rotang="205" />
+
+		<linear id="drone5" span="6" >
 			<controlpoint xx="-20.25" yy="10" zz="-7.57" />
+			<controlpoint xx="0" yy="10" zz="0" />
+		</linear>
+
+		<circular id="drone6" span="3" center="0 10 0" radius="0" startang="-20.5" rotang="-69.5" />
+
+		<linear id="drone7" span="6" >
 			<controlpoint xx="0" yy="10" zz="0" />
 			<controlpoint xx="0" yy="0" zz="0" />
 		</linear>
-
-		<linear id="drone4" span="5" >
+				
+		<linear id="drone8" span="5" >
 			<controlpoint xx="0" yy="0" zz="0" />
 			<controlpoint xx="0" yy="0" zz="0" />
 		</linear>
@@ -332,9 +344,6 @@
 				<material id="inherit" />
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
-			<animations>
-				<!-- <animationref id="circular" /> -->
-			</animations>
 			<children>
 				<primitiveref id="cylinder" />
 			</children>
@@ -454,13 +463,13 @@
 		<component id="float">
 			<transformation>
 				<scale x="0.25" y="0.25" z="0.25"/>
-				<translate x="62" y="1" z="-10"/>
+				<translate x="62" y="0" z="-10"/>
 				<rotate axis="x" angle="90" />
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="none" length_s="1" length_t="1" />
+			<texture id="texture5" length_s="1" length_t="1" />
 			<children>
 				<primitiveref id="torus" />
 			</children>
@@ -569,9 +578,6 @@
 				<material id="inherit" />
 			</materials>
 			<texture id="texture7" length_s="1" length_t="1" />
-			<animations>
-				<animationref id="linear1" />
-			</animations>
 			<children>
 				<componentref id="raftCylinder1" />
 				<componentref id="raftCylinder2" />
@@ -739,7 +745,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inheit" length_s="0.1" length_t="0.1" />
+			<texture id="inherit" length_s="0.1" length_t="0.1" />
 			<children>
 				<primitiveref id="sand" />
 			</children>
@@ -1037,7 +1043,7 @@
 
 		<component id="drone">
 			<transformation>
-				<translate x="12.5" y="0" z="2.5"/>
+				<translate x="12.5" y="0.5" z="2.5"/>
 				<!-- <rotate axis="y" angle="90"/> -->
 			</transformation>
 			<materials>
@@ -1048,6 +1054,10 @@
 				<animationref id="drone2" />
 				<animationref id="drone3" />
 				<animationref id="drone4" />
+				<animationref id="drone5" />
+				<animationref id="drone6" />
+				<animationref id="drone7" />
+				<animationref id="drone8" />
 			</animations>
 			<texture id="inherit" length_s="1" length_t="1" />
 			<children>

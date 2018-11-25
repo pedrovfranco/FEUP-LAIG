@@ -1413,6 +1413,9 @@ var COMPONENTS_INDEX = 9;
 		}
 		else
 		{
+			if (this.textures[componentX.texture[0]] == undefined)
+				var a = 0;
+				
 			componentX.material.loadTexture(this.textures[componentX.texture[0]]);
 		}
 	}

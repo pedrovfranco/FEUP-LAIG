@@ -88,12 +88,6 @@ class Component extends CGFobject
 
 	update(currTime)
 	{
-		if (this.id == "drone")
-		{
-			let center = this.getCenterAnimation();
-			console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
-		}
-
 		let resetFlag = false;
 		for (var i = 0; i < this.animations.length; i++)
 		{
@@ -121,7 +115,7 @@ class Component extends CGFobject
 		{
 			if (typeof(this.scene.graph.primitives[this.primitivesRef[i]].update) === typeof(Function))
 			{
-				this.scene.graph.primitives[this.primitivesRef[i]].update(currTime);
+				this.scene.graph.primitives[this.primitivesRef[i]].update(currTime, this);
 			}
 		}
 	}
