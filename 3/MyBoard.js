@@ -28,6 +28,13 @@ class MyBoard extends Primitive
 		this.blackAppearence.setDiffuse(1.0,1.0,1.0,1);
 		this.blackAppearence.setSpecular(1.0,1.0,1.0,1);
         this.blackAppearence.setShininess(120);
+
+        this.blueAppearence = new CGFappearance(this.scene);
+		this.blueAppearence.loadTexture("scenes/images/blue.png");
+		this.blueAppearence.setAmbient(1.0,1.0,1.0,1);
+		this.blueAppearence.setDiffuse(1.0,1.0,1.0,1);
+		this.blueAppearence.setSpecular(1.0,1.0,1.0,1);
+        this.blueAppearence.setShininess(120);
         
         this.piece = new MyPiece(this.scene);
 	};
@@ -131,20 +138,39 @@ class MyBoard extends Primitive
 
 
             this.scene.pushMatrix();
-
+                this.whiteAppearence.apply();
+    
                 this.scene.translate(0, 0, 0.5);
 
-                this.whiteAppearence.apply();
-                this.piece.display();
+                for (let i = 0; i < 20; i++)
+                {  
+                    this.scene.pushMatrix();
+
+                        this.scene.translate(0, i*(this.piece.height+0.003), 0);
+
+                        this.piece.display();
+
+                    this.scene.popMatrix();
+                }
+                
 
             this.scene.popMatrix();
 
             this.scene.pushMatrix();
+                this.blueAppearence.apply();
 
                 this.scene.translate(0, 0, -0.5);
 
-                this.blackAppearence.apply();
-                this.piece.display();
+                for (let i = 0; i < 20; i++)
+                {  
+                    this.scene.pushMatrix();
+
+                        this.scene.translate(0, i*(this.piece.height+0.003), 0);
+
+                        this.piece.display();
+
+                    this.scene.popMatrix();
+                }
 
             this.scene.popMatrix();
 
