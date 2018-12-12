@@ -1,48 +1,26 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Sicstus Prolog HTTP Server Test</title>
-	</head>
-	<body>
-		<h1>Sicstus HTTP Test</h1>
-	
-		<div>
-			<input id="query_field" type="Text" value="handshake"/>
-			<br>
-			<button id="send_button" type="button" onClick="makeRequest();"> Send </button>
-		</div>
-		<h3> Result: </h3>
-		<div id="query_result"></div>
-		
-		<script>
-			function getPrologRequest(requestString, onSuccess, onError, port)
-			{
-				var requestPort = port || 8081
-				var request = new XMLHttpRequest();
-				request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>CGFexample</title>
 
-				request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
-				request.onerror = onError || function(){console.log("Error waiting for response");};
+<style>
+body, html {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
 
-				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-				request.send();
-			}
-		
-			function makeRequest()
-			{
-				// Get Parameter Values
-				var requestString = document.querySelector("#query_field").value;				
-				
-				// Make Request
-				getPrologRequest(requestString, handleReply);
-			}
-			
-			//Handle the Reply
-			function handleReply(data){
-				document.querySelector("#query_result").innerHTML=data.target.response;
-			}
-		
-		</script>
-	</body>
+canvas {
+    width: 100%;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+
+<script src="main.js"></script>
+
+</body>
 </html>
