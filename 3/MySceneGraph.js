@@ -45,6 +45,8 @@ var COMPONENTS_INDEX = 9;
 			*/
 
 			this.reader.open('scenes/' + filename, this);
+
+			this.board = new MyBoard(scene, 8, 5);
 		}
 
 
@@ -1525,9 +1527,16 @@ var COMPONENTS_INDEX = 9;
 	  {
 		  // entry point for graph rendering
 		  //TODO: Render loop starting at root of graph
-
-
+		
 		  this.components[this.idRoot].display();
+		
+		  this.scene.pushMatrix();
+		  
+			  this.scene.translate(0, 0.7, 0);
+		
+			  this.board.display();
+		  
+		  this.scene.popMatrix();
 
 		}
 
