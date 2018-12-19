@@ -47,6 +47,9 @@ var COMPONENTS_INDEX = 9;
 			this.reader.open('scenes/' + filename, this);
 
 			this.board = new MyBoard(scene, 8, 5);
+			
+			this.initialBoard = getInitialBoard();
+			
 		}
 
 
