@@ -3,11 +3,11 @@ class MyBoard extends Primitive
 	constructor(scene, width, height, depth)
 	{
         super(scene);
-        
+
         this.width = width;
         this.height = height;
         this.depth = depth || 0.5;
-        
+
         this.initBuffers();
 	};
 
@@ -21,7 +21,7 @@ class MyBoard extends Primitive
 		this.whiteAppearence.setDiffuse(1.0,1.0,1.0,1);
 		this.whiteAppearence.setSpecular(1.0,1.0,1.0,1);
         this.whiteAppearence.setShininess(120);
-        
+
         this.blackAppearence = new CGFappearance(this.scene);
 		this.blackAppearence.loadTexture("scenes/images/black.jpg");
 		this.blackAppearence.setAmbient(1.0,1.0,1.0,1);
@@ -35,20 +35,20 @@ class MyBoard extends Primitive
 		this.blueAppearence.setDiffuse(1.0,1.0,1.0,1);
 		this.blueAppearence.setSpecular(1.0,1.0,1.0,1);
         this.blueAppearence.setShininess(120);
-        
+
         this.piece = new MyPiece(this.scene);
 	};
-   
+
 
     update(currTime, component)
     {
 
     }
-    
+
 	display()
 	{
         this.scene.pushMatrix();
-          
+
             let coords = [];
 
             for (let i = 0; i < this.width; i++)
@@ -60,21 +60,21 @@ class MyBoard extends Primitive
                         coords = [(1-this.height)/2 + j, 0, (1-this.width)/2 + i];
                         this.scene.translate(coords[0], coords[1], coords[2]);
                         // console.log("position = " + coords[0] + " " + coords[1] + " " + coords[2]);
-                        
+
                         if ((i+j)%2 == 0)
                             this.whiteAppearence.apply();
                         else
                             this.blackAppearence.apply();
 
                         this.plane.display();
-                    
+
                     this.scene.popMatrix();
 
                 }
             }
 
             this.scene.pushMatrix();
-              
+
                 this.scene.translate(this.height/2, 0, 0);
                 this.scene.rotate(-Math.PI/2, 0, 0, 1);
                 this.scene.scale(this.depth, 1, this.width);
@@ -99,7 +99,7 @@ class MyBoard extends Primitive
             this.scene.popMatrix();
 
             this.scene.pushMatrix();
-              
+
                 this.scene.translate(0, 0, this.width/2);
                 this.scene.rotate(-Math.PI/2, 0, 1, 0);
                 this.scene.rotate(-Math.PI/2, 0, 0, 1);
@@ -112,7 +112,7 @@ class MyBoard extends Primitive
             this.scene.popMatrix();
 
             this.scene.pushMatrix();
-              
+
                 this.scene.rotate(Math.PI, 0, 1, 0);
                 this.scene.translate(0, 0, this.width/2);
                 this.scene.rotate(-Math.PI/2, 0, 1, 0);
@@ -126,7 +126,7 @@ class MyBoard extends Primitive
             this.scene.popMatrix();
 
             this.scene.pushMatrix();
-              
+
                 this.scene.translate(0, -this.depth, 0);
                 this.scene.rotate(Math.PI, 0, 0, 1);
                 this.scene.scale(this.height, 1, this.width);
@@ -139,12 +139,14 @@ class MyBoard extends Primitive
 
             this.scene.pushMatrix();
                 this.whiteAppearence.apply();
-    
+
                 this.scene.translate(0, 0, 0.5);
 
                 for (let i = 0; i < 20; i++)
-                {  
+                {
                     this.scene.pushMatrix();
+
+						this.scene.registerForPick(i+1,this.piece);
 
                         this.scene.translate(0, i*(this.piece.height+0.003), 0);
 
@@ -152,7 +154,7 @@ class MyBoard extends Primitive
 
                     this.scene.popMatrix();
                 }
-                
+
 
             this.scene.popMatrix();
 
@@ -162,8 +164,10 @@ class MyBoard extends Primitive
                 this.scene.translate(0, 0, -0.5);
 
                 for (let i = 0; i < 20; i++)
-                {  
+                {
                     this.scene.pushMatrix();
+
+						this.scene.registerForPick(i+1,this.piece);
 
                         this.scene.translate(0, i*(this.piece.height+0.003), 0);
 

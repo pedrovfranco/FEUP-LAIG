@@ -16,7 +16,7 @@ class Primitive extends CGFobject
                 else
                     this.texCoords[i] = this.originalTexCoords[i] / t;
             }
-    
+
             this.updateTexCoordsGLBuffers();
         }
     }
@@ -29,7 +29,7 @@ class Primitive extends CGFobject
         this.originalVertices[0] = vertices[0];
         this.originalVertices[1] = vertices[1];
         this.originalVertices[2] = vertices[2];
-        
+
         this.indices = indices;
         this.normals = normals;
         this.texCoords = texCoords;
@@ -54,7 +54,7 @@ class Primitive extends CGFobject
         sum[0] /= sum[3];
         sum[1] /= sum[3];
         sum[2] /= sum[3];
-        
+
         return sum;
     }
 
@@ -79,7 +79,7 @@ class Primitive extends CGFobject
                                               0, 0, 0, 1,
                                               0, 0, 0, 1,
                                               0, 0, 0, 1);
-            
+
         mat4.multiply(pointMatrix, matrix, pointMatrix);
 
         sum[0] += pointMatrix[0];
