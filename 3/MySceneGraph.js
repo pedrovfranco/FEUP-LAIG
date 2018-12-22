@@ -44,12 +44,7 @@ var COMPONENTS_INDEX = 9;
 			* If any error occurs, the reader calls onXMLError on this object, with an error message
 			*/
 
-			this.reader.open('scenes/' + filename, this);
-
-			this.board = new MyBoard(scene, 8, 5);
-			
-			this.initialBoard = getInitialBoard();
-			
+			this.reader.open('scenes/' + filename, this);			
 		}
 
 
@@ -1121,6 +1116,10 @@ var COMPONENTS_INDEX = 9;
 
 						this.primitives[primitiveId] = new Water(this.scene , idtexture, idwavemap, parts, heightscale, texscale);							
 					}
+					else if (grandChildren[j].nodeName == "board")
+					{
+						this.primitives[primitiveId] = new MyBoard(this.scene);							
+					}
 					else
 					{
 						this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
@@ -1526,28 +1525,19 @@ var COMPONENTS_INDEX = 9;
 	 /**
 	  * Displays the scene, processing each node, starting in the root node.
 	  */
-	  displayScene() 
-	  {
-		  // entry point for graph rendering
-		  //TODO: Render loop starting at root of graph
-		
-		  this.components[this.idRoot].display();
-		
-		  this.scene.pushMatrix();
-		  
-			  this.scene.translate(0, 0.7, 0);
-		
-			  this.board.display();
-		  
-		  this.scene.popMatrix();
+	displayScene() 
+	{
+		// entry point for graph rendering
+		//TODO: Render loop starting at root of graph
 
-		}
-
-		isValid(x)
-		{
-			if (typeof x === "string")
-				return (x !== null);
-			else
-				return (x !== null && !isNaN(x));
-		}
+		this.components[this.idRoot].display();
 	}
+
+	isValid(x)
+	{
+		if (typeof x === "string")
+			return (x !== null);
+		else
+			return (x !== null && !isNaN(x));
+	}
+}

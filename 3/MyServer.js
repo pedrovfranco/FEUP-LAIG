@@ -1,52 +1,48 @@
-async function getPrologRequest(requestString, onSucess, port)
+function getPrologRequest(requestString, onSucess, port)
 {
     var requestPort = port || 8081
     var request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
+    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, false);
 
-    onSucess =  getResponse() || onSucess;
+    onSucess = onSucess || getResponse;
 
-    request.onreadystatechange = function()
+    request.onload = function(data)
     {
-        if (this.readyState == 4 && this.status == 200)
+        if (data != null && data != undefined)
         {
-            onSucess();
-        }
-        else
-        {
-            console.log("Error!");
-        }
+            if (data.target.response == "error")
+                console.error("Prolog error");
+            else
+                this.returnVar = onSucess(data.target.response);
+        } 
+    };
+
+    request.onerror = function()
+    {
+        console.error("Error waiting for response");
     };
 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.send();
     
-    let data = await request.onreadystatechange;
+    let data = request.returnVar;
     return data;
 }
 
 function makeRequest(requestString)
 {    
-    // Make Request
     return getPrologRequest(requestString);
 }
 
-function getInitialBoard()
+function getResponse(responseText)
 {
-    let response = getPrologRequest("kl", getResponseArray);
-
-    return response;
-}
-
-function getResponse()
-{
-    return this.responseText;
+    return responseText;
 }
 
 
-function getResponseArray()
+function getResponseArray(responseText)
 {
-    return JSON.parse(fixList(this.returnText));
+    return JSON.parse(fixList(responseText));
 }
 
 function fixList(input)

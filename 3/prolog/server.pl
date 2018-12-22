@@ -110,6 +110,18 @@ parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 parse_input(initialBoard, X):-
 	initialBoard(X).
+parse_input(testBoard3, X):-
+	testBoard3(X).
+
+parse_input(kl, Board):-
+	initialBoard(Board),
+	assert(board(Board)).
+
+parse_input(move(X1, Y1, X2, Y2, N), NewBoard):-
+	(retract(board(Board)),
+	move(Board, X1, Y1, X2, Y2, N, NewBoard),
+	assert(board(NewBoard)));
+	NewBoard = error.
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
