@@ -77,6 +77,7 @@ class Component extends CGFobject
 
 		for (var i = 0; i < this.primitivesRef.length; i++)
 		{
+
 			this.scene.graph.primitives[this.primitivesRef[i]].updateTexCoords(this.texture[1], this.texture[2]);
 			this.scene.graph.primitives[this.primitivesRef[i]].display();
 		}
@@ -142,7 +143,7 @@ class Component extends CGFobject
 		sum[0] /= sum[3];
 		sum[1] /= sum[3];
 		sum[2] /= sum[3];
-		
+
 		return sum;
 	}
 
@@ -164,7 +165,7 @@ class Component extends CGFobject
 		sum[0] /= sum[3];
 		sum[1] /= sum[3];
 		sum[2] /= sum[3];
-		
+
 		return sum;
 	}
 
@@ -176,7 +177,7 @@ class Component extends CGFobject
 
 		for (var i = 0; i < this.componentsRef.length; i++)
 		{
-			if (this.scene.graph.components[this.componentsRef[i]] != undefined) 
+			if (this.scene.graph.components[this.componentsRef[i]] != undefined)
 				this.scene.graph.components[this.componentsRef[i]].getVerticeAverageRecursive(sum, matrix2);
 		}
 

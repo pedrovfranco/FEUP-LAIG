@@ -44,7 +44,16 @@ var COMPONENTS_INDEX = 9;
 			* If any error occurs, the reader calls onXMLError on this object, with an error message
 			*/
 
+<<<<<<< HEAD
 			this.reader.open('scenes/' + filename, this);			
+=======
+			this.reader.open('scenes/' + filename, this);
+
+			this.board = new MyBoard(scene, 8, 5);
+
+			this.initialBoard = getInitialBoard();
+
+>>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
 		}
 
 
@@ -882,7 +891,7 @@ var COMPONENTS_INDEX = 9;
 			else if (children[i].nodeName == "circular")
 			{
 				this.animations[animationId] = [];
-				this.animations[animationId][0] = 1;				
+				this.animations[animationId][0] = 1;
 
 				this.animations[animationId][1] = this.reader.getString(children[i],'center').split(" ");
 				this.animations[animationId][2] = this.reader.getFloat(children[i],'radius');
@@ -902,7 +911,7 @@ var COMPONENTS_INDEX = 9;
 	  * Parses the <primitives> node.
 	  * @param {primitives block element} primitivesNode
 	  */
-	  parsePrimitives(primitivesNode) 
+	  parsePrimitives(primitivesNode)
 	{
 
 		var children = primitivesNode.children;
@@ -1037,9 +1046,9 @@ var COMPONENTS_INDEX = 9;
 						var greatgrandChildren = grandChildren[j].children;
 
 						this.controlpoints = [];
-			
+
 						for( var p = 0 ; p < greatgrandChildren.length; p++)
-						{ 
+						{
 							if(greatgrandChildren[p].nodeName == "controlpoint")
 							{
 								var xx,yy,zz;
@@ -1050,7 +1059,7 @@ var COMPONENTS_INDEX = 9;
 
 								if (!(this.isValid(xx) && this.isValid(yy) && this.isValid(zz)))
 									return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
-							
+
 								this.controlpoints.push([xx,yy,zz]);
 							}
 
@@ -1065,7 +1074,7 @@ var COMPONENTS_INDEX = 9;
 						// console.log(this.controlpoints);
 						this.primitives[primitiveId] = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, this.controlpoints);
 					}
-					
+
 					else if (grandChildren[j].nodeName == "vehicle")
 					{
 
@@ -1114,7 +1123,7 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(idtexture) && this.isValid(idwavemap) && this.isValid(parts) && this.isValid(heightscale) && this.isValid(texscale)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-						this.primitives[primitiveId] = new Water(this.scene , idtexture, idwavemap, parts, heightscale, texscale);							
+						this.primitives[primitiveId] = new Water(this.scene , idtexture, idwavemap, parts, heightscale, texscale);
 					}
 					else if (grandChildren[j].nodeName == "board")
 					{
@@ -1299,7 +1308,7 @@ var COMPONENTS_INDEX = 9;
 							}
 						}
 
-						
+
 					}
 
 					else if (grandChildren[j].nodeName == "children")
@@ -1413,13 +1422,13 @@ var COMPONENTS_INDEX = 9;
 		}
 		else if (componentX.texture[0] == "none")
 		{
-			// Doesn't load texture			
+			// Doesn't load texture
 		}
 		else
 		{
 			if (this.textures[componentX.texture[0]] == undefined)
 				var a = 0;
-				
+
 			componentX.material.loadTexture(this.textures[componentX.texture[0]]);
 		}
 	}
@@ -1525,10 +1534,29 @@ var COMPONENTS_INDEX = 9;
 	 /**
 	  * Displays the scene, processing each node, starting in the root node.
 	  */
+<<<<<<< HEAD
 	displayScene() 
 	{
 		// entry point for graph rendering
 		//TODO: Render loop starting at root of graph
+=======
+	  displayScene()
+	  {
+		  // entry point for graph rendering
+		  //TODO: Render loop starting at root of graph
+
+
+      
+		  this.components[this.idRoot].display();
+
+		  this.scene.pushMatrix();
+
+			  this.scene.translate(0, 0.7, 0);
+
+			  this.board.display();
+
+		  this.scene.popMatrix();
+>>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
 
 		this.components[this.idRoot].display();
 	}

@@ -6,7 +6,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 class XMLscene extends CGFscene {
 	/**
 	 * @constructor
-	 * @param {MyInterface} myinterface 
+	 * @param {MyInterface} myinterface
 	 */
 	constructor(myinterface) {
 		super();
@@ -27,6 +27,8 @@ class XMLscene extends CGFscene {
 		this.initCameras();
 
 		this.enableTextures(true);
+
+		this.setPickEnabled(true);
 
 		this.gl.clearDepth(100.0);
 		this.gl.enable(this.gl.DEPTH_TEST);
@@ -125,7 +127,7 @@ class XMLscene extends CGFscene {
 		{
 			text+=" M";
 			keysPressed=true;
-			
+
 			for (var id in this.graph.components)
 			{
 				this.graph.components[id].incrementMaterial();
@@ -137,8 +139,26 @@ class XMLscene extends CGFscene {
 		if (keysPressed)
 			console.log(text);
 	};
-	
-	/* Handler called when the graph is finally loaded. 
+
+	logPicking()
+	{
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i=0; i< this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj)
+					{
+						var customId = this.pickResults[i][1];
+						console.log("Picked object: " + obj + ", with pick id " + customId);
+					}
+				}
+				this.pickResults.splice(0,this.pickResults.length);
+			}
+		}
+	}
+
+
+	/* Handler called when the graph is finally loaded.
 	 * As loading is asynchronous, this may be called already after the application has started the run loop
 	 */
 	onGraphLoaded() {
@@ -160,7 +180,7 @@ class XMLscene extends CGFscene {
 
 		// Adds views group
 		this.interface.addViewsGroup(this.graph.viewIds);
-	
+
 		this.materialDefault = new CGFappearance(this);
 
 		this.sceneInited = true;
@@ -177,7 +197,7 @@ class XMLscene extends CGFscene {
 		if (this.sceneInited)
 		{
 			this.graph.components[this.graph.idRoot].update(currTime);
-		}   
+		}
 	}
 
 	/**
@@ -189,6 +209,9 @@ class XMLscene extends CGFscene {
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+		this.logPicking();
+		this.clearPickRegistration();
 
 
 		// Initialize Model-View matrix as identity (no transformation

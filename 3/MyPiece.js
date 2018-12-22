@@ -7,7 +7,7 @@ class MyPiece extends Primitive
         this.height = 0.1;
         this.slices = 15;
         this.stacks = 3;
-                
+
         this.initBuffers();
 	};
 
@@ -21,7 +21,7 @@ class MyPiece extends Primitive
 		this.whiteAppearence.setDiffuse(1.0,1.0,1.0,1);
 		this.whiteAppearence.setSpecular(1.0,1.0,1.0,1);
         this.whiteAppearence.setShininess(120);
-        
+
         this.blackAppearence = new CGFappearance(this.scene);
 		this.blackAppearence.loadTexture("scenes/images/black.jpg");
 		this.blackAppearence.setAmbient(1.0,1.0,1.0,1);
@@ -29,17 +29,17 @@ class MyPiece extends Primitive
 		this.blackAppearence.setSpecular(1.0,1.0,1.0,1);
 		this.blackAppearence.setShininess(120);
 	};
-   
+
 
     update(currTime, component)
     {
 
     }
-    
+
 	display()
 	{
         this.scene.pushMatrix();
-
+				
             this.scene.translate(0, this.height, 0);
             this.scene.rotate(Math.PI/2, 1, 0, 0);
 
