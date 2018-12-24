@@ -3,24 +3,22 @@ class MyBoard extends Primitive
 	constructor(scene, depth)
 	{
         super(scene);
-<<<<<<< HEAD
-        
-        this.board = getPrologRequest("kl", getResponseArray);
-        this.height = this.board.length;
-        this.width = this.board[0].length;
+
+        this.updateBoard(getPrologRequest("kl", getResponseArray));
+
         this.depth = depth || 0.5;
 
         this.animation = new Animation(this.scene);
         
-=======
-
-        this.width = width;
-        this.height = height;
-        this.depth = depth || 0.5;
-
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
         this.initBuffers();
 	};
+
+    updateBoard(newBoard)
+    {
+        this.board = newBoard;
+        this.height = this.board.length;
+        this.width = this.board[0].length;
+    }
 
 	initBuffers()
 	{
@@ -50,24 +48,43 @@ class MyBoard extends Primitive
         this.piece = new MyPiece(this.scene);
 	};
 
+    logPicking()
+    {
+        if (this.scene.pickMode == false)
+        {
+            if (this.scene.pickResults != null && this.scene.pickResults.length > 0)
+            {
+                for (var i=0; i< this.scene.pickResults.length; i++)
+                {
+                    var obj = this.scene.pickResults[i][0];
+                    if (obj)
+                    {
+                        this.updateBoard(getPrologRequest("move(1,1,3,0,5)", getResponseArray));
+                    }
+                }
+                this.scene.pickResults.splice(0,this.scene.pickResults.length);
+            }
+        }
+    }
+
 
     update(currTime, component)
     {
         this.animation.update(currTime);
 
-        if (this.animation.sumTime > 1 && this.animation.flag == undefined)
+        if (this.animation.sumTime > 10 && this.animation.flag == undefined)
         {
-            this.board = getPrologRequest("move(1,1,3,0,5)", getResponseArray);
-            console.log(this.board);
-            
-            this.height = this.board.length;
-        	this.width = this.board[0].length;
+            this.updateBoard(getPrologRequest("move(1,1,3,0,5)", getResponseArray));
             this.animation.flag = true;
         }
     }
 
 	display()
 	{
+        this.logPicking();
+        this.scene.clearPickRegistration();
+        var id = 1;
+
         this.scene.pushMatrix();
 
             let coords = [];
@@ -78,9 +95,16 @@ class MyBoard extends Primitive
                 {
                     this.scene.pushMatrix();
 
+                        if (this.board[j][i][0] > 0)
+                        {
+                            this.scene.registerForPick(id, this.piece);
+                            id++;
+                        }
+                        else
+                            this.scene.clearPickRegistration();
+
                         coords = [(1-this.height)/2 + j, 0, (1-this.width)/2 + i];
                         this.scene.translate(coords[0], 0, coords[2]);
-                        // console.log("position = " + coords[0] + " " + coords[1] + " " + coords[2]);
 
                         if ((i+j)%2 == 0)
                             this.whiteAppearence.apply();
@@ -89,7 +113,6 @@ class MyBoard extends Primitive
 
                         this.plane.display();
 
-<<<<<<< HEAD
                         let colour = this.board[j][i][1];
 
                         if (colour == "w")
@@ -112,8 +135,6 @@ class MyBoard extends Primitive
                             this.scene.popMatrix();
                         }
                     
-=======
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
                     this.scene.popMatrix();
 
                 }
@@ -181,75 +202,6 @@ class MyBoard extends Primitive
                 this.plane.display();
 
             this.scene.popMatrix();
-
-
-<<<<<<< HEAD
-            // this.scene.pushMatrix();
-            //     this.whiteAppearence.apply();
-    
-            //     this.scene.translate(0, 0, 0.5);
-
-            //     for (let i = 0; i < 20; i++)
-            //     {  
-            //         this.scene.pushMatrix();
-
-            //             this.scene.translate(0, i*(this.piece.height+0.003), 0);
-=======
-            this.scene.pushMatrix();
-                this.whiteAppearence.apply();
-
-                this.scene.translate(0, 0, 0.5);
-
-                for (let i = 0; i < 20; i++)
-                {
-                    this.scene.pushMatrix();
-
-						this.scene.registerForPick(i+1,this.piece);
-
-                        this.scene.translate(0, i*(this.piece.height+0.003), 0);
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
-
-            //             this.piece.display();
-
-<<<<<<< HEAD
-            //         this.scene.popMatrix();
-            //     }
-                
-=======
-                    this.scene.popMatrix();
-                }
-
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
-
-            // this.scene.popMatrix();
-
-            // this.scene.pushMatrix();
-            //     this.blueAppearence.apply();
-
-            //     this.scene.translate(0, 0, -0.5);
-
-<<<<<<< HEAD
-            //     for (let i = 0; i < 20; i++)
-            //     {  
-            //         this.scene.pushMatrix();
-
-            //             this.scene.translate(0, i*(this.piece.height+0.003), 0);
-=======
-                for (let i = 0; i < 20; i++)
-                {
-                    this.scene.pushMatrix();
-
-						this.scene.registerForPick(i+1,this.piece);
-
-                        this.scene.translate(0, i*(this.piece.height+0.003), 0);
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
-
-            //             this.piece.display();
-
-            //         this.scene.popMatrix();
-            //     }
-
-            // this.scene.popMatrix();
 
         this.scene.popMatrix();
 	};

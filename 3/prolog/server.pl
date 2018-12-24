@@ -123,6 +123,10 @@ parse_input(move(X1, Y1, X2, Y2, N), NewBoard):-
 	assert(board(NewBoard)));
 	NewBoard = error.
 
+parse_input(getBoard, Board):-
+	retract(board(Board)),
+	assert(board(Board)).
+
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
 	

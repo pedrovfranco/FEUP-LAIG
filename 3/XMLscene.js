@@ -140,23 +140,6 @@ class XMLscene extends CGFscene {
 			console.log(text);
 	};
 
-	logPicking()
-	{
-	if (this.pickMode == false) {
-		if (this.pickResults != null && this.pickResults.length > 0) {
-				for (var i=0; i< this.pickResults.length; i++) {
-					var obj = this.pickResults[i][0];
-					if (obj)
-					{
-						var customId = this.pickResults[i][1];
-						console.log("Picked object: " + obj + ", with pick id " + customId);
-					}
-				}
-				this.pickResults.splice(0,this.pickResults.length);
-			}
-		}
-	}
-
 
 	/* Handler called when the graph is finally loaded.
 	 * As loading is asynchronous, this may be called already after the application has started the run loop
@@ -209,10 +192,6 @@ class XMLscene extends CGFscene {
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-
-		this.logPicking();
-		this.clearPickRegistration();
-
 
 		// Initialize Model-View matrix as identity (no transformation
 		this.updateProjectionMatrix();

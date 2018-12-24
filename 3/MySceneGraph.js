@@ -44,16 +44,7 @@ var COMPONENTS_INDEX = 9;
 			* If any error occurs, the reader calls onXMLError on this object, with an error message
 			*/
 
-<<<<<<< HEAD
-			this.reader.open('scenes/' + filename, this);			
-=======
 			this.reader.open('scenes/' + filename, this);
-
-			this.board = new MyBoard(scene, 8, 5);
-
-			this.initialBoard = getInitialBoard();
-
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
 		}
 
 
@@ -1534,29 +1525,10 @@ var COMPONENTS_INDEX = 9;
 	 /**
 	  * Displays the scene, processing each node, starting in the root node.
 	  */
-<<<<<<< HEAD
 	displayScene() 
 	{
 		// entry point for graph rendering
 		//TODO: Render loop starting at root of graph
-=======
-	  displayScene()
-	  {
-		  // entry point for graph rendering
-		  //TODO: Render loop starting at root of graph
-
-
-      
-		  this.components[this.idRoot].display();
-
-		  this.scene.pushMatrix();
-
-			  this.scene.translate(0, 0.7, 0);
-
-			  this.board.display();
-
-		  this.scene.popMatrix();
->>>>>>> 9821fd2c979e04384b893f51dd068b156e216035
 
 		this.components[this.idRoot].display();
 	}
