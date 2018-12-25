@@ -111,6 +111,11 @@ parse_input(quit, goodbye).
 
 parse_input(kl, Board):-
 	initialBoard(Board),
+	retract(board(_)),
+	assert(board(Board)).
+
+parse_input(kl, Board):-
+	initialBoard(Board),
 	assert(board(Board)).
 
 parse_input(getBoard, Board):-

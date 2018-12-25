@@ -83,12 +83,20 @@ class MyBoard extends Primitive
 									if (N == null)
 									{
 										continue;
-									}	
+									}
 
-									this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
+									if (N > 0 && N < this.board[this.selected[1]][this.selected[0]][0])
+									{
+										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
 
-									this.selected = null;
-									this.possibleMoves = null;
+										this.selected = null;
+										this.possibleMoves = null;
+									}
+									else
+									{
+										window.alert("Invalid number of pieces!");
+										continue;
+									}
 								}
 								else
 								{
