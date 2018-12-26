@@ -8,8 +8,6 @@ class ScoreBoard extends Primitive
     this.d2 = 0;
     this.d3 = 0;
 
-    console.log("sexo");
-
     this.initBuffers();
   }
 

@@ -74,6 +74,31 @@ class MyBoard extends Primitive
 		this.plays = 0;
 	};
 
+	getPlayerByColour(colour)
+	{
+		if (colour == "w")
+		{
+			return 0;
+		}
+		else if (colour == "b")
+		{
+			return 1;
+		}
+		else
+		{
+			console.error("Error on colour");
+		}
+	}
+
+	selectStack(obj)
+	{
+		if (this.getPlayerByColour(this.board[obj[1]][obj[0]][1]) == this.plays % 2)
+		{
+			this.selected = obj;
+			this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
+		}
+	}
+
 	logPicking()
 	{
 		if (this.scene.pickMode == false)
@@ -87,8 +112,7 @@ class MyBoard extends Primitive
 					{
 						if (this.selected == null)
 						{
-							this.selected = obj;
-							this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
+							this.selectStack(obj);
 						}
 						else
 						{
@@ -96,7 +120,16 @@ class MyBoard extends Primitive
 							{
 								if (this.findMove(obj) != -1)
 								{
-									let N = window.prompt("Insert number of pieces to move between 1 and " + this.board[this.selected[1]][this.selected[0]][0]);
+									let N;
+									if (this.plays == 0)
+									{
+										N = 1;
+									}
+									else
+									{
+										N = window.prompt("Insert number of pieces to move between 1 and " + this.board[this.selected[1]][this.selected[0]][0]);
+									}
+
 									if (N == null)
 									{
 										continue;
@@ -106,7 +139,6 @@ class MyBoard extends Primitive
 									{
 										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
 										this.plays++;
-										console.log(this.plays);
 
 										this.selected = null;
 										this.possibleMoves = null;
@@ -119,8 +151,7 @@ class MyBoard extends Primitive
 								}
 								else
 								{
-									this.selected = obj;
-									this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
+									this.selectStack(obj);
 								}
 							}
 							else
