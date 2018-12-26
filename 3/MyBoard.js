@@ -19,6 +19,8 @@ class MyBoard extends Primitive
 
 		this.depth = depth || 0.5;
 
+		this.countdown = 10;
+
 		this.animation = new Animation(this.scene);
 
 		this.selected = null;
@@ -66,6 +68,10 @@ class MyBoard extends Primitive
 		this.redAppearence.setShininess(120);
 
 		this.piece = new MyPiece(this.scene);
+
+		this.scoreBoard = new ScoreBoard(this.scene);
+
+		this.plays = 0;
 	};
 
 	logPicking()
@@ -99,6 +105,8 @@ class MyBoard extends Primitive
 									if (N > 0 && N < this.board[this.selected[1]][this.selected[0]][0])
 									{
 										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
+										this.plays++;
+										console.log(this.plays);
 
 										this.selected = null;
 										this.possibleMoves = null;
@@ -178,6 +186,16 @@ class MyBoard extends Primitive
 		//     this.updateBoard(getPrologRequest("move(1,1,3,0,5)", getResponseArray));
 		//     this.animation.flag = true;
 		// }
+
+
+		// if(currTime % 10 != 0 && this.countdown > 0)
+		// {
+		// 	this.countdown--;
+		// 	console.log(this.countdown);
+		// }
+		// this.c--;
+
+		// console.log(this.c);
 	}
 
 	display()
@@ -333,6 +351,10 @@ class MyBoard extends Primitive
 
 			this.scene.popMatrix();
 
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scoreBoard.display(this.plays);
 		this.scene.popMatrix();
 	};
 };

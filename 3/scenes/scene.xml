@@ -147,12 +147,12 @@
 
 	<primitives>
 
-	
+
 		<primitive id="rectangle">
 			<rectangle x1="0" y1="0" x2="2" y2="2"/>
 		</primitive>
 
-		
+
 		<primitive id="water">
 			<water idtexture="texture6" idwavemap="waterHeightmap" parts="200" heightscale="4" texscale="0.25"/>
 		</primitive>
@@ -179,7 +179,7 @@
 				<componentref id="stand2"/>
 				<componentref id="stand3"/>
 				<componentref id="stand4"/>
-				<componentref id="wall"/>
+				<!-- <componentref id="wall"/> -->
 
 				<componentref id="board"/>
 			</children>
@@ -200,7 +200,7 @@
 		<component id="floor">
 			<transformation>
 				<translate x="-15" y="0.3" z="15"/>
-				<rotate axis="x" angle="-90"/> 
+				<rotate axis="x" angle="-90"/>
 				<scale x ="15" y="15" z="0"/>
 			</transformation>
 			<materials>
@@ -243,14 +243,14 @@
 		<component id="stand3">
 			<transformation>
 				<translate x="-25" y="0.5" z="35"/>
-				<rotate axis="z" angle="90"/>
+				<rotate axis="z" angle="30"/>
 				<rotate axis="y" angle="90"/>
-				<scale x ="35" y="7" z="0"/>
+				<scale x ="35" y="5" z="0"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="ice" length_s="2" length_t="2" />
+			<texture id="stands" length_s="2" length_t="2" />
 			<children>
 				<primitiveref id="rectangle" />
 			</children>
@@ -270,7 +270,7 @@
 				<primitiveref id="rectangle" />
 			</children>
 		</component>
-		<component id="wall">
+		<!-- <component id="wall">
 			<transformation>
 				<translate x="-35" y="0" z="35"/>
 				<rotate axis="y" angle="90"/>
@@ -283,7 +283,7 @@
 			<children>
 				<primitiveref id="rectangle" />
 			</children>
-		</component>
+		</component> -->
 
 		<component id="board">
 			<transformation>
