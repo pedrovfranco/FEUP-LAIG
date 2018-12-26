@@ -4,12 +4,23 @@ class MyBoard extends Primitive
 	{
 		super(scene);
 
+		this.cameraId = "board";
+
+		this.fov = 1.2;
+		this.near = 0.1;
+		this.far = 500;
+
+		this.cameraAngle = 0;
+
+		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 5, 15), vec3.fromValues(0, 5, 0));
+		this.scene.graph.viewIds.push(this.cameraId);
+
 		this.updateBoard(getPrologRequest("kl", getResponseArray));
 
 		this.depth = depth || 0.5;
 
 		this.animation = new Animation(this.scene);
-		
+
 		this.selected = null;
 
 		this.initBuffers();
@@ -79,7 +90,7 @@ class MyBoard extends Primitive
 							{
 								if (this.findMove(obj) != -1)
 								{
-									let N = window.prompt("Insert number of pieces to move between 0 and " + this.board[this.selected[1]][this.selected[0]][0]);
+									let N = window.prompt("Insert number of pieces to move between 1 and " + this.board[this.selected[1]][this.selected[0]][0]);
 									if (N == null)
 									{
 										continue;
@@ -102,7 +113,7 @@ class MyBoard extends Primitive
 								{
 									this.selected = obj;
 									this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
-								}			
+								}
 							}
 							else
 							{
@@ -150,6 +161,18 @@ class MyBoard extends Primitive
 	{
 		this.animation.update(currTime);
 
+		this.cameraAngle += 0.02;
+
+		this.scene.views[this.cameraId].fov = this.fov;
+		this.scene.views[this.cameraId].near = this.near;
+		this.scene.views[this.cameraId].far = this.far;
+
+		this.scene.views[this.cameraId].setPosition(vec3.fromValues(15*Math.cos(this.cameraAngle), 5, 15* Math.sin(this.cameraAngle)));
+		//
+		// let target = vec3.fromValues(0,0,0);
+		//
+		// this.scene.views[this.cameraId].setTarget(target);
+
 		// if (this.animation.sumTime > 10 && this.animation.flag == undefined)
 		// {
 		//     this.updateBoard(getPrologRequest("move(1,1,3,0,5)", getResponseArray));
@@ -172,23 +195,23 @@ class MyBoard extends Primitive
 				for (let i = 0; i < this.possibleMoves.length; i++)
 				{
 					this.scene.pushMatrix();
-						
+
 						this.scene.registerForPick(id, this.possibleMoves[i]);
 						id++;
-						
+
 						coords = [(1-this.height)/2 + this.possibleMoves[i][1], 0, (1-this.width)/2 + this.possibleMoves[i][0]];
 						this.scene.translate(coords[0], 0, coords[2]);
 
 						this.redAppearence.apply();
 
 						this.plane.display();
-					
+
 					this.scene.popMatrix();
 				}
-				
+
 			}
 
-			
+
 			for (let i = 0; i < this.width; i++)
 			{
 				for (let j = 0; j < this.height; j++)
@@ -239,12 +262,12 @@ class MyBoard extends Primitive
 
 							this.scene.popMatrix();
 						}
-					
+
 					this.scene.popMatrix();
 
 				}
 			}
-			
+
 			this.scene.clearPickRegistration();
 
 			this.scene.pushMatrix();
