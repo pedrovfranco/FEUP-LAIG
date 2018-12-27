@@ -171,8 +171,9 @@
 				<componentref id="floor"/>
 				<componentref id="stand1"/>
 				<componentref id="stand2"/>
-				<componentref id="stand3"/>
-				<componentref id="stand4"/>
+				<componentref id="wall1"/>
+				<!--<componentref id="stand3"/>
+				<componentref id="stand4"/> -->
 				<!-- <componentref id="wall"/> -->
 
 				<componentref id="board"/>
@@ -194,9 +195,9 @@
 		</component>
 		<component id="stand1">
 			<transformation>
-				<translate x="-35" y="0" z="-20"/>
-				<rotate axis="x" angle="-60"/>
-				<scale x ="35" y="7" z="0"/>
+				<translate x="-15" y="0" z="-15"/>
+				<rotate axis="x" angle="-30"/>
+				<scale x ="15" y="5" z="0"/>
 			</transformation>
 			<materials>
 				<material id="inherit" />
@@ -207,6 +208,35 @@
 			</children>
 		</component>
 		<component id="stand2">
+			<transformation>
+				<translate x="15" y="0" z="15"/>
+				<rotate axis="x" angle="30"/>
+				<rotate axis="y" angle="180"/>
+				<scale x ="15" y="5" z="0"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="stands" length_s="2" length_t="2" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<component id="wall1">
+			<transformation>
+				<translate x="15" y="0" z="-20"/>
+				<rotate axis="y" angle="-90"/>
+				<scale x ="20" y="4.30" z="0"/>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="ice" length_s="2" length_t="2" />
+			<children>
+				<primitiveref id="rectangle" />
+			</children>
+		</component>
+		<!--<component id="stand2">
 			<transformation>
 				<translate x="35" y="0" z="20"/>
 				<rotate axis="x" angle="60"/>
@@ -250,7 +280,7 @@
 			<children>
 				<primitiveref id="rectangle" />
 			</children>
-		</component>
+		</component> -->
 		<!-- <component id="wall">
 			<transformation>
 				<translate x="-35" y="0" z="35"/>

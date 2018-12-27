@@ -125,13 +125,14 @@ class ScoreBoard extends Primitive
     this.m1 = Math.floor(m % 10);
   	this.m2 = Math.floor((m / 10) % 10);
 
-    this.scene.pushMatrix();
-    this.scene.translate(10,0,0);
-    this.scene.scale(0.15, 4, 0.15);
-    this.scene.rotate(-Math.PI/2, 1,0,0);
-    this.steel.apply();
-    this.cylinder2.display();
-    this.scene.popMatrix();
+    // this.scene.pushMatrix();
+    // this.scene.translate(10,0,0);
+    // this.scene.scale(0.15, 4, 0.15);
+    // this.scene.rotate(-Math.PI/2, 1,0,0);
+    // this.steel.apply();
+    // this.cylinder2.display();
+    // this.scene.popMatrix();
+    this.scene.translate(4.9,-1.1,0);
 
     this.scene.pushMatrix();
     this.scene.translate(10,6,0);
