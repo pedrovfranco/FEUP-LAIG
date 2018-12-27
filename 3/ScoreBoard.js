@@ -27,9 +27,6 @@ class ScoreBoard extends Primitive
     this.plane = new Plane(this.scene, 5, 5);
 
     this.loadNumbers();
-
-    this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
   }
 
 	loadNumbers()
@@ -114,19 +111,19 @@ class ScoreBoard extends Primitive
 
   display(playsW, playsB, m, s)
   {
-    this.d1B = playsW % 10;
-  	this.d2B = (playsW % 100)/10;
-  	this.d3B = (playsW % 1000)/100;
+    this.d1B = Math.floor(playsW % 10);
+  	this.d2B = Math.floor((playsW / 10) % 10);
+  	this.d3B = Math.floor((playsW / 100) % 10);
 
-    this.d1W = playsB % 10;
-  	this.d2W = (playsB % 100)/10;
-  	this.d3W = (playsB % 1000)/100;
+    this.d1W = Math.floor(playsB % 10);
+  	this.d2W = Math.floor((playsB / 10) % 10);
+  	this.d3W = Math.floor((playsB / 100) % 10);
 
-    this.s1 = s % 10;
-  	this.s2 = (s % 100)/10;
+    this.s1 = Math.floor(s % 10);
+  	this.s2 = Math.floor((s / 10) % 10);
 
-    this.m1 = m % 10;
-  	this.m2 = (m % 100)/10;
+    this.m1 = Math.floor(m % 10);
+  	this.m2 = Math.floor((m / 10) % 10);
 
     this.scene.pushMatrix();
     this.scene.translate(10,0,0);
@@ -138,6 +135,15 @@ class ScoreBoard extends Primitive
 
     this.scene.pushMatrix();
     this.scene.translate(10,6,0);
+    this.scene.scale(10,6,10);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.steel.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(10,6,0);
+    this.scene.rotate(Math.PI,0,1,0);
     this.scene.scale(10,6,10);
     this.scene.rotate(Math.PI/2,0,0,1);
     this.steel.apply();

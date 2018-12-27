@@ -31,3 +31,31 @@ printList([]).
 printList([H|T]):-
 	write(H),nl,
 	printList(T).
+
+
+createLine([], 0).
+createLine([H|T], I):-
+	I > 0,
+	append([], [], H),
+	I1 is I-1,
+	createLine(T, I1), !.
+
+addLineLeft([], []).
+addLineLeft([H|T], [H2|Tail]):-
+	addHead(H, [], H2),
+	addLineLeft(T, Tail).
+
+addLineRight([], []).
+addLineRight([H|T], [H2|Tail]):-
+	addTail(H, [], H2),
+	addLineRight(T, Tail).
+
+addLineTop([H|T], Y) :-
+	length(H, Hl),
+	createLine(W, Hl),
+	addHead([H|T], W, Y).
+
+addLineBottom([H|T], Y) :-
+	length(H, Hl),
+	createLine(W, Hl),
+	addTail([H|T], W, Y).

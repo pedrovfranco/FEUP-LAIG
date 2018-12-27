@@ -56,6 +56,20 @@ class MyInterface extends CGFinterface {
         });
     }
 
+    addDifficultyGroup(board) {
+        let difficultyArray = ['Medium', 'Hard'];
+        board.difficulty = difficultyArray[0];
+        
+        var element = this.gui.add(board, 'difficulty', difficultyArray);
+        element.scene = this.scene;
+
+        element.onChange(function(arg)
+        {
+            board.difficulty = arg;
+            console.log(board.difficulty)
+        });
+    }
+
     /**
 	 * processKeyboard
 	 * @param event {Event}

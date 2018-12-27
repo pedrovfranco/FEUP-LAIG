@@ -2,7 +2,7 @@
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
 
-:-consult('kl.pl').
+:-consult('logic.pl').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -133,7 +133,11 @@ parse_input(move(X1, Y1, X2, Y2, N), NewBoard):-
 	assert(board(NewBoard)));
 	NewBoard = error.
 
+parse_input(game_over, Winner):-
+	board(Board),
+	game_over(Board, Winner).
 
+parse_input(game_over, 'none').
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).

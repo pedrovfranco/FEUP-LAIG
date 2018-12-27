@@ -21,9 +21,11 @@ class MyBoard extends Primitive
 
 		this.countdown = 10;
 
-		this.animation = new Animation(this.scene);
-
 		this.selected = null;
+
+		this.animation = new Animation();
+
+		this.scene.interface.addDifficultyGroup(this);
 
 		this.initBuffers();
 	};
@@ -127,17 +129,10 @@ class MyBoard extends Primitive
 								if (this.findMove(obj) != -1)
 								{
 									let N;
-									if (this.plays == 0)
-									{
-										this.dateFirstPick = new Date().getTime();
-
-										console.log(this.dateFirstPick);
+									if (this.plays == 0 || this.board[this.selected[1]][this.selected[0]][0] == 2)
 										N = 1;
-									}
 									else
-									{
-										N = window.prompt("Insert number of pieces to move between 1 and " + this.board[this.selected[1]][this.selected[0]][0]);
-									}
+										N = window.prompt("Insert number of pieces to move between 1 and " + (this.board[this.selected[1]][this.selected[0]][0] - 1));
 
 									if (N == null)
 									{
@@ -149,13 +144,22 @@ class MyBoard extends Primitive
 										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
 										this.plays++;
 
-										if(this.plays % 2 == 0)
+										if (this.plays % 2 == 0)
 											this.playsW++;
 										else
 											this.playsB++;
 
+										let winner = getPrologRequest("game_over");
+
+										if (winner != "none")
+										{
+											window.alert(winner + " won!");
+										} 
+
 										this.selected = null;
 										this.possibleMoves = null;
+
+										this.scene.interface.processMouseUp(new MouseEvent("mouseup"));
 									}
 									else
 									{
@@ -212,8 +216,6 @@ class MyBoard extends Primitive
 
 	update(currTime, component)
 	{
-		this.animation.update(currTime);
-
 		this.cameraAngle += 0.02;
 
 		this.scene.views[this.cameraId].fov = this.fov;
@@ -221,40 +223,12 @@ class MyBoard extends Primitive
 		this.scene.views[this.cameraId].far = this.far;
 
 		this.scene.views[this.cameraId].setPosition(vec3.fromValues(15*Math.cos(this.cameraAngle), 5, 15* Math.sin(this.cameraAngle)));
-		//
-		// let target = vec3.fromValues(0,0,0);
-		//
-		// this.scene.views[this.cameraId].setTarget(target);
 
-		// if (this.animation.sumTime > 10 && this.animation.flag == undefined)
-		// {
-		//     this.updateBoard(getPrologRequest("move(1,1,3,0,5)", getResponseArray));
-		//     this.animation.flag = true;
-		// }
+		if (this.plays > 0)
+		{
+			this.animation.update(currTime);
+		}
 
-		this.timeDifference = currTime - this.dateFirstPick ;
-		this.m = Math.floor(((this.timeDifference % (60*60*1000*24)) % (60*60*1000)) / (60 * 1000) * 1);
-		this.s = Math.floor((((this.timeDifference % (60*60*1000*24)) % (60*60*1000)) % (60 * 1000)) / 1000 * 1);
-
-		// console.log("aaa");
-
-		// this.timeDifference = (this.dateFirstPick - currTime);
-		// console.log(this.timeDifference);
-
-		// if( (currTime  % 60) == 0)
-		// 		{
-		// 			this.time++;
-		// 			console.log(this.time);
-		// 		}
-
-		// if(currTime % 10 != 0 && this.countdown > 0)
-		// {
-		// 	this.countdown--;
-		// 	console.log(this.countdown);
-		// }
-		// this.c--;
-
-		// console.log(this.c);
 	}
 
 	display()
@@ -264,8 +238,6 @@ class MyBoard extends Primitive
 		let id = 1, coords = [];
 
 		this.scene.pushMatrix();
-
-			// this.scene.rotate(Math.PI, 0, 1, 0);
 
 			if (this.possibleMoves != null)
 			{
@@ -410,10 +382,15 @@ class MyBoard extends Primitive
 
 			this.scene.popMatrix();
 
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+				
+				let m = this.animation.sumTime / 60;
+				let s = this.animation.sumTime % 60;
 
-		this.scene.pushMatrix();
-		this.scoreBoard.display(this.playsW, this.playsB, this.m, this.s);
+				this.scoreBoard.display(this.playsW, this.playsB, m, s);
+
+			this.scene.popMatrix();
+
 		this.scene.popMatrix();
 	};
 };

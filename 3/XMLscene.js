@@ -162,13 +162,13 @@ class XMLscene extends CGFscene {
 		this.viewId = this.graph.defaultViewId;
 
 		// Adds views group
+		this.initViews();
 		this.interface.addViewsGroup(this.graph.viewIds);
 
 		this.materialDefault = new CGFappearance(this);
 
 		this.sceneInited = true;
 
-		this.initViews();
 
 		this.setCamera();
 	}
