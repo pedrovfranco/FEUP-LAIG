@@ -103,20 +103,30 @@ class ScoreBoard extends Primitive
     this.nine.setDiffuse(1.0,1.0,1.0,1);
     this.nine.setSpecular(1.0,1.0,1.0,1);
     this.nine.setShininess(120);
+
+    this.dots = new CGFappearance(this.scene);
+    this.dots.loadTexture("scenes/images/numbers/dots.png");
+    this.dots.setAmbient(1.0,1.0,1.0,1);
+    this.dots.setDiffuse(1.0,1.0,1.0,1);
+    this.dots.setSpecular(1.0,1.0,1.0,1);
+    this.dots.setShininess(120);
 	};
 
-  updateScore(score)
+  display(playsW, playsB, m, s)
   {
-    this.d1 = score % 10;
-  	this.d2 = (score % 100)/10;
-  	this.d3 = (score % 1000)/100;
-  };
+    this.d1B = playsW % 10;
+  	this.d2B = (playsW % 100)/10;
+  	this.d3B = (playsW % 1000)/100;
 
-  display(plays)
-  {
-    this.d1 = plays % 10;
-  	this.d2 = (plays % 100)/10;
-  	this.d3 = (plays % 1000)/100;
+    this.d1W = playsB % 10;
+  	this.d2W = (playsB % 100)/10;
+  	this.d3W = (playsB % 1000)/100;
+
+    this.s1 = s % 10;
+  	this.s2 = (s % 100)/10;
+
+    this.m1 = m % 10;
+  	this.m2 = (m % 100)/10;
 
     this.scene.pushMatrix();
     this.scene.translate(10,0,0);
@@ -128,18 +138,235 @@ class ScoreBoard extends Primitive
 
     this.scene.pushMatrix();
     this.scene.translate(10,6,0);
-    this.scene.scale(7,5,7);
+    this.scene.scale(10,6,10);
     this.scene.rotate(Math.PI/2,0,0,1);
     this.steel.apply();
     this.plane.display();
     this.scene.popMatrix();
 
+    //CLOCK
     this.scene.pushMatrix();
-    this.scene.translate(9.9,5,-2);
+    this.scene.translate(9.9,8,-2);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
-    switch(this.d3){
+    switch(this.m2){
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+        default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,8,-1);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    switch(this.m1){
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+        default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,8,0);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.dots.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,8,1);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.zero.apply();
+    switch(this.s2){
+
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+        // default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,8,2);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    switch(this.s1){
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+      default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+    //Whites
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,4.5,-4);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    switch(this.d3W){
       case 0:
         this.zero.apply();
         break;
@@ -186,11 +413,11 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,5,0);
+    this.scene.translate(9.9,4.5,-3);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
-    switch(this.d2){
+    switch(this.d2W){
       case 0:
         this.zero.apply();
         break;
@@ -237,11 +464,166 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,5,2);
+    this.scene.translate(9.9,4.5,-2);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
-    switch(this.d1){
+    switch(this.d1W){
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+      default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+
+    //Blacks
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,4.5,2);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    switch(this.d3B){
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+      default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,4.5,3);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    switch(this.d2B){
+      case 0:
+        this.zero.apply();
+        break;
+
+      case 1:
+        this.one.apply();
+        break;
+
+      case 2:
+        this.two.apply();
+        break;
+
+      case 3:
+        this.three.apply();
+        break;
+
+      case 4:
+        this.four.apply();
+        break;
+
+      case 5:
+        this.five.apply();
+        break;
+
+      case 6:
+        this.six.apply();
+        break;
+
+      case 7:
+        this.seven.apply();
+        break;
+
+      case 8:
+        this.eight.apply();
+        break;
+
+      case 9:
+        this.nine.apply();
+        break;
+
+      default: this.zero.apply();
+    }
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,4.5,4);
+    this.scene.scale(2,1.5,1);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    switch(this.d1B){
       case 0:
         this.zero.apply();
         break;

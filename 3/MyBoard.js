@@ -72,6 +72,12 @@ class MyBoard extends Primitive
 		this.scoreBoard = new ScoreBoard(this.scene);
 
 		this.plays = 0;
+		this.playsW = 0;
+		this.playsB = 0;
+
+		this.time = 0;
+
+		this.date = new Date();
 	};
 
 	getPlayerByColour(colour)
@@ -123,6 +129,9 @@ class MyBoard extends Primitive
 									let N;
 									if (this.plays == 0)
 									{
+										this.dateFirstPick = new Date().getTime();
+
+										console.log(this.dateFirstPick);
 										N = 1;
 									}
 									else
@@ -139,6 +148,11 @@ class MyBoard extends Primitive
 									{
 										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
 										this.plays++;
+
+										if(this.plays % 2 == 0)
+											this.playsW++;
+										else
+											this.playsB++;
 
 										this.selected = null;
 										this.possibleMoves = null;
@@ -218,6 +232,20 @@ class MyBoard extends Primitive
 		//     this.animation.flag = true;
 		// }
 
+		this.timeDifference = currTime - this.dateFirstPick ;
+		this.m = Math.floor(((this.timeDifference % (60*60*1000*24)) % (60*60*1000)) / (60 * 1000) * 1);
+		this.s = Math.floor((((this.timeDifference % (60*60*1000*24)) % (60*60*1000)) % (60 * 1000)) / 1000 * 1);
+
+		// console.log("aaa");
+
+		// this.timeDifference = (this.dateFirstPick - currTime);
+		// console.log(this.timeDifference);
+
+		// if( (currTime  % 60) == 0)
+		// 		{
+		// 			this.time++;
+		// 			console.log(this.time);
+		// 		}
 
 		// if(currTime % 10 != 0 && this.countdown > 0)
 		// {
@@ -385,7 +413,7 @@ class MyBoard extends Primitive
 		this.scene.popMatrix();
 
 		this.scene.pushMatrix();
-		this.scoreBoard.display(this.plays);
+		this.scoreBoard.display(this.playsW, this.playsB, this.m, this.s);
 		this.scene.popMatrix();
 	};
 };
