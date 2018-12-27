@@ -206,7 +206,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="helicopter" length_s="0.25" length_t="0.1" />
+			<texture id="ice" length_s="2" length_t="2" />
 			<children>
 				<primitiveref id="rectangle" />
 			</children>
