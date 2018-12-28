@@ -3,6 +3,7 @@
 :-use_module(library(codesio)).
 
 :-consult('logic.pl').
+:-consult('bot.pl').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -132,6 +133,14 @@ parse_input(move(X1, Y1, X2, Y2, N), NewBoard):-
 	move(Board, X1, Y1, X2, Y2, N, NewBoard),
 	assert(board(NewBoard)));
 	NewBoard = error.
+
+
+parse_input(moveBot(I, Difficulty), NewBoard):-
+	(retract(board(Board)),
+	moveBot(Board, I, Difficulty, NewBoard),
+	assert(board(NewBoard)));
+	NewBoard = error.
+	
 
 parse_input(game_over, Winner):-
 	board(Board),

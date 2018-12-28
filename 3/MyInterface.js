@@ -56,17 +56,35 @@ class MyInterface extends CGFinterface {
         });
     }
 
-    addDifficultyGroup(board) {
-        let difficultyArray = ['Medium', 'Hard'];
-        board.difficulty = difficultyArray[0];
+    addDifficultyGroup(board)
+    {
+        this.scene.difficultyArray = ['Medium', 'Hard'];
+        board.difficulty = this.scene.difficultyArray[0];
         
-        var element = this.gui.add(board, 'difficulty', difficultyArray);
+        var element = this.gui.add(board, 'difficulty', this.scene.difficultyArray);
         element.scene = this.scene;
 
         element.onChange(function(arg)
         {
             board.difficulty = arg;
-            console.log(board.difficulty)
+            console.log(board.difficulty);
+        });
+    }
+
+    addGameTypeGroup(board)
+    {
+        let gameTypeArray = ['Player vs Player', 'Player vs Bot', 'Bot vs Bot'];
+        board.gameType = gameTypeArray[0];
+        
+        var element = this.gui.add(board, 'gameType', gameTypeArray);
+        element.scene = this.scene;
+
+        element.onChange(function(arg)
+        {
+            board.gameType = arg;
+            console.log(board.gameType);
+
+            board.gameLoop();
         });
     }
 

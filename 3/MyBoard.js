@@ -26,9 +26,50 @@ class MyBoard extends Primitive
 		this.animation = new Animation();
 
 		this.scene.interface.addDifficultyGroup(this);
+		this.scene.interface.addGameTypeGroup(this);
 
 		this.initBuffers();
+
+		this.gameLoop();
 	};
+
+	gameLoop()
+	{
+		if (this.gameType == "Player vs Bot")
+		{
+
+		}
+		else if (this.gameType == "Bot vs Bot")
+		{
+			setTimeout(() => 
+			{
+				this.updateBoard(getPrologRequest("moveBot(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray));
+				
+				this.plays++;
+
+				if (this.plays % 2 == 0)
+					this.playsW++;
+				else
+					this.playsB++;
+
+				let winner = getPrologRequest("game_over");
+
+				if (winner != "none")
+				{
+					window.alert(winner + " won!");
+				}
+				else
+					this.gameLoop();
+				
+			}, 2000);
+
+		}
+		else
+		{
+			console.error("Error on gameType!");
+		}
+
+	}
 
 	updateBoard(newBoard)
 	{
@@ -98,6 +139,11 @@ class MyBoard extends Primitive
 		}
 	}
 
+	sleep(ms)
+	{
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
 	selectStack(obj)
 	{
 		if (this.getPlayerByColour(this.board[obj[1]][obj[0]][1]) == this.plays % 2)
@@ -132,7 +178,10 @@ class MyBoard extends Primitive
 									if (this.plays == 0 || this.board[this.selected[1]][this.selected[0]][0] == 2)
 										N = 1;
 									else
+									{
 										N = window.prompt("Insert number of pieces to move between 1 and " + (this.board[this.selected[1]][this.selected[0]][0] - 1));
+										this.scene.interface.processMouseUp(new MouseEvent("mouseup"));
+									}
 
 									if (N == null)
 									{
@@ -154,12 +203,10 @@ class MyBoard extends Primitive
 										if (winner != "none")
 										{
 											window.alert(winner + " won!");
-										} 
+										}
 
 										this.selected = null;
 										this.possibleMoves = null;
-
-										this.scene.interface.processMouseUp(new MouseEvent("mouseup"));
 									}
 									else
 									{
