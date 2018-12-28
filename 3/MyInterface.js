@@ -60,7 +60,7 @@ class MyInterface extends CGFinterface {
     {
         this.scene.difficultyArray = ['Medium', 'Hard'];
         board.difficulty = this.scene.difficultyArray[0];
-        
+
         var element = this.gui.add(board, 'difficulty', this.scene.difficultyArray);
         element.scene = this.scene;
 
@@ -70,11 +70,26 @@ class MyInterface extends CGFinterface {
         });
     }
 
+    addEnvironmentGroup(board)
+    {
+      let environmentArray = ['Ice', 'Mountain'];
+      board.environment = environmentArray[0];
+
+      var element = this.gui.add(board, 'environment', environmentArray);
+      element.scene = this.scene;
+
+      element.onChange(function(arg)
+      {
+          board.environment = arg;
+      });
+
+    };
+
     addGameTypeGroup(board)
     {
         let gameTypeArray = ['Player vs Player', 'Player vs Bot', 'Bot vs Bot'];
         board.gameType = gameTypeArray[0];
-        
+
         var element = this.gui.add(board, 'gameType', gameTypeArray);
         element.scene = this.scene;
 

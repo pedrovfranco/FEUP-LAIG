@@ -29,7 +29,7 @@ class MyBoard extends Primitive
 
 		this.scene.interface.addDifficultyGroup(this);
 		this.scene.interface.addGameTypeGroup(this);
-
+		this.scene.interface.addEnvironmentGroup(this);
 		this.initBuffers();
 	};
 
@@ -64,6 +64,13 @@ class MyBoard extends Primitive
 		this.redAppearence.setDiffuse(1.0,1.0,1.0,1);
 		this.redAppearence.setSpecular(1.0,1.0,1.0,1);
 		this.redAppearence.setShininess(120);
+
+		this.dirt = new CGFappearance(this.scene);
+		this.dirt.loadTexture("scenes/images/dirt.jpg");
+		this.dirt.setAmbient(1.0,1.0,1.0,1);
+		this.dirt.setDiffuse(1.0,1.0,1.0,1);
+		this.dirt.setSpecular(1.0,1.0,1.0,1);
+		this.dirt.setShininess(120);
 
 		this.piece = new MyPiece(this.scene);
 
@@ -108,7 +115,7 @@ class MyBoard extends Primitive
 	{
 		if (this.winner == "none")
 		{
-			setTimeout(() => 
+			setTimeout(() =>
 			{
 				this.updateBoard(getPrologRequest("moveBot(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray));
 
@@ -197,7 +204,7 @@ class MyBoard extends Primitive
 											this.playsB++;
 
 										this.checkWin();
-										
+
 										this.selected = null;
 										this.possibleMoves = null;
 
@@ -280,6 +287,26 @@ class MyBoard extends Primitive
 
 	display()
 	{
+		if(this.environment == "Mountain")
+		{
+			this.scene.pushMatrix();
+			this.scene.translate(14.99,3.6,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.rotate(Math.PI/2, 0,1,0);
+			this.scene.scale(40,0,8.60);
+			this.dirt.apply();
+			this.plane.display();
+			this.scene.popMatrix();
+
+			this.scene.pushMatrix();
+			this.scene.translate(0,-0.39,0);
+			this.scene.scale(30,0,30);
+			this.dirt.apply();
+			this.plane.display();
+			this.scene.popMatrix();
+		}
+
+
 		this.logPicking();
 		this.scene.clearPickRegistration();
 		let id = 1, coords = [];
@@ -330,22 +357,45 @@ class MyBoard extends Primitive
 						coords = [(1-this.height)/2 + j, 0, (1-this.width)/2 + i];
 						this.scene.translate(coords[0], 0, coords[2]);
 
+						if(this.environment == "Ice")
+						{
 						if ((i+j)%2 == 0)
 							this.whiteAppearence.apply();
 						else
 							this.blackAppearence.apply();
-
+						}
+						else {
+							if ((i+j)%2 == 0)
+								this.whiteAppearence.apply();
+							else
+								this.blueAppearence.apply();
+						}
 						this.plane.display();
 
 						let colour = this.board[j][i][1];
 
-						if (colour == "w")
+
+						if(this.environment == 'Ice')
 						{
-							this.whiteAppearence.apply();
+							if (colour == "w")
+							{
+								this.whiteAppearence.apply();
+							}
+							else
+							{
+								this.blueAppearence.apply();
+							}
 						}
 						else
 						{
-							this.blueAppearence.apply();
+							if (colour == "w")
+							{
+								this.whiteAppearence.apply();
+							}
+							else
+							{
+								this.blackAppearence.apply();
+							}
 						}
 
 						for (let k = 0; k < this.board[j][i][0]; k++)
@@ -430,7 +480,7 @@ class MyBoard extends Primitive
 			this.scene.popMatrix();
 
 			this.scene.pushMatrix();
-				
+
 				let m = this.animation.sumTime / 60;
 				let s = this.animation.sumTime % 60;
 
