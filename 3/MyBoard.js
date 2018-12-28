@@ -4,6 +4,8 @@ class MyBoard extends Primitive
 	{
 		super(scene);
 
+		this.winner = "none";
+
 		this.cameraId = "board";
 
 		this.fov = 1.2;
@@ -29,54 +31,7 @@ class MyBoard extends Primitive
 		this.scene.interface.addGameTypeGroup(this);
 
 		this.initBuffers();
-
-		this.gameLoop();
 	};
-
-	gameLoop()
-	{
-		if (this.gameType == "Player vs Bot")
-		{
-
-		}
-		else if (this.gameType == "Bot vs Bot")
-		{
-			setTimeout(() => 
-			{
-				this.updateBoard(getPrologRequest("moveBot(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray));
-				
-				this.plays++;
-
-				if (this.plays % 2 == 0)
-					this.playsW++;
-				else
-					this.playsB++;
-
-				let winner = getPrologRequest("game_over");
-
-				if (winner != "none")
-				{
-					window.alert(winner + " won!");
-				}
-				else
-					this.gameLoop();
-				
-			}, 2000);
-
-		}
-		else
-		{
-			console.error("Error on gameType!");
-		}
-
-	}
-
-	updateBoard(newBoard)
-	{
-		this.board = newBoard;
-		this.height = this.board.length;
-		this.width = this.board[0].length;
-	}
 
 	initBuffers()
 	{
@@ -117,11 +72,59 @@ class MyBoard extends Primitive
 		this.plays = 0;
 		this.playsW = 0;
 		this.playsB = 0;
-
-		this.time = 0;
-
-		this.date = new Date();
 	};
+
+	updateBoard(newBoard)
+	{
+		this.board = newBoard;
+		this.height = this.board.length;
+		this.width = this.board[0].length;
+	}
+
+	checkWin()
+	{
+		this.winner = getPrologRequest("game_over");
+
+		if (this.winner != "none")
+		{
+			window.alert(this.winner + " won!");
+
+			this.selected = null;
+			this.possibleMoves = null;
+		}
+	}
+
+	botLoop()
+	{
+		if (this.gameType == "Bot vs Bot" && this.winner == "none")
+		{
+			this.botPlay();
+
+			this.checkWin();
+		}
+	}
+
+	botPlay()
+	{
+		if (this.winner == "none")
+		{
+			setTimeout(() => 
+			{
+				this.updateBoard(getPrologRequest("moveBot(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray));
+
+				this.plays++;
+
+				if (this.plays % 2 == 0)
+					this.playsW++;
+				else
+					this.playsB++;
+
+				if (this.gameType == "Bot vs Bot")
+					this.botLoop();
+
+			}, 2000);
+		}
+	}
 
 	getPlayerByColour(colour)
 	{
@@ -139,14 +142,9 @@ class MyBoard extends Primitive
 		}
 	}
 
-	sleep(ms)
-	{
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-
 	selectStack(obj)
 	{
-		if (this.getPlayerByColour(this.board[obj[1]][obj[0]][1]) == this.plays % 2)
+		if (this.getPlayerByColour(this.board[obj[1]][obj[0]][1]) == this.plays % 2 && this.winner == "none")
 		{
 			this.selected = obj;
 			this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
@@ -155,7 +153,7 @@ class MyBoard extends Primitive
 
 	logPicking()
 	{
-		if (this.scene.pickMode == false)
+		if (this.scene.pickMode == false && this.winner == "none")
 		{
 			if (this.scene.pickResults != null && this.scene.pickResults.length > 0)
 			{
@@ -198,15 +196,17 @@ class MyBoard extends Primitive
 										else
 											this.playsB++;
 
-										let winner = getPrologRequest("game_over");
-
-										if (winner != "none")
-										{
-											window.alert(winner + " won!");
-										}
-
+										this.checkWin();
+										
 										this.selected = null;
 										this.possibleMoves = null;
+
+										if (this.gameType == "Player vs Bot")
+										{
+											this.botPlay();
+
+											this.checkWin();
+										}
 									}
 									else
 									{
@@ -271,7 +271,7 @@ class MyBoard extends Primitive
 
 		this.scene.views[this.cameraId].setPosition(vec3.fromValues(15*Math.cos(this.cameraAngle), 5, 15* Math.sin(this.cameraAngle)));
 
-		if (this.plays > 0)
+		if (this.plays > 0 && this.winner == "none")
 		{
 			this.animation.update(currTime);
 		}

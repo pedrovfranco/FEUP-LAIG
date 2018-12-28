@@ -67,7 +67,6 @@ class MyInterface extends CGFinterface {
         element.onChange(function(arg)
         {
             board.difficulty = arg;
-            console.log(board.difficulty);
         });
     }
 
@@ -82,9 +81,11 @@ class MyInterface extends CGFinterface {
         element.onChange(function(arg)
         {
             board.gameType = arg;
-            console.log(board.gameType);
 
-            board.gameLoop();
+            board.selected = null;
+            board.possibleMoves = null;
+
+            board.botLoop();
         });
     }
 
