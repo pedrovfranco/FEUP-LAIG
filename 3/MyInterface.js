@@ -22,6 +22,7 @@ class MyInterface extends CGFinterface {
 
 
         this.initKeys();
+
         return true;
     }
 
@@ -97,11 +98,48 @@ class MyInterface extends CGFinterface {
         {
             board.gameType = arg;
 
+            board.winner = "none";
+
+            board.updateBoard(getPrologRequest("kl", getResponseArray));
+            board.previousBoard = board.board;
+
+            board.animation = new Animation();
+
             board.selected = null;
             board.possibleMoves = null;
 
+            board.plays = 0;
+            board.playsW = 0;
+            board.playsB = 0;
+
             board.botLoop();
         });
+    }
+
+    addUndoButton(board)
+    {
+        var obj =
+        {
+            undoLastMove:function()
+            {
+                board.undoMove();
+            }
+        };
+
+        this.gui.add(obj, 'undoLastMove');
+    }
+
+    addAnimationButton(board)
+    {
+        var obj =
+        {
+            animation:function()
+            {
+                board.startAnimation();
+            }
+        };
+
+        this.gui.add(obj, 'animation');
     }
 
     /**

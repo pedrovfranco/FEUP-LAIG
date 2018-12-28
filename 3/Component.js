@@ -8,20 +8,11 @@ class Component extends CGFobject
 		this.transformationMatrix = transformationMatrix;
 		this.materials = materials;
 		this.texture = texture;
-		this.animations = animations;
 		this.componentsRef = componentsRef;
 		this.primitivesRef = primitivesRef;
 		this.id = id;
 
-		if (this.animations == null)
-		{
-			this.animations = [];
-		}
-
-		for (var i = 0; i < this.animations.length; i++)
-		{
-			this.animations[i].setComponent(this);
-		}
+		this.setAnimations(animations);
 
 		this.idMaterial = 0;
 
@@ -118,6 +109,21 @@ class Component extends CGFobject
 			{
 				this.scene.graph.primitives[this.primitivesRef[i]].update(currTime, this);
 			}
+		}
+	}
+
+	setAnimations(animations)
+	{
+		this.animations = animations;
+
+		if (this.animations == null || this.animations == undefined)
+		{
+			this.animations = [];
+		}
+
+		for (var i = 0; i < this.animations.length; i++)
+		{
+			this.animations[i].setComponent(this);
 		}
 	}
 

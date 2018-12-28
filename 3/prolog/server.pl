@@ -106,21 +106,25 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
+setBoard(Board):-
+	retract(board(_)),
+	assert(board(Board)).
+
+setBoard(Board):-
+	assert(board(Board)).
+
 parse_input(handshake, handshake).
-parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 
 parse_input(kl, Board):-
 	initialBoard(Board),
-	retract(board(_)),
-	assert(board(Board)).
-
-parse_input(kl, Board):-
-	initialBoard(Board),
-	assert(board(Board)).
+	setBoard(Board).
 
 parse_input(getBoard, Board):-
 	board(Board).
+
+parse_input(setBoard(Board), ok):-
+	setBoard(Board).
 
 
 parse_input(getPieceMoves(X,Y), Moves):-
@@ -129,16 +133,16 @@ parse_input(getPieceMoves(X,Y), Moves):-
 
 
 parse_input(move(X1, Y1, X2, Y2, N), NewBoard):-
-	(retract(board(Board)),
+	(board(Board),
 	move(Board, X1, Y1, X2, Y2, N, NewBoard),
-	assert(board(NewBoard)));
+	setBoard(NewBoard));
 	NewBoard = error.
 
 
 parse_input(moveBot(I, Difficulty), NewBoard):-
-	(retract(board(Board)),
+	(board(Board),
 	moveBot(Board, I, Difficulty, NewBoard),
-	assert(board(NewBoard)));
+	setBoard(NewBoard));
 	NewBoard = error.
 	
 
@@ -147,7 +151,3 @@ parse_input(game_over, Winner):-
 	game_over(Board, Winner).
 
 parse_input(game_over, 'none').
-
-test(_,[],N) :- N =< 0.
-test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	

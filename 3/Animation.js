@@ -10,7 +10,7 @@ class Animation
 
 		this.lastTime = -1;
 		this.sumTime = 0;
-		this.totalTime = 9999999999;
+		this.totalTime = -1;
 		this.finished = false;
 	};
 
@@ -24,7 +24,7 @@ class Animation
 
 		this.sumTime += this.deltaTime;
 
-		if (this.sumTime >= this.totalTime)
+		if (this.sumTime >= this.totalTime && this.totalTime != -1)
 		{
 			this.finished = true;
 
@@ -150,5 +150,35 @@ class CircularAnimation extends Animation
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], 0, center[2]));
 		mat4.rotate(this.transformationMatrix, this.transformationMatrix, this.directionAngle, vec3.fromValues(0,1,0));
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(-center[0], 0, -center[2]));
+	}
+}
+
+
+class QuadraticBezierAnimation extends Animation
+{
+
+	constructor(scene, P1, P2, P3, totalTime)
+	{
+		super(scene);
+
+		this.P1 = P1;
+		this.P2 = P2;
+		this.P3 = P3;
+
+		this.totalTime = totalTime;
+	};
+
+
+	calculateMatrix()
+	{
+		let t = this.sumTime/this.totalTime, coords = [];
+
+		coords[0] = (1-t)*(1-t)*this.P1[0] + 2*(1-t)*t*this.P2[0] + t*t*this.P3[0];
+		coords[1] = (1-t)*(1-t)*this.P1[1] + 2*(1-t)*t*this.P2[1] + t*t*this.P3[1];
+		coords[2] = (1-t)*(1-t)*this.P1[2] + 2*(1-t)*t*this.P2[2] + t*t*this.P3[2];
+		
+		this.transformationMatrix = mat4.create();
+
+		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 	}
 }

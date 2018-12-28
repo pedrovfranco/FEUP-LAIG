@@ -18,6 +18,7 @@ class MyBoard extends Primitive
 		this.scene.graph.viewIds.push(this.cameraId);
 
 		this.updateBoard(getPrologRequest("kl", getResponseArray));
+		this.previousBoard = this.board;
 
 		this.depth = depth || 0.5;
 
@@ -30,6 +31,9 @@ class MyBoard extends Primitive
 		this.scene.interface.addDifficultyGroup(this);
 		this.scene.interface.addGameTypeGroup(this);
 		this.scene.interface.addEnvironmentGroup(this);
+		this.scene.interface.addUndoButton(this);
+		this.scene.interface.addAnimationButton(this);
+
 		this.initBuffers();
 	};
 
@@ -84,20 +88,29 @@ class MyBoard extends Primitive
 	updateBoard(newBoard)
 	{
 		this.board = newBoard;
-		this.height = this.board.length;
-		this.width = this.board[0].length;
+	}
+
+	startAnimation()
+	{
+		let animations = [new QuadraticBezierAnimation(this.scene, [0, 2, 0], [2, 5, 0], [4, 2, 0], 10)];
+
+		this.scene.graph.components['board'].setAnimations(animations);
 	}
 
 	checkWin()
 	{
-		this.winner = getPrologRequest("game_over");
-
-		if (this.winner != "none")
+		if (this.winner == "none")
 		{
-			window.alert(this.winner + " won!");
+			this.winner = getPrologRequest("game_over");
 
-			this.selected = null;
-			this.possibleMoves = null;
+			if (this.winner != "none")
+			{
+				this.display();
+				window.alert(this.winner + " won!");
+
+				this.selected = null;
+				this.possibleMoves = null;
+			}
 		}
 	}
 
@@ -158,6 +171,49 @@ class MyBoard extends Primitive
 		}
 	}
 
+	undoMove()
+	{
+		if (this.previousBoard != this.board && this.winner == "none" && this.gameType != "Bot vs Bot")
+		{
+			this.board = this.previousBoard;
+
+			let str = JSON.stringify(this.board).replace(/"/g, "");
+
+			getPrologRequest("setBoard(" + str + ")", getResponse);
+
+			this.selected = null;
+			this.possibleMoves = null;
+
+			if (this.gameType == "Player vs Player")
+			{
+				this.plays--;
+
+				if (this.plays % 2 == 0)
+					this.playsB--;
+				else
+					this.playsW--;
+			}
+			else if (this.gameType == "Player vs Bot")
+			{
+				this.plays--;
+
+				if (this.plays % 2 == 0)
+					this.playsB--;
+				else
+					this.playsW--;
+
+				this.plays--;
+
+				if (this.plays % 2 == 0)
+					this.playsB--;
+				else
+					this.playsW--;
+			}
+
+			
+		}
+	}
+
 	logPicking()
 	{
 		if (this.scene.pickMode == false && this.winner == "none")
@@ -195,6 +251,7 @@ class MyBoard extends Primitive
 
 									if (N > 0 && N < this.board[this.selected[1]][this.selected[0]][0])
 									{
+										this.previousBoard = this.board;
 										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
 										this.plays++;
 
@@ -309,7 +366,7 @@ class MyBoard extends Primitive
 
 		this.logPicking();
 		this.scene.clearPickRegistration();
-		let id = 1, coords = [];
+		let id = 1, coords = [], height = this.board.length, width = this.board[0].length;
 
 		this.scene.pushMatrix();
 
@@ -322,7 +379,7 @@ class MyBoard extends Primitive
 						this.scene.registerForPick(id, this.possibleMoves[i]);
 						id++;
 
-						coords = [(1-this.height)/2 + this.possibleMoves[i][1], 0, (1-this.width)/2 + this.possibleMoves[i][0]];
+						coords = [(1-height)/2 + this.possibleMoves[i][1], 0, (1-width)/2 + this.possibleMoves[i][0]];
 						this.scene.translate(coords[0], 0, coords[2]);
 
 						this.redAppearence.apply();
@@ -335,9 +392,9 @@ class MyBoard extends Primitive
 			}
 
 
-			for (let i = 0; i < this.width; i++)
+			for (let i = 0; i < width; i++)
 			{
-				for (let j = 0; j < this.height; j++)
+				for (let j = 0; j < height; j++)
 				{
 					this.scene.pushMatrix();
 
@@ -354,7 +411,7 @@ class MyBoard extends Primitive
 						else
 							this.scene.clearPickRegistration();
 
-						coords = [(1-this.height)/2 + j, 0, (1-this.width)/2 + i];
+						coords = [(1-height)/2 + j, 0, (1-width)/2 + i];
 						this.scene.translate(coords[0], 0, coords[2]);
 
 						if(this.environment == "Ice")
@@ -418,9 +475,9 @@ class MyBoard extends Primitive
 
 			this.scene.pushMatrix();
 
-				this.scene.translate(this.height/2, 0, 0);
+				this.scene.translate(height/2, 0, 0);
 				this.scene.rotate(-Math.PI/2, 0, 0, 1);
-				this.scene.scale(this.depth, 1, this.width);
+				this.scene.scale(this.depth, 1, width);
 				this.scene.translate(0.5, 0, 0);
 
 				this.whiteAppearence.apply();
@@ -431,9 +488,9 @@ class MyBoard extends Primitive
 			this.scene.pushMatrix();
 
 				this.scene.rotate(Math.PI, 0, 1, 0);
-				this.scene.translate(this.height/2, 0, 0);
+				this.scene.translate(height/2, 0, 0);
 				this.scene.rotate(-Math.PI/2, 0, 0, 1);
-				this.scene.scale(this.depth, 1, this.width);
+				this.scene.scale(this.depth, 1, width);
 				this.scene.translate(0.5, 0, 0);
 
 				this.whiteAppearence.apply();
@@ -443,10 +500,10 @@ class MyBoard extends Primitive
 
 			this.scene.pushMatrix();
 
-				this.scene.translate(0, 0, this.width/2);
+				this.scene.translate(0, 0, width/2);
 				this.scene.rotate(-Math.PI/2, 0, 1, 0);
 				this.scene.rotate(-Math.PI/2, 0, 0, 1);
-				this.scene.scale(this.depth, 1, this.height);
+				this.scene.scale(this.depth, 1, height);
 				this.scene.translate(0.5, 0, 0);
 
 				this.whiteAppearence.apply();
@@ -457,10 +514,10 @@ class MyBoard extends Primitive
 			this.scene.pushMatrix();
 
 				this.scene.rotate(Math.PI, 0, 1, 0);
-				this.scene.translate(0, 0, this.width/2);
+				this.scene.translate(0, 0, width/2);
 				this.scene.rotate(-Math.PI/2, 0, 1, 0);
 				this.scene.rotate(-Math.PI/2, 0, 0, 1);
-				this.scene.scale(this.depth, 1, this.height);
+				this.scene.scale(this.depth, 1, height);
 				this.scene.translate(0.5, 0, 0);
 
 				this.whiteAppearence.apply();
@@ -472,7 +529,7 @@ class MyBoard extends Primitive
 
 				this.scene.translate(0, -this.depth, 0);
 				this.scene.rotate(Math.PI, 0, 0, 1);
-				this.scene.scale(this.height, 1, this.width);
+				this.scene.scale(height, 1, width);
 
 				this.whiteAppearence.apply();
 				this.plane.display();
@@ -490,4 +547,5 @@ class MyBoard extends Primitive
 
 		this.scene.popMatrix();
 	};
+	
 };
