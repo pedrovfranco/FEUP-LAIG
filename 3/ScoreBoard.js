@@ -718,7 +718,7 @@ class ScoreBoard extends Primitive
     this.plane.display();
     this.scene.popMatrix();
 
-    //Playing
+    //Playing plane
     this.scene.pushMatrix();
     this.scene.translate(9.9,6,0);
     this.scene.scale(2,1.5,2);
@@ -728,6 +728,7 @@ class ScoreBoard extends Primitive
     this.plane.display();
     this.scene.popMatrix();
 
+    //White Info
     this.scene.pushMatrix();
     this.scene.translate(9.9,6,-4);
     this.scene.scale(2,1.5,3);
@@ -737,7 +738,7 @@ class ScoreBoard extends Primitive
     this.plane.display();
     this.scene.popMatrix();
 
-    if(environmentChange == 0)
+    if(environmentChange == 0) //Blue info
     {
       this.scene.pushMatrix();
       this.scene.translate(9.9,6,4);
@@ -748,7 +749,7 @@ class ScoreBoard extends Primitive
       this.plane.display();
       this.scene.popMatrix();
     }
-    else
+    else //Yellow info
     {
       this.scene.pushMatrix();
       this.scene.translate(9.9,6,4);
@@ -760,7 +761,7 @@ class ScoreBoard extends Primitive
       this.scene.popMatrix();
     }
 
-    if (plays % 2 == 0)
+    if (plays % 2 == 0) //whites playing
       {
         this.scene.pushMatrix();
         this.scene.translate(9.9,4.5,0);
@@ -773,7 +774,7 @@ class ScoreBoard extends Primitive
       }
   	else
     {
-      if(environmentChange == 0)
+      if(environmentChange == 0) //blues playing
         {
           this.scene.pushMatrix();
           this.scene.translate(9.9,4.5,0);
@@ -784,7 +785,7 @@ class ScoreBoard extends Primitive
           this.plane.display();
           this.scene.popMatrix();
         }
-      else
+      else //yellows playing
       {
           this.scene.pushMatrix();
           this.scene.translate(9.9,4.5,0);
