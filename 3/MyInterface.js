@@ -112,7 +112,7 @@ class MyInterface extends CGFinterface {
             board.playsW = 0;
             board.playsB = 0;
 
-            board.botLoop();
+            board.botPlay();
         });
     }
 
@@ -127,19 +127,6 @@ class MyInterface extends CGFinterface {
         };
 
         this.gui.add(obj, 'undoLastMove');
-    }
-
-    addAnimationButton(board)
-    {
-        var obj =
-        {
-            animation:function()
-            {
-                board.startAnimation();
-            }
-        };
-
-        this.gui.add(obj, 'animation');
     }
 
     /**

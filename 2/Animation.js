@@ -26,6 +26,9 @@ class Animation
 
 		if (this.sumTime >= this.totalTime)
 		{
+			this.sumTime = this.totalTime;
+			this.calculateMatrix();
+			
 			this.finished = true;
 
 			if (this.component != undefined)

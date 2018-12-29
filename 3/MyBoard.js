@@ -29,6 +29,9 @@ class MyBoard extends Primitive
 		this.moving = null
 		this.movingAmount = null;
 		this.moveAnimation = null;
+		this.moveAnimationTotalTime = 1.5;
+
+		this.botDelay = 2000;
 
 		this.animation = new Animation();
 
@@ -36,7 +39,6 @@ class MyBoard extends Primitive
 		this.scene.interface.addGameTypeGroup(this);
 		this.scene.interface.addEnvironmentGroup(this);
 		this.scene.interface.addUndoButton(this);
-		this.scene.interface.addAnimationButton(this);
 
 		this.initBuffers();
 	};
@@ -94,13 +96,6 @@ class MyBoard extends Primitive
 		this.board = newBoard;
 	}
 
-	startAnimation()
-	{
-		let animations = [new QuadraticBezierAnimation(this.scene, [0, 2, 0], [2, 5, 0], [4, 2, 0], 10)];
-
-		this.scene.graph.components['board'].setAnimations(animations);
-	}
-
 	checkWin()
 	{
 		if (this.winner == "none")
@@ -118,35 +113,31 @@ class MyBoard extends Primitive
 		}
 	}
 
-	botLoop()
+	increasePlays()
 	{
-		if (this.gameType == "Bot vs Bot" && this.winner == "none")
-		{
-			this.botPlay();
+		this.plays++;
 
-			this.checkWin();
-		}
+		if (this.plays % 2 == 0)
+			this.playsW++;
+		else
+			this.playsB++;
 	}
 
 	botPlay()
 	{
-		if (this.winner == "none")
+		if (this.winner == "none" && this.moveAnimation == null && (this.gameType == "Bot vs Bot" || (this.gameType == "Player vs Bot" && this.plays%2 == 1)))
 		{
 			setTimeout(() =>
 			{
-				this.updateBoard(getPrologRequest("moveBot(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray));
+				let move = getPrologRequest("chooseBotMove(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray);
 
-				this.plays++;
+				this.moving = [move[0][0][0], move[0][0][1], move[0][1][0], move[0][1][1]];
+				this.movingAmount = move[1];
+				this.moveAnimation = new QuadraticBezierAnimation(this.scene, [0, 0, 0], [(this.moving[3]-this.moving[1])/2, 5, (this.moving[2]-this.moving[0])/2], [this.moving[3]-this.moving[1], -(this.board[this.moving[1]][this.moving[0]][0]-this.movingAmount)*(this.piece.height+0.005), this.moving[2]-this.moving[0]], this.moveAnimationTotalTime);
 
-				if (this.plays % 2 == 0)
-					this.playsW++;
-				else
-					this.playsB++;
+				this.increasePlays();
 
-				if (this.gameType == "Bot vs Bot")
-					this.botLoop();
-
-			}, 2000);
+			}, this.botDelay);
 		}
 	}
 
@@ -213,14 +204,12 @@ class MyBoard extends Primitive
 				else
 					this.playsW--;
 			}
-
-			
 		}
 	}
 
 	logPicking()
 	{
-		if (this.scene.pickMode == false && this.winner == "none")
+		if (this.scene.pickMode == false && this.winner == "none" && this.moveAnimation == null)
 		{
 			if (this.scene.pickResults != null && this.scene.pickResults.length > 0)
 			{
@@ -255,30 +244,14 @@ class MyBoard extends Primitive
 
 									if (N > 0 && N < this.board[this.selected[1]][this.selected[0]][0])
 									{
-										this.previousBoard = this.board;
-										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
-										this.plays++;
-
-										this.moving = this.selected;
+										this.moving = [this.selected[0], this.selected[1], obj[0], obj[1]];
 										this.movingAmount = N;
-										this.moveAnimation = new QuadraticBezierAnimation(this.scene, [(1-this.board.length)/2 + this.selected[0], 0, (1-this.board[0].length)/2 + this.selected[1]], [2, 5, 0], [(1-this.board.length)/2 + obj[0], -(20-N+1)*(this.piece.height), (1-this.board[0].length)/2 + obj[1]], 2);
+										this.moveAnimation = new QuadraticBezierAnimation(this.scene, [0, 0, 0], [(this.moving[3]-this.moving[1])/2, 5, (this.moving[2]-this.moving[0])/2], [this.moving[3]-this.moving[1], -(this.board[this.moving[1]][this.moving[0]][0]-this.movingAmount)*(this.piece.height+0.005), this.moving[2]-this.moving[0]], this.moveAnimationTotalTime);
 
-										if (this.plays % 2 == 0)
-											this.playsW++;
-										else
-											this.playsB++;
-
-										this.checkWin();
+										this.increasePlays();
 
 										this.selected = null;
 										this.possibleMoves = null;
-
-										if (this.gameType == "Player vs Bot")
-										{
-											this.botPlay();
-
-											this.checkWin();
-										}
 									}
 									else
 									{
@@ -353,7 +326,21 @@ class MyBoard extends Primitive
 			if (this.moveAnimation.component == undefined)
 				this.moveAnimation.setComponent(component);
 			
-			this.moveAnimation.update(currTime);
+			if (this.moveAnimation.finished)
+			{
+				this.previousBoard = this.board;
+				this.updateBoard(getPrologRequest("move(" +  this.moving[0] + "," + this.moving[1] + "," + this.moving[2] + "," + this.moving[3] + "," + this.movingAmount + ")", getResponseArray));
+
+				this.moving = null;
+				this.movingAmount = null;
+				this.moveAnimation = null;
+				
+				this.checkWin();
+
+				this.botPlay();
+			}
+			else
+				this.moveAnimation.update(currTime);
 		}
 
 	}
@@ -477,9 +464,9 @@ class MyBoard extends Primitive
 
 								this.scene.translate(0, k*(this.piece.height+0.005), 0);
 
-								if (this.moving != null && this.moving[0] == j && this.moving[1] == i && this.board[j][i][0] - k <= this.movingAmount)
+								if (this.moving != null && this.moving[0] == i && this.moving[1] == j && this.board[j][i][0] - k <= this.movingAmount)
 								{
-									// this.moveAnimation.apply();
+									this.moveAnimation.apply();
 								}
 
 								this.piece.display();

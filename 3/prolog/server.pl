@@ -113,6 +113,16 @@ setBoard(Board):-
 setBoard(Board):-
 	assert(board(Board)).
 
+colourFromI(I, P, Colour):-
+	P is mod(I,2),
+	P = 0,
+	Colour = 'w'.
+	
+colourFromI(I, P, Colour):-
+	P is mod(I,2),
+	P = 1,
+	Colour = 'b'.
+
 parse_input(handshake, handshake).
 parse_input(quit, goodbye).
 
@@ -144,7 +154,13 @@ parse_input(moveBot(I, Difficulty), NewBoard):-
 	moveBot(Board, I, Difficulty, NewBoard),
 	setBoard(NewBoard));
 	NewBoard = error.
-	
+
+parse_input(chooseBotMove(I, Difficulty), [Move, NewHeight]):-
+	board(Board),
+	colourFromI(I, _, Colour),
+	valid_moves(Board, Colour, Moves),
+	choose_move(Board, Colour, Difficulty, Moves, Move, Height),
+	checkHeight(Height, I, NewHeight).
 
 parse_input(game_over, Winner):-
 	board(Board),
