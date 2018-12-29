@@ -26,6 +26,10 @@ class MyBoard extends Primitive
 
 		this.selected = null;
 
+		this.moving = null
+		this.movingAmount = null;
+		this.moveAnimation = null;
+
 		this.animation = new Animation();
 
 		this.scene.interface.addDifficultyGroup(this);
@@ -255,6 +259,10 @@ class MyBoard extends Primitive
 										this.updateBoard(getPrologRequest("move(" +  this.selected[0] + "," + this.selected[1] + "," + obj[0] + "," + obj[1] + "," + N + ")", getResponseArray));
 										this.plays++;
 
+										this.moving = this.selected;
+										this.movingAmount = N;
+										this.moveAnimation = new QuadraticBezierAnimation(this.scene, [(1-this.board.length)/2 + this.selected[0], 0, (1-this.board[0].length)/2 + this.selected[1]], [2, 5, 0], [(1-this.board.length)/2 + obj[0], -(20-N+1)*(this.piece.height), (1-this.board[0].length)/2 + obj[1]], 2);
+
 										if (this.plays % 2 == 0)
 											this.playsW++;
 										else
@@ -338,6 +346,14 @@ class MyBoard extends Primitive
 		if (this.plays > 0 && this.winner == "none")
 		{
 			this.animation.update(currTime);
+		}
+
+		if (this.moveAnimation != null)
+		{
+			if (this.moveAnimation.component == undefined)
+				this.moveAnimation.setComponent(component);
+			
+			this.moveAnimation.update(currTime);
 		}
 
 	}
@@ -460,6 +476,11 @@ class MyBoard extends Primitive
 							this.scene.pushMatrix();
 
 								this.scene.translate(0, k*(this.piece.height+0.005), 0);
+
+								if (this.moving != null && this.moving[0] == j && this.moving[1] == i && this.board[j][i][0] - k <= this.movingAmount)
+								{
+									// this.moveAnimation.apply();
+								}
 
 								this.piece.display();
 
