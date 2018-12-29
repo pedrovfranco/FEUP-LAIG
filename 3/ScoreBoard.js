@@ -167,7 +167,7 @@ class ScoreBoard extends Primitive
     // this.ice.apply();
     // this.cylinder2.display();
     // this.scene.popMatrix();
-    this.scene.translate(4.9,-1.1,0);
+    this.scene.translate(4.9,-2,0);
 
     this.scene.pushMatrix();
     this.scene.translate(10,6,0);

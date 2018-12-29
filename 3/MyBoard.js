@@ -11,7 +11,7 @@ class MyBoard extends Primitive
 		this.near = 0.1;
 		this.far = 500;
 		this.cameraAngle = 0;
-		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(3, 7, 0), vec3.fromValues(15, 7, 0));
+		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(3, 5, 0), vec3.fromValues(15, 5, 0));
 		this.scene.graph.viewIds.push(this.cameraId);
 
 		this.cameraId1 = "game";
