@@ -51,6 +51,13 @@ class ScoreBoard extends Primitive
 		this.playerW.setSpecular(1.0,1.0,1.0,1);
 		this.playerW.setShininess(120);
 
+    this.playerY = new CGFappearance(this.scene);
+		this.playerY.loadTexture("scenes/images/playerYellow.png");
+		this.playerY.setAmbient(1.0,1.0,1.0,1);
+		this.playerY.setDiffuse(1.0,1.0,1.0,1);
+		this.playerY.setSpecular(1.0,1.0,1.0,1);
+		this.playerY.setShininess(120);
+
     this.blackAppearence = new CGFappearance(this.scene);
 		this.blackAppearence.loadTexture("scenes/images/black.jpg");
 		this.blackAppearence.setAmbient(1.0,1.0,1.0,1);
@@ -144,7 +151,7 @@ class ScoreBoard extends Primitive
     this.dots.setShininess(120);
 	};
 
-  display(plays, playsW, playsB, m, s)
+  display(plays, playsW, playsB, m, s, environmentChange)
   {
     this.d1B = Math.floor(playsW % 10);
   	this.d2B = Math.floor((playsW / 10) % 10);
@@ -711,7 +718,7 @@ class ScoreBoard extends Primitive
     this.plane.display();
     this.scene.popMatrix();
 
-
+    //Playing
     this.scene.pushMatrix();
     this.scene.translate(9.9,6,0);
     this.scene.scale(2,1.5,2);
@@ -730,14 +737,28 @@ class ScoreBoard extends Primitive
     this.plane.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
-    this.scene.translate(9.9,6,4);
-    this.scene.scale(2,1.5,3);
-    this.scene.rotate(Math.PI/2, 1,0,0);
-    this.scene.rotate(Math.PI/2,0,0,1);
-    this.playerB.apply();
-    this.plane.display();
-    this.scene.popMatrix();
+    if(environmentChange == 0)
+    {
+      this.scene.pushMatrix();
+      this.scene.translate(9.9,6,4);
+      this.scene.scale(2,1.5,3);
+      this.scene.rotate(Math.PI/2, 1,0,0);
+      this.scene.rotate(Math.PI/2,0,0,1);
+      this.playerB.apply();
+      this.plane.display();
+      this.scene.popMatrix();
+    }
+    else
+    {
+      this.scene.pushMatrix();
+      this.scene.translate(9.9,6,4);
+      this.scene.scale(2,1.5,3);
+      this.scene.rotate(Math.PI/2, 1,0,0);
+      this.scene.rotate(Math.PI/2,0,0,1);
+      this.playerY.apply();
+      this.plane.display();
+      this.scene.popMatrix();
+    }
 
     if (plays % 2 == 0)
       {
@@ -752,14 +773,28 @@ class ScoreBoard extends Primitive
       }
   	else
     {
-      this.scene.pushMatrix();
-      this.scene.translate(9.9,4.5,0);
-      this.scene.scale(2,1.5,2);
-      this.scene.rotate(Math.PI/2, 1,0,0);
-      this.scene.rotate(Math.PI/2,0,0,1);
-      this.playerB.apply();
-      this.plane.display();
-      this.scene.popMatrix();
+      if(environmentChange == 0)
+        {
+          this.scene.pushMatrix();
+          this.scene.translate(9.9,4.5,0);
+          this.scene.scale(2,1.5,2);
+          this.scene.rotate(Math.PI/2, 1,0,0);
+          this.scene.rotate(Math.PI/2,0,0,1);
+          this.playerB.apply();
+          this.plane.display();
+          this.scene.popMatrix();
+        }
+      else
+      {
+          this.scene.pushMatrix();
+          this.scene.translate(9.9,4.5,0);
+          this.scene.scale(2,1.5,2);
+          this.scene.rotate(Math.PI/2, 1,0,0);
+          this.scene.rotate(Math.PI/2,0,0,1);
+          this.playerY.apply();
+          this.plane.display();
+          this.scene.popMatrix();
+      }
     }
   };
 

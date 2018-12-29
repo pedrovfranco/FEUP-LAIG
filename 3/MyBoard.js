@@ -81,6 +81,13 @@ class MyBoard extends Primitive
 		this.redAppearence.setSpecular(1.0,1.0,1.0,1);
 		this.redAppearence.setShininess(120);
 
+		this.yellowAppearence = new CGFappearance(this.scene);
+		this.yellowAppearence.loadTexture("scenes/images/yellow.jpg");
+		this.yellowAppearence.setAmbient(1.0,1.0,1.0,1);
+		this.yellowAppearence.setDiffuse(1.0,1.0,1.0,1);
+		this.yellowAppearence.setSpecular(1.0,1.0,1.0,1);
+		this.yellowAppearence.setShininess(120);
+
 		this.dirt = new CGFappearance(this.scene);
 		this.dirt.loadTexture("scenes/images/dirt.jpg");
 		this.dirt.setAmbient(1.0,1.0,1.0,1);
@@ -458,6 +465,7 @@ class MyBoard extends Primitive
 
 						if(this.environment == 'Ice')
 						{
+							this.environmentChange = 0;
 							if (colour == "w")
 							{
 								this.whiteAppearence.apply();
@@ -469,13 +477,14 @@ class MyBoard extends Primitive
 						}
 						else
 						{
+							this.environmentChange = 1;
 							if (colour == "w")
 							{
 								this.whiteAppearence.apply();
 							}
 							else
 							{
-								this.blackAppearence.apply();
+								this.yellowAppearence.apply();
 							}
 						}
 
@@ -570,7 +579,7 @@ class MyBoard extends Primitive
 				let m = this.animation.sumTime / 60;
 				let s = this.animation.sumTime % 60;
 
-				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s);
+				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange);
 
 			this.scene.popMatrix();
 
