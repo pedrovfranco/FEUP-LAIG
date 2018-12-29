@@ -16,12 +16,47 @@ class ScoreBoard extends Primitive
     this.vertices = [];
     this.indices = [];
 
+    this.ice = new CGFappearance(this.scene);
+		this.ice.loadTexture("scenes/images/ice.jpeg");
+		this.ice.setAmbient(1.0,1.0,1.0,1);
+		this.ice.setDiffuse(1.0,1.0,1.0,1);
+		this.ice.setSpecular(1.0,1.0,1.0,1);
+		this.ice.setShininess(120);
+
     this.steel = new CGFappearance(this.scene);
-		this.steel.loadTexture("scenes/images/ice.jpeg");
+		this.steel.loadTexture("scenes/images/steel.jpg");
 		this.steel.setAmbient(1.0,1.0,1.0,1);
 		this.steel.setDiffuse(1.0,1.0,1.0,1);
 		this.steel.setSpecular(1.0,1.0,1.0,1);
 		this.steel.setShininess(120);
+
+    this.info = new CGFappearance(this.scene);
+		this.info.loadTexture("scenes/images/player.png");
+		this.info.setAmbient(1.0,1.0,1.0,1);
+		this.info.setDiffuse(1.0,1.0,1.0,1);
+		this.info.setSpecular(1.0,1.0,1.0,1);
+		this.info.setShininess(120);
+
+    this.playerB = new CGFappearance(this.scene);
+		this.playerB.loadTexture("scenes/images/playerBlue.png");
+		this.playerB.setAmbient(1.0,1.0,1.0,1);
+		this.playerB.setDiffuse(1.0,1.0,1.0,1);
+		this.playerB.setSpecular(1.0,1.0,1.0,1);
+		this.playerB.setShininess(120);
+
+    this.playerW = new CGFappearance(this.scene);
+		this.playerW.loadTexture("scenes/images/playerWhite.png");
+		this.playerW.setAmbient(1.0,1.0,1.0,1);
+		this.playerW.setDiffuse(1.0,1.0,1.0,1);
+		this.playerW.setSpecular(1.0,1.0,1.0,1);
+		this.playerW.setShininess(120);
+
+    this.blackAppearence = new CGFappearance(this.scene);
+		this.blackAppearence.loadTexture("scenes/images/black.jpg");
+		this.blackAppearence.setAmbient(1.0,1.0,1.0,1);
+		this.blackAppearence.setDiffuse(1.0,1.0,1.0,1);
+		this.blackAppearence.setSpecular(1.0,1.0,1.0,1);
+		this.blackAppearence.setShininess(120);
 
     this.cylinder2 = new Cylinder2(this.scene, 1, 1, 1, 30, 30);
     this.plane = new Plane(this.scene, 5, 5);
@@ -109,7 +144,7 @@ class ScoreBoard extends Primitive
     this.dots.setShininess(120);
 	};
 
-  display(playsW, playsB, m, s)
+  display(plays, playsW, playsB, m, s)
   {
     this.d1B = Math.floor(playsW % 10);
   	this.d2B = Math.floor((playsW / 10) % 10);
@@ -129,16 +164,16 @@ class ScoreBoard extends Primitive
     // this.scene.translate(10,0,0);
     // this.scene.scale(0.15, 4, 0.15);
     // this.scene.rotate(-Math.PI/2, 1,0,0);
-    // this.steel.apply();
+    // this.ice.apply();
     // this.cylinder2.display();
     // this.scene.popMatrix();
     this.scene.translate(4.9,-1.1,0);
 
     this.scene.pushMatrix();
     this.scene.translate(10,6,0);
-    this.scene.scale(10,6,10);
+    this.scene.scale(12,6,12);
     this.scene.rotate(Math.PI/2,0,0,1);
-    this.steel.apply();
+    this.blackAppearence.apply();
     this.plane.display();
     this.scene.popMatrix();
 
@@ -147,7 +182,7 @@ class ScoreBoard extends Primitive
     this.scene.rotate(Math.PI,0,1,0);
     this.scene.scale(10,6,10);
     this.scene.rotate(Math.PI/2,0,0,1);
-    this.steel.apply();
+    this.ice.apply();
     this.plane.display();
     this.scene.popMatrix();
 
@@ -369,7 +404,7 @@ class ScoreBoard extends Primitive
 
     //Whites
     this.scene.pushMatrix();
-    this.scene.translate(9.9,4.5,-4);
+    this.scene.translate(9.9,4.5,-5);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -420,7 +455,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,4.5,-3);
+    this.scene.translate(9.9,4.5,-4);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -471,7 +506,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,4.5,-2);
+    this.scene.translate(9.9,4.5,-3);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -524,7 +559,7 @@ class ScoreBoard extends Primitive
 
     //Blacks
     this.scene.pushMatrix();
-    this.scene.translate(9.9,4.5,2);
+    this.scene.translate(9.9,4.5,3);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -575,7 +610,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,4.5,3);
+    this.scene.translate(9.9,4.5,4);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -626,7 +661,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,4.5,4);
+    this.scene.translate(9.9,4.5,5);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -675,6 +710,57 @@ class ScoreBoard extends Primitive
     }
     this.plane.display();
     this.scene.popMatrix();
+
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,6,0);
+    this.scene.scale(2,1.5,2);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.info.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,6,-4);
+    this.scene.scale(2,1.5,3);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.playerW.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,6,4);
+    this.scene.scale(2,1.5,3);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.playerB.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
+    if (plays % 2 == 0)
+      {
+        this.scene.pushMatrix();
+        this.scene.translate(9.9,4.5,0);
+        this.scene.scale(2,1.5,2);
+        this.scene.rotate(Math.PI/2, 1,0,0);
+        this.scene.rotate(Math.PI/2,0,0,1);
+        this.playerW.apply();
+        this.plane.display();
+        this.scene.popMatrix();
+      }
+  	else
+    {
+      this.scene.pushMatrix();
+      this.scene.translate(9.9,4.5,0);
+      this.scene.scale(2,1.5,2);
+      this.scene.rotate(Math.PI/2, 1,0,0);
+      this.scene.rotate(Math.PI/2,0,0,1);
+      this.playerB.apply();
+      this.plane.display();
+      this.scene.popMatrix();
+    }
   };
 
 };

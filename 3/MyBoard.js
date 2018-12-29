@@ -6,12 +6,12 @@ class MyBoard extends Primitive
 
 		this.winner = "none";
 
-		this.cameraId = "board";
+		this.cameraId = "ScoreBoard";
 		this.fov = 1.2;
 		this.near = 0.1;
 		this.far = 500;
 		this.cameraAngle = 0;
-		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 5, 15), vec3.fromValues(0, 5, 0));
+		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(3, 7, 0), vec3.fromValues(15, 7, 0));
 		this.scene.graph.viewIds.push(this.cameraId);
 
 		this.cameraId1 = "game";
@@ -314,14 +314,6 @@ class MyBoard extends Primitive
 
 	update(currTime, component)
 	{
-		this.cameraAngle += 0.02;
-
-		this.scene.views[this.cameraId].fov = this.fov;
-		this.scene.views[this.cameraId].near = this.near;
-		this.scene.views[this.cameraId].far = this.far;
-
-		this.scene.views[this.cameraId].setPosition(vec3.fromValues(15*Math.cos(this.cameraAngle), 5, 15* Math.sin(this.cameraAngle)));
-
 		if(this.cameraMove == 1)
 		{
 			if(this.cameraGameAngle <= this.plays * Math.PI)
@@ -352,7 +344,7 @@ class MyBoard extends Primitive
 		{
 			if (this.moveAnimation.component == undefined)
 				this.moveAnimation.setComponent(component);
-			
+
 			if (this.moveAnimation.finished)
 			{
 				this.previousBoard = this.board;
@@ -361,7 +353,7 @@ class MyBoard extends Primitive
 				this.moving = null;
 				this.movingAmount = null;
 				this.moveAnimation = null;
-				
+
 				this.checkWin();
 
 				this.cameraMove = 1;
@@ -578,11 +570,11 @@ class MyBoard extends Primitive
 				let m = this.animation.sumTime / 60;
 				let s = this.animation.sumTime % 60;
 
-				this.scoreBoard.display(this.playsW, this.playsB, m, s);
+				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s);
 
 			this.scene.popMatrix();
 
 		this.scene.popMatrix();
 	};
-	
+
 };
