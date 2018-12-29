@@ -7,15 +7,18 @@ class MyBoard extends Primitive
 		this.winner = "none";
 
 		this.cameraId = "board";
-
 		this.fov = 1.2;
 		this.near = 0.1;
 		this.far = 500;
-
 		this.cameraAngle = 0;
-
 		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 5, 15), vec3.fromValues(0, 5, 0));
 		this.scene.graph.viewIds.push(this.cameraId);
+
+		this.cameraId1 = "game";
+		this.cameraGameAngle = 0;
+		this.cameraMove = 0;
+		this.scene.views[this.cameraId1] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 11, -5), vec3.fromValues(0, 5, 0));
+		this.scene.graph.viewIds.push(this.cameraId1);
 
 		this.updateBoard(getPrologRequest("kl", getResponseArray));
 		this.previousBoard = this.board;
@@ -25,11 +28,14 @@ class MyBoard extends Primitive
 		this.countdown = 10;
 
 		this.selected = null;
+		this.possibleMoves = null;
 
 		this.moving = null
 		this.movingAmount = null;
 		this.moveAnimation = null;
 		this.moveAnimationTotalTime = 1.5;
+
+		this.botPlayQueued = false;
 
 		this.botDelay = 2000;
 
@@ -209,7 +215,7 @@ class MyBoard extends Primitive
 
 	logPicking()
 	{
-		if (this.scene.pickMode == false && this.winner == "none" && this.moveAnimation == null)
+		if (this.scene.pickMode == false && this.winner == "none" && this.moveAnimation == null && this.cameraMove == 0  && (!(this.gameType == "Bot vs Bot" || (this.gameType == "Player vs Bot" && this.plays%2 == 1))))
 		{
 			if (this.scene.pickResults != null && this.scene.pickResults.length > 0)
 			{
@@ -316,6 +322,27 @@ class MyBoard extends Primitive
 
 		this.scene.views[this.cameraId].setPosition(vec3.fromValues(15*Math.cos(this.cameraAngle), 5, 15* Math.sin(this.cameraAngle)));
 
+		if(this.cameraMove == 1)
+		{
+			if(this.cameraGameAngle <= this.plays * Math.PI)
+			{
+				this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
+				this.cameraGameAngle += Math.PI/100;
+			}
+			 else
+			{
+				this.cameraMove = 0;
+			}
+		}
+		else
+		{
+			if (this.botPlayQueued)
+			{
+				this.botPlay();
+				this.botPlayQueued = false;
+			}
+		}
+
 		if (this.plays > 0 && this.winner == "none")
 		{
 			this.animation.update(currTime);
@@ -337,7 +364,9 @@ class MyBoard extends Primitive
 				
 				this.checkWin();
 
-				this.botPlay();
+				this.cameraMove = 1;
+
+				this.botPlayQueued = true;
 			}
 			else
 				this.moveAnimation.update(currTime);

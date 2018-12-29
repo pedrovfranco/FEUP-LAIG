@@ -96,17 +96,27 @@ class MyInterface extends CGFinterface {
 
         element.onChange(function(arg)
         {
-            board.gameType = arg;
-
             board.winner = "none";
+
+            board.cameraGameAngle = 0;
+            board.cameraMove = 0;
 
             board.updateBoard(getPrologRequest("kl", getResponseArray));
             board.previousBoard = board.board;
 
-            board.animation = new Animation();
-
             board.selected = null;
             board.possibleMoves = null;
+
+            board.moving = null
+            board.movingAmount = null;
+            board.moveAnimation = null;
+            board.moveAnimationTotalTime = 1.5;
+
+            board.botDelay = 2000;
+
+            board.botPlayQueued = false;
+
+            board.animation = new Animation();
 
             board.plays = 0;
             board.playsW = 0;

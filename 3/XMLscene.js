@@ -39,7 +39,7 @@ class XMLscene extends CGFscene {
 
 		this.views = [];
 
-		var framerate = 30;
+		var framerate = 60;
 		this.setUpdatePeriod(1000/framerate);
 	}
 
