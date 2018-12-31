@@ -53,7 +53,8 @@ class MyInterface extends CGFinterface {
 
         element.onChange(function(arg)
         {
-            this.scene.setCamera();
+	    if (arg != "board" && arg != "game")
+            	this.scene.setCamera();
         });
     }
 
