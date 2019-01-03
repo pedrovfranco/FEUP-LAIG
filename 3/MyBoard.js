@@ -25,7 +25,8 @@ class MyBoard extends Primitive
 
 		this.depth = depth || 0.5;
 
-		this.countdown = 10;
+		this.countdown = 25;
+		this.countdownStart = 0;
 
 		this.selected = null;
 		this.possibleMoves = null;
@@ -40,6 +41,8 @@ class MyBoard extends Primitive
 		this.botDelay = 2000;
 
 		this.animation = new Animation();
+
+		this.aux = new Animation();
 
 		this.scene.interface.addDifficultyGroup(this);
 		this.scene.interface.addGameTypeGroup(this);
@@ -176,6 +179,8 @@ class MyBoard extends Primitive
 		{
 			this.selected = obj;
 			this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
+			this.c = 25;
+			this.countdownStart = 1;
 		}
 	}
 
@@ -321,6 +326,19 @@ class MyBoard extends Primitive
 
 	update(currTime, component)
 	{
+		this.aux.update(currTime);
+
+		if(this.countdownStart == 1)
+			{
+				this.c = this.countdown - Math.floor(this.aux.sumTime % 60);
+			}
+			else
+			{
+				this.c = 25;
+				this.aux.sumTime = 0;
+			}
+		// console.log(this.c);
+
 		if(this.cameraMove == 1)
 		{
 			if(this.cameraGameAngle <= this.plays * Math.PI)
@@ -354,6 +372,7 @@ class MyBoard extends Primitive
 
 			if (this.moveAnimation.finished)
 			{
+				this.countdownStart = 0;
 				this.previousBoard = this.board;
 				this.updateBoard(getPrologRequest("move(" +  this.moving[0] + "," + this.moving[1] + "," + this.moving[2] + "," + this.moving[3] + "," + this.movingAmount + ")", getResponseArray));
 
@@ -579,7 +598,7 @@ class MyBoard extends Primitive
 				let m = this.animation.sumTime / 60;
 				let s = this.animation.sumTime % 60;
 
-				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange);
+				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange, this.c);
 
 			this.scene.popMatrix();
 
