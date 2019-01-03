@@ -44,6 +44,13 @@ class ScoreBoard extends Primitive
 		this.remaining.setSpecular(1.0,1.0,1.0,1);
 		this.remaining.setShininess(120);
 
+    this.newgame = new CGFappearance(this.scene);
+		this.newgame.loadTexture("scenes/images/newgame.png");
+		this.newgame.setAmbient(1.0,1.0,1.0,1);
+		this.newgame.setDiffuse(1.0,1.0,1.0,1);
+		this.newgame.setSpecular(1.0,1.0,1.0,1);
+		this.newgame.setShininess(120);
+
     this.playerB = new CGFappearance(this.scene);
 		this.playerB.loadTexture("scenes/images/playerBlue.png");
 		this.playerB.setAmbient(1.0,1.0,1.0,1);
@@ -195,6 +202,15 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
+    this.scene.translate(10.05,4,8);
+    this.scene.scale(4,3,4);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.steel.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
+
+    this.scene.pushMatrix();
     this.scene.translate(10.05,6,0);
     this.scene.scale(13,7,13);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -203,7 +219,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.87,5.25,9.37);
+    this.scene.translate(9.87,5.65,9.39);
     this.scene.scale(2,1,0.51);
     this.scene.rotate(Math.PI/2,0,0,1);
     this.blackAppearence.apply();
@@ -211,7 +227,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.9,5.25,6.91);
+    this.scene.translate(9.9,5.65,6.91);
     this.scene.scale(2,1,0.51);
     this.scene.rotate(Math.PI/2,0,0,1);
     this.blackAppearence.apply();
@@ -760,9 +776,20 @@ class ScoreBoard extends Primitive
     this.plane.display();
     this.scene.popMatrix();
 
+    //new game
+
+    this.scene.pushMatrix();
+    this.scene.translate(9.9,3.85,8.15);
+    this.scene.rotate(Math.PI/2, 1,0,0);
+    this.scene.rotate(Math.PI/2,0,0,1);
+    this.scene.scale(2.1,1.2,2.1);
+    this.newgame.apply();
+    this.plane.display();
+    this.scene.popMatrix();
+
     //Time to play
     this.scene.pushMatrix();
-    this.scene.translate(9.9,7,8.15);
+    this.scene.translate(9.9,7.4,8.15);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
     this.scene.scale(3,1,3);
@@ -771,7 +798,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.89,5.5,7.65);
+    this.scene.translate(9.89,5.9,7.65);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
@@ -824,7 +851,7 @@ class ScoreBoard extends Primitive
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(9.89,5.5,8.65);
+    this.scene.translate(9.89,5.9,8.65);
     this.scene.scale(2,1.5,1);
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
