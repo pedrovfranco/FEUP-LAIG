@@ -223,6 +223,10 @@ class MyBoard extends Primitive
 					this.playsW--;
 			}
 		}
+
+		this.cameraGameAngle -= Math.PI;
+		this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
+
 	}
 
 	logPicking()
