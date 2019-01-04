@@ -114,6 +114,13 @@ class MyInterface extends CGFinterface {
 
             board.botDelay = 2000;
 
+            if (board.newCountdown != undefined)
+                board.countdown = board.newCountdown;
+
+            board.c = board.countdown;
+            board.countdownStart = 0;
+            board.aux.sumTime.reset();
+
             board.botPlayQueued = false;
 
             board.animation = new Animation();
@@ -137,6 +144,23 @@ class MyInterface extends CGFinterface {
         };
 
         this.gui.add(obj, 'undoLastMove');
+    }
+
+    addCountdownSlider(board)
+    {
+        this.countdown = board.countdown;
+        let element = this.gui.add(this, 'countdown', 0, 25);
+
+        element.onChange(function(arg)
+        {
+            board.newCountdown = arg;
+
+            if (board.aux.sumTime == 0)
+            {
+                board.countdown = arg;
+                board.c = board.countdown;
+            }
+        });
     }
 
     /**

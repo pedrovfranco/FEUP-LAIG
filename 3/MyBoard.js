@@ -11,7 +11,7 @@ class MyBoard extends Primitive
 		this.near = 0.1;
 		this.far = 500;
 		this.cameraAngle = 0;
-		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(3, 5, 0), vec3.fromValues(15, 5, 0));
+		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(3, 5, 2), vec3.fromValues(15, 5, 2));
 		this.scene.graph.viewIds.push(this.cameraId);
 
 		this.cameraId1 = "game";
@@ -20,12 +20,16 @@ class MyBoard extends Primitive
 		this.scene.views[this.cameraId1] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 11, -5), vec3.fromValues(0, 5, 0));
 		this.scene.graph.viewIds.push(this.cameraId1);
 
+		this.scene.viewId = this.cameraId1;
+		this.scene.setCamera();
+
 		this.updateBoard(getPrologRequest("kl", getResponseArray));
 		this.previousBoard = this.board;
 
 		this.depth = depth || 0.5;
 
 		this.countdown = 25;
+		this.c = this.countdown;
 		this.countdownStart = 0;
 
 		this.selected = null;
@@ -48,6 +52,10 @@ class MyBoard extends Primitive
 		this.scene.interface.addGameTypeGroup(this);
 		this.scene.interface.addEnvironmentGroup(this);
 		this.scene.interface.addUndoButton(this);
+		this.scene.interface.addCountdownSlider(this);
+
+		this.controlPointsPatch = [ [-1.5,-1.5, 0], [-1.5,1.5,0], [0,-1.5,1.1], [0,1.5,1.1], [1.5,-1.5,0], [1.5,1.5,0]];
+		this.patch = new Patch(this.scene, 3, 2, 5, 5, this.controlPointsPatch);
 
 		this.initBuffers();
 	};
@@ -97,6 +105,13 @@ class MyBoard extends Primitive
 		this.dirt.setDiffuse(1.0,1.0,1.0,1);
 		this.dirt.setSpecular(1.0,1.0,1.0,1);
 		this.dirt.setShininess(120);
+
+		this.steel = new CGFappearance(this.scene);
+		this.steel.loadTexture("scenes/images/steel.jpg");
+		this.steel.setAmbient(1.0,1.0,1.0,1);
+		this.steel.setDiffuse(1.0,1.0,1.0,1);
+		this.steel.setSpecular(1.0,1.0,1.0,1);
+		this.steel.setShininess(120);
 
 		this.piece = new MyPiece(this.scene);
 
@@ -153,6 +168,10 @@ class MyBoard extends Primitive
 
 				this.increasePlays();
 
+				this.aux.reset();
+				this.c = this.countdown;
+				this.countdownStart = 0;
+
 			}, this.botDelay);
 		}
 	}
@@ -179,7 +198,7 @@ class MyBoard extends Primitive
 		{
 			this.selected = obj;
 			this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
-			this.c = 25;
+			
 			this.countdownStart = 1;
 		}
 	}
@@ -190,9 +209,9 @@ class MyBoard extends Primitive
 		{
 			this.board = this.previousBoard;
 
-			let str = JSON.stringify(this.board).replace(/"/g, "");
+			let boardStr = JSON.stringify(this.board).replace(/"/g, "");
 
-			getPrologRequest("setBoard(" + str + ")", getResponse);
+			getPrologRequest("setBoard(" + boardStr + ")", getResponse);
 
 			this.selected = null;
 			this.possibleMoves = null;
@@ -208,25 +227,14 @@ class MyBoard extends Primitive
 			}
 			else if (this.gameType == "Player vs Bot")
 			{
-				this.plays--;
+				this.plays -= 2;
 
-				if (this.plays % 2 == 0)
-					this.playsB--;
-				else
-					this.playsW--;
-
-				this.plays--;
-
-				if (this.plays % 2 == 0)
-					this.playsB--;
-				else
-					this.playsW--;
+				this.playsB--;
+				this.playsW--;
 			}
 		}
 
-		this.cameraGameAngle -= Math.PI;
-		this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
-
+		this.cameraGameAngle = this.plays * Math.PI;
 	}
 
 	logPicking()
@@ -274,6 +282,10 @@ class MyBoard extends Primitive
 
 										this.selected = null;
 										this.possibleMoves = null;
+
+										this.aux.reset();
+										this.c = this.countdown;
+										this.countdownStart = 0;
 									}
 									else
 									{
@@ -321,8 +333,16 @@ class MyBoard extends Primitive
 
 		for (let i = 0; i < a.length; i++)
 		{
-			if (a[i] != b[i])
+			if (a[i] instanceof Array && b[i] instanceof Array)
+			{
+				if (!this.compareArray(a[i], b[i]))
+					return false;
+			}
+			else if (a[i] != b[i])
+			{
 				return false;
+			}
+			
 		}
 
 		return true;
@@ -330,27 +350,43 @@ class MyBoard extends Primitive
 
 	update(currTime, component)
 	{
-		this.aux.update(currTime);
-
-		if(this.countdownStart == 1)
-			{
-				this.c = this.countdown - Math.floor(this.aux.sumTime % 60);
-			}
-			else
-			{
-				this.c = 25;
-				this.aux.sumTime = 0;
-			}
-		// console.log(this.c);
-
-		if(this.cameraMove == 1)
+		if (this.countdownStart == 1)
 		{
-			if(this.cameraGameAngle <= this.plays * Math.PI)
+			this.aux.update(currTime);
+			this.c = this.countdown - this.aux.sumTime % 60;
+
+			if (this.c <= 0)
 			{
-				this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
+				this.increasePlays();
+				
+				this.aux.reset();
+				this.c = this.countdown;
+
+				this.selected = null;
+				this.possibleMoves = null;
+
+				this.moving = null;
+				this.movingAmount = null;
+				this.moveAnimation = null;
+
+				this.cameraMove = 1;
+
+				this.botPlayQueued = true;
+
+				this.countdownStart = 0;
+			}
+		}
+		
+
+		this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
+
+		if (this.cameraMove == 1)
+		{
+			if (this.cameraGameAngle <= this.plays * Math.PI)
+			{
 				this.cameraGameAngle += Math.PI/100;
 			}
-			 else
+			else
 			{
 				this.cameraMove = 0;
 			}
@@ -605,6 +641,130 @@ class MyBoard extends Primitive
 				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange, this.c);
 
 			this.scene.popMatrix();
+
+			//Bench1
+		this.scene.pushMatrix();
+		this.scene.translate(0,2,-7);
+	  this.scene.rotate(Math.PI/6,1,0,0);
+		this.scene.rotate(Math.PI/2,0,0,1);
+		this.scene.rotate(Math.PI,0,1,0);
+		this.scene.scale(2,2,1);
+		this.steel.apply();
+		this.patch.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0,2,-7);
+	  this.scene.rotate(Math.PI/6,1,0,0);
+		this.scene.rotate(Math.PI/2,0,0,1);
+		this.scene.rotate(Math.PI,0,1,0);
+		this.scene.scale(-2,2,1);
+		this.steel.apply();
+		this.patch.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(-2.8,0,-7.2);
+		this.scene.scale(1.5,2.0,1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(-2.8,0,-7.2);
+		this.scene.scale(1.5,2.0,-1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(2.8,0,-7.2);
+		this.scene.scale(1.5,2.0,1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(2.8,0,-7.2);
+		this.scene.scale(1.5,2.0,-1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0,1,-7.2);
+		this.scene.scale(5.5,1,1.5);
+		this.whiteAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+
+		//Bench2
+		this.scene.pushMatrix();
+		this.scene.translate(0,2,7);
+	  this.scene.rotate(-Math.PI/6,1,0,0);
+		this.scene.rotate(Math.PI/2,0,0,1);
+		this.scene.scale(2,2,1);
+		this.steel.apply();
+		this.patch.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0,2,7);
+	  this.scene.rotate(-Math.PI/6,1,0,0);
+		this.scene.rotate(Math.PI/2,0,0,1);
+		this.scene.scale(-2,2,1);
+		this.steel.apply();
+		this.patch.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(-2.8,0,7.2);
+		this.scene.scale(1.5,2.0,1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(-2.8,0,7.2);
+		this.scene.scale(1.5,2.0,-1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(2.8,0,7.2);
+		this.scene.scale(1.5,2.0,1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(2.8,0,7.2);
+		this.scene.scale(1.5,2.0,-1.5);
+		this.scene.rotate(Math.PI/2, 0,0,1);
+		this.blackAppearence.apply();
+		this.plane.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0,1,7.2);
+		this.scene.scale(5.5,1,1.5);
+		
+		if(this.environmentChange == 0)
+			this.blueAppearence.apply();
+		else
+			this.yellowAppearence.apply();
+
+		this.plane.display();
+		this.scene.popMatrix();
 
 		this.scene.popMatrix();
 	};

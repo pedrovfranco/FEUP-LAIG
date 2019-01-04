@@ -87,11 +87,14 @@ class XMLscene extends CGFscene {
 					this.lights[i].setSpotExponent(light[7]);
 				}
 
+				this.lightValues[key] = light[0];
+
 				this.lights[i].update();
 
 				i++;
-			}
-		}
+
+            }
+        }
 	}
 
 	initViews()
@@ -117,6 +120,8 @@ class XMLscene extends CGFscene {
 			
 			if (this.viewId != "ScoreBoard" && this.viewId != "game")
 				this.interface.setActiveCamera(this.views[this.viewId]);
+			else
+				this.interface.setActiveCamera(null);
 		}
 	}
 
@@ -159,7 +164,7 @@ class XMLscene extends CGFscene {
 		this.initLights();
 
 		// Adds lights group.
-		this.interface.addLightsGroup(this.graph.lights);
+		// this.interface.addLightsGroup(this.graph.lights);
 
 		this.viewId = this.graph.defaultViewId;
 
@@ -170,7 +175,6 @@ class XMLscene extends CGFscene {
 		this.materialDefault = new CGFappearance(this);
 
 		this.sceneInited = true;
-
 
 		this.setCamera();
 	}
@@ -207,13 +211,13 @@ class XMLscene extends CGFscene {
 
 		if (this.sceneInited) {
 			// Draw axis
-			this.axis.display();
+			// this.axis.display();
 
 			var i = 0;
 			for (var key in this.lightValues) {
 				if (this.lightValues.hasOwnProperty(key)) {
 					if (this.lightValues[key]) {
-						this.lights[i].setVisible(true);
+						this.lights[i].setVisible(false);
 						this.lights[i].enable();
 					}
 					else {
