@@ -4,7 +4,10 @@ class MyBoard extends Primitive
 	{
 		super(scene);
 
-		this.winner = "none";
+		this.getBoard("kl");
+        this.previousBoard = this.board;
+    
+        this.checkWin();
 
 		this.cameraId = "ScoreBoard";
 		this.fov = 1.2;
@@ -22,9 +25,6 @@ class MyBoard extends Primitive
 
 		this.scene.viewId = this.cameraId1;
 		this.scene.setCamera();
-
-		this.updateBoard(getPrologRequest("kl", getResponseArray));
-		this.previousBoard = this.board;
 
 		this.depth = depth || 0.5;
 
@@ -122,26 +122,107 @@ class MyBoard extends Primitive
 		this.playsB = 0;
 	};
 
-	updateBoard(newBoard)
+	getBoard(requestString)
 	{
-		this.board = newBoard;
+		var func = function (response, target)
+		{
+			target.board = getResponseArray(response);
+		};
+
+		getPrologRequest(requestString, this, func);
+	}
+
+	getNewBoard(requestString)
+	{
+		var func = function (response, target)
+		{
+			target.newBoard = getResponseArray(response);
+		};
+
+		getPrologRequest(requestString, this, func);
+	}
+
+	getMoves(requestString)
+	{
+		var func = function (response, target)
+		{
+			target.possibleMoves = getResponseArray(response);
+		};
+
+		getPrologRequest(requestString, this, func);
+	}
+
+	getBotMoves(requestString)
+	{
+		var func = function (response, target)
+		{
+			target.botMoves = getResponseArray(response);
+
+			target.moving = [target.botMoves[0][0][0], target.botMoves[0][0][1], target.botMoves[0][1][0], target.botMoves[0][1][1]];
+			target.movingAmount = target.botMoves[1];
+			target.moveAnimation = new QuadraticBezierAnimation(target.scene, [0, 0, 0], [(target.moving[3]-target.moving[1])/2, 5, (target.moving[2]-target.moving[0])/2], [target.moving[3]-target.moving[1], -(target.board[target.moving[1]][target.moving[0]][0]-target.movingAmount)*(target.piece.height+0.005), target.moving[2]-target.moving[0]], target.moveAnimationTotalTime);
+
+			target.increasePlays();
+
+			target.aux.reset();
+			target.c = target.countdown;
+			target.countdownStart = 0;
+		};
+
+		getPrologRequest(requestString, this, func);
+	}
+
+	getWinner()
+	{
+		var func = function (response, target)
+		{
+			target.winner = getResponse(response);
+		};
+
+		getPrologRequest("game_over", this, func);
+	}
+
+	sendRequest(requestString)
+	{
+		var func = function (response, thisBoard)
+		{};
+
+		getPrologRequest(requestString, this, func);
+	}
+
+	requestBoard(requestString, target, onSucess)
+	{
+		this.response = null;
+
+		var func = function (response, target, onSucess)
+		{
+			target = onSucess(response);
+		};
+
+		getPrologRequest(requestString, target, getResponseArray);
 	}
 
 	checkWin()
 	{
-		if (this.winner == "none")
+		var func = function (response, target)
 		{
-			this.winner = getPrologRequest("game_over");
-
-			if (this.winner != "none")
+			if (target.winner == "none" || target.winner == undefined || target.winner == null)
 			{
-				this.display();
-				window.alert(this.winner + " won!");
+				target.winner = getResponse(response);
 
-				this.selected = null;
-				this.possibleMoves = null;
+				if (target.winner != "none")
+				{
+					target.display();
+					window.alert(target.winner + " won!");
+
+					target.selected = null;
+					target.possibleMoves = null;
+				}
 			}
-		}
+		};
+
+		getPrologRequest("game_over", this, func);
+		
 	}
 
 	increasePlays()
@@ -160,17 +241,7 @@ class MyBoard extends Primitive
 		{
 			setTimeout(() =>
 			{
-				let move = getPrologRequest("chooseBotMove(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")", getResponseArray);
-
-				this.moving = [move[0][0][0], move[0][0][1], move[0][1][0], move[0][1][1]];
-				this.movingAmount = move[1];
-				this.moveAnimation = new QuadraticBezierAnimation(this.scene, [0, 0, 0], [(this.moving[3]-this.moving[1])/2, 5, (this.moving[2]-this.moving[0])/2], [this.moving[3]-this.moving[1], -(this.board[this.moving[1]][this.moving[0]][0]-this.movingAmount)*(this.piece.height+0.005), this.moving[2]-this.moving[0]], this.moveAnimationTotalTime);
-
-				this.increasePlays();
-
-				this.aux.reset();
-				this.c = this.countdown;
-				this.countdownStart = 0;
+				this.getBotMoves("chooseBotMove(" + this.plays + "," + (this.scene.difficultyArray.indexOf(this.difficulty)+1) + ")");
 
 			}, this.botDelay);
 		}
@@ -197,7 +268,7 @@ class MyBoard extends Primitive
 		if (this.getPlayerByColour(this.board[obj[1]][obj[0]][1]) == this.plays % 2 && this.winner == "none")
 		{
 			this.selected = obj;
-			this.possibleMoves = getPrologRequest("getPieceMoves(" + obj[0] + "," + obj[1] + ")", getResponseArray);
+			this.getMoves("getPieceMoves(" + obj[0] + "," + obj[1] + ")");
 			
 			this.countdownStart = 1;
 		}
@@ -211,7 +282,7 @@ class MyBoard extends Primitive
 
 			let boardStr = JSON.stringify(this.board).replace(/"/g, "");
 
-			getPrologRequest("setBoard(" + boardStr + ")", getResponse);
+			this.sendRequest("setBoard(" + boardStr + ")", getResponse);
 
 			this.selected = null;
 			this.possibleMoves = null;
@@ -277,6 +348,8 @@ class MyBoard extends Primitive
 										this.moving = [this.selected[0], this.selected[1], obj[0], obj[1]];
 										this.movingAmount = N;
 										this.moveAnimation = new QuadraticBezierAnimation(this.scene, [0, 0, 0], [(this.moving[3]-this.moving[1])/2, 5, (this.moving[2]-this.moving[0])/2], [this.moving[3]-this.moving[1], -(this.board[this.moving[1]][this.moving[0]][0]-this.movingAmount)*(this.piece.height+0.005), this.moving[2]-this.moving[0]], this.moveAnimationTotalTime);
+
+										this.getNewBoard("move(" +  this.moving[0] + "," + this.moving[1] + "," + this.moving[2] + "," + this.moving[3] + "," + this.movingAmount + ")");
 
 										this.increasePlays();
 
@@ -353,7 +426,7 @@ class MyBoard extends Primitive
 		if (this.countdownStart == 1)
 		{
 			this.aux.update(currTime);
-			this.c = this.countdown - this.aux.sumTime % 60;
+			this.c -= this.aux.deltaTime;
 
 			if (this.c <= 0)
 			{
@@ -414,7 +487,9 @@ class MyBoard extends Primitive
 			{
 				this.countdownStart = 0;
 				this.previousBoard = this.board;
-				this.updateBoard(getPrologRequest("move(" +  this.moving[0] + "," + this.moving[1] + "," + this.moving[2] + "," + this.moving[3] + "," + this.movingAmount + ")", getResponseArray));
+
+				if (this.newBoard != null && this.newBoard != undefined)
+					this.board = this.newBoard;
 
 				this.moving = null;
 				this.movingAmount = null;
@@ -453,120 +528,123 @@ class MyBoard extends Primitive
 			this.scene.popMatrix();
 		}
 
-
-		this.logPicking();
-		this.scene.clearPickRegistration();
-		let id = 1, coords = [], height = this.board.length, width = this.board[0].length;
-
 		this.scene.pushMatrix();
 
-			if (this.possibleMoves != null)
+			if (this.board != null && this.board != undefined)
 			{
-				for (let i = 0; i < this.possibleMoves.length; i++)
-				{
-					this.scene.pushMatrix();
-
-						this.scene.registerForPick(id, this.possibleMoves[i]);
-						id++;
-
-						coords = [(1-height)/2 + this.possibleMoves[i][1], 0, (1-width)/2 + this.possibleMoves[i][0]];
-						this.scene.translate(coords[0], 0, coords[2]);
-
-						this.redAppearence.apply();
-
-						this.plane.display();
-
-					this.scene.popMatrix();
-				}
-
-			}
+				this.logPicking();
+				this.scene.clearPickRegistration();
+				let id = 1, coords = [], height = this.board.length, width = this.board[0].length;
 
 
-			for (let i = 0; i < width; i++)
-			{
-				for (let j = 0; j < height; j++)
-				{
-					this.scene.pushMatrix();
-
-						if (this.possibleMoves != null && this.findMove([i,j]) != -1)
-						{
-							continue;
-						}
-
-						if (this.board[j][i][0] > 0)
-						{
-							this.scene.registerForPick(id, [i,j]);
-							id++;
-						}
-						else
-							this.scene.clearPickRegistration();
-
-						coords = [(1-height)/2 + j, 0, (1-width)/2 + i];
-						this.scene.translate(coords[0], 0, coords[2]);
-
-						if(this.environment == "Ice")
-						{
-						if ((i+j)%2 == 0)
-							this.whiteAppearence.apply();
-						else
-							this.blackAppearence.apply();
-						}
-						else {
-							if ((i+j)%2 == 0)
-								this.whiteAppearence.apply();
-							else
-								this.blueAppearence.apply();
-						}
-						this.plane.display();
-
-						let colour = this.board[j][i][1];
-
-
-						if(this.environment == 'Ice')
-						{
-							this.environmentChange = 0;
-							if (colour == "w")
-							{
-								this.whiteAppearence.apply();
-							}
-							else
-							{
-								this.blueAppearence.apply();
-							}
-						}
-						else
-						{
-							this.environmentChange = 1;
-							if (colour == "w")
-							{
-								this.whiteAppearence.apply();
-							}
-							else
-							{
-								this.yellowAppearence.apply();
-							}
-						}
-
-						for (let k = 0; k < this.board[j][i][0]; k++)
+					if (this.possibleMoves != null)
+					{
+						for (let i = 0; i < this.possibleMoves.length; i++)
 						{
 							this.scene.pushMatrix();
 
-								this.scene.translate(0, k*(this.piece.height+0.005), 0);
+								this.scene.registerForPick(id, this.possibleMoves[i]);
+								id++;
 
-								if (this.moving != null && this.moving[0] == i && this.moving[1] == j && this.board[j][i][0] - k <= this.movingAmount)
-								{
-									this.moveAnimation.apply();
-								}
+								coords = [(1-height)/2 + this.possibleMoves[i][1], 0, (1-width)/2 + this.possibleMoves[i][0]];
+								this.scene.translate(coords[0], 0, coords[2]);
 
-								this.piece.display();
+								this.redAppearence.apply();
+
+								this.plane.display();
 
 							this.scene.popMatrix();
 						}
 
-					this.scene.popMatrix();
+					}
 
+					for (let i = 0; i < width; i++)
+					{
+						for (let j = 0; j < height; j++)
+						{
+							this.scene.pushMatrix();
+
+								if (this.possibleMoves != null && this.findMove([i,j]) != -1)
+								{
+									continue;
+								}
+
+								if (this.board[j][i][0] > 0)
+								{
+									this.scene.registerForPick(id, [i,j]);
+									id++;
+								}
+								else
+									this.scene.clearPickRegistration();
+
+								coords = [(1-height)/2 + j, 0, (1-width)/2 + i];
+								this.scene.translate(coords[0], 0, coords[2]);
+
+								if(this.environment == "Ice")
+								{
+								if ((i+j)%2 == 0)
+									this.whiteAppearence.apply();
+								else
+									this.blackAppearence.apply();
+								}
+								else {
+									if ((i+j)%2 == 0)
+										this.whiteAppearence.apply();
+									else
+										this.blueAppearence.apply();
+								}
+								this.plane.display();
+
+								let colour = this.board[j][i][1];
+
+
+								if(this.environment == 'Ice')
+								{
+									this.environmentChange = 0;
+									if (colour == "w")
+									{
+										this.whiteAppearence.apply();
+									}
+									else
+									{
+										this.blueAppearence.apply();
+									}
+								}
+								else
+								{
+									this.environmentChange = 1;
+									if (colour == "w")
+									{
+										this.whiteAppearence.apply();
+									}
+									else
+									{
+										this.yellowAppearence.apply();
+									}
+								}
+
+								for (let k = 0; k < this.board[j][i][0]; k++)
+								{
+									this.scene.pushMatrix();
+
+										this.scene.translate(0, k*(this.piece.height+0.005), 0);
+
+										if (this.moving != null && this.moving[0] == i && this.moving[1] == j && this.board[j][i][0] - k <= this.movingAmount)
+										{
+											this.moveAnimation.apply();
+										}
+
+										this.piece.display();
+
+									this.scene.popMatrix();
+								}
+
+							this.scene.popMatrix();
+
+					}
 				}
-			}
+
+
 
 			this.scene.clearPickRegistration();
 
@@ -638,135 +716,141 @@ class MyBoard extends Primitive
 				let m = this.animation.sumTime / 60;
 				let s = this.animation.sumTime % 60;
 
-				this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange, this.c);
+				if (this.aux.sumTime == 0)
+					this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange, this.countdown);
+				else
+					this.scoreBoard.display(this.plays, this.playsW, this.playsB, m, s, this.environmentChange, this.c);
 
 			this.scene.popMatrix();
 
-			//Bench1
-		this.scene.pushMatrix();
-		this.scene.translate(0,2,-7);
-	  this.scene.rotate(Math.PI/6,1,0,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.rotate(Math.PI,0,1,0);
-		this.scene.scale(2,2,1);
-		this.steel.apply();
-		this.patch.display();
-		this.scene.popMatrix();
+				//Bench1
+			this.scene.pushMatrix();
+			this.scene.translate(0,2,-7);
+		  this.scene.rotate(Math.PI/6,1,0,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.rotate(Math.PI,0,1,0);
+			this.scene.scale(2,2,1);
+			this.steel.apply();
+			this.patch.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(0,2,-7);
-	  this.scene.rotate(Math.PI/6,1,0,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.rotate(Math.PI,0,1,0);
-		this.scene.scale(-2,2,1);
-		this.steel.apply();
-		this.patch.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(0,2,-7);
+		  this.scene.rotate(Math.PI/6,1,0,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.rotate(Math.PI,0,1,0);
+			this.scene.scale(-2,2,1);
+			this.steel.apply();
+			this.patch.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(-2.8,0,-7.2);
-		this.scene.scale(1.5,2.0,1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(-2.8,0,-7.2);
+			this.scene.scale(1.5,2.0,1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(-2.8,0,-7.2);
-		this.scene.scale(1.5,2.0,-1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(-2.8,0,-7.2);
+			this.scene.scale(1.5,2.0,-1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(2.8,0,-7.2);
-		this.scene.scale(1.5,2.0,1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(2.8,0,-7.2);
+			this.scene.scale(1.5,2.0,1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(2.8,0,-7.2);
-		this.scene.scale(1.5,2.0,-1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(2.8,0,-7.2);
+			this.scene.scale(1.5,2.0,-1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(0,1,-7.2);
-		this.scene.scale(5.5,1,1.5);
-		this.whiteAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(0,1,-7.2);
+			this.scene.scale(5.5,1,1.5);
+			this.whiteAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
 
-		//Bench2
-		this.scene.pushMatrix();
-		this.scene.translate(0,2,7);
-	  this.scene.rotate(-Math.PI/6,1,0,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.scale(2,2,1);
-		this.steel.apply();
-		this.patch.display();
-		this.scene.popMatrix();
+			//Bench2
+			this.scene.pushMatrix();
+			this.scene.translate(0,2,7);
+		  this.scene.rotate(-Math.PI/6,1,0,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.scale(2,2,1);
+			this.steel.apply();
+			this.patch.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(0,2,7);
-	  this.scene.rotate(-Math.PI/6,1,0,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.scale(-2,2,1);
-		this.steel.apply();
-		this.patch.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(0,2,7);
+		  this.scene.rotate(-Math.PI/6,1,0,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.scale(-2,2,1);
+			this.steel.apply();
+			this.patch.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(-2.8,0,7.2);
-		this.scene.scale(1.5,2.0,1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(-2.8,0,7.2);
+			this.scene.scale(1.5,2.0,1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(-2.8,0,7.2);
-		this.scene.scale(1.5,2.0,-1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(-2.8,0,7.2);
+			this.scene.scale(1.5,2.0,-1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(2.8,0,7.2);
-		this.scene.scale(1.5,2.0,1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(2.8,0,7.2);
+			this.scene.scale(1.5,2.0,1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(2.8,0,7.2);
-		this.scene.scale(1.5,2.0,-1.5);
-		this.scene.rotate(Math.PI/2, 0,0,1);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(2.8,0,7.2);
+			this.scene.scale(1.5,2.0,-1.5);
+			this.scene.rotate(Math.PI/2, 0,0,1);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(0,1,7.2);
-		this.scene.scale(5.5,1,1.5);
-		
-		if(this.environmentChange == 0)
-			this.blueAppearence.apply();
-		else
-			this.yellowAppearence.apply();
+			this.scene.pushMatrix();
+			this.scene.translate(0,1,7.2);
+			this.scene.scale(5.5,1,1.5);
+			
+			if(this.environmentChange == 0)
+				this.blueAppearence.apply();
+			else
+				this.yellowAppearence.apply();
 
-		this.plane.display();
-		this.scene.popMatrix();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.popMatrix();
+			this.scene.popMatrix();
+		}
+			
+
 	};
 
 };

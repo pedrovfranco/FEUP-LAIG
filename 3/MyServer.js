@@ -1,10 +1,13 @@
-function getPrologRequest(requestString, onSucess, port)
+function getPrologRequest(requestString, target, onSucess, port)
 {
     var requestPort = port || 8081
     var request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, false);
+    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
     onSucess = onSucess || getResponse;
+
+    request.targetVar = target;
+    request.onSucess = onSucess;
 
     request.onload = function(data)
     {
@@ -13,7 +16,7 @@ function getPrologRequest(requestString, onSucess, port)
             if (data.target.response == "error")
                 console.error("Prolog error");
             else
-                this.returnVar = onSucess(data.target.response);
+                data.target.onSucess(data.target.response, data.target.targetVar);
         } 
     };
 
@@ -24,9 +27,6 @@ function getPrologRequest(requestString, onSucess, port)
 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.send();
-    
-    let data = request.returnVar;
-    return data;
 }
 
 function makeRequest(requestString)
@@ -57,9 +57,7 @@ function fixList(input)
             ret += "\"";
         }
         else
-        {
             ret += input[i];
-        }
     }
 
     return ret;

@@ -96,13 +96,13 @@ class MyInterface extends CGFinterface {
 
         element.onChange(function(arg)
         {
-            board.winner = "none";
-
             board.cameraGameAngle = 0;
             board.cameraMove = 0;
 
-            board.updateBoard(getPrologRequest("kl", getResponseArray));
+            board.getBoard("kl");
             board.previousBoard = board.board;
+        
+            board.checkWin();
 
             board.selected = null;
             board.possibleMoves = null;
@@ -114,12 +114,9 @@ class MyInterface extends CGFinterface {
 
             board.botDelay = 2000;
 
-            if (board.newCountdown != undefined)
-                board.countdown = board.newCountdown;
-
             board.c = board.countdown;
             board.countdownStart = 0;
-            board.aux.sumTime.reset();
+            board.aux.reset();
 
             board.botPlayQueued = false;
 
@@ -153,11 +150,10 @@ class MyInterface extends CGFinterface {
 
         element.onChange(function(arg)
         {
-            board.newCountdown = arg;
-
+            board.countdown = arg;
+            
             if (board.aux.sumTime == 0)
             {
-                board.countdown = arg;
                 board.c = board.countdown;
             }
         });
