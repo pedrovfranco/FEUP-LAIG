@@ -89,7 +89,9 @@ class LinearAnimation extends Animation
 		coords[0] = this.controlPoints[i][0] + ( this.controlPoints[i+1][0]-this.controlPoints[i][0] ) * j;
 		coords[1] = this.controlPoints[i][1] + ( this.controlPoints[i+1][1]-this.controlPoints[i][1] ) * j;
 		coords[2] = this.controlPoints[i][2] + ( this.controlPoints[i+1][2]-this.controlPoints[i][2] ) * j;
-										
+
+		this.coords = coords;
+
 		var x = (this.controlPoints[i+1][0]-this.controlPoints[i][0]);
 		var z = (this.controlPoints[i+1][2]-this.controlPoints[i][2]);
 
@@ -99,7 +101,7 @@ class LinearAnimation extends Animation
 		// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
 
 		this.transformationMatrix = mat4.create();
-		
+
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
 
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(center[0], 0, center[2]));
@@ -141,11 +143,11 @@ class CircularAnimation extends Animation
 		coords[1] = this.center[1];
 		coords[2] = this.center[2] + this.radius*Math.cos(this.angle);
 
-		this.directionAngle = this.angle + Math.PI/2; 
+		this.directionAngle = this.angle + Math.PI/2;
 
 		let center = this.component.getCenter();
 		// console.log("x = " + center[0] + " y = " + center[1] + " z = " + center[2]);
-		
+
 		this.transformationMatrix = mat4.create();
 
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));
@@ -179,7 +181,7 @@ class QuadraticBezierAnimation extends Animation
 		coords[0] = (1-t)*(1-t)*this.P1[0] + 2*(1-t)*t*this.P2[0] + t*t*this.P3[0];
 		coords[1] = (1-t)*(1-t)*this.P1[1] + 2*(1-t)*t*this.P2[1] + t*t*this.P3[1];
 		coords[2] = (1-t)*(1-t)*this.P1[2] + 2*(1-t)*t*this.P2[2] + t*t*this.P3[2];
-		
+
 		this.transformationMatrix = mat4.create();
 
 		mat4.translate(this.transformationMatrix, this.transformationMatrix, vec3.fromValues(coords[0], coords[1], coords[2]));

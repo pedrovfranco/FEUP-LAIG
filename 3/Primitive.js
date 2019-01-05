@@ -61,19 +61,22 @@ class Primitive extends CGFobject
     getVerticeAverageRecursive(sum, matrix)
     {
         let tempSum = [0, 0, 0, 0];
-        for (let i = 0; i < this.vertices.length; i+=3)
+        if(this.vertices != null && this.vertices != undefined)
         {
+          for (let i = 0; i < this.vertices.length; i+=3)
+            {
 
-            tempSum[0] += this.vertices[i];
-            tempSum[1] += this.vertices[i+1];
-            tempSum[2] += this.vertices[i+2];
+                tempSum[0] += this.vertices[i];
+                tempSum[1] += this.vertices[i+1];
+                tempSum[2] += this.vertices[i+2];
 
-            tempSum[3]++;
+                tempSum[3]++;
+            }
+
+            tempSum[0] /= tempSum[3];
+            tempSum[1] /= tempSum[3];
+            tempSum[2] /= tempSum[3];
         }
-
-        tempSum[0] /= tempSum[3];
-        tempSum[1] /= tempSum[3];
-        tempSum[2] /= tempSum[3];
 
         let pointMatrix = this.createMatrix(tempSum[0], tempSum[1], tempSum[2], 1,
                                               0, 0, 0, 1,

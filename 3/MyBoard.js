@@ -6,7 +6,7 @@ class MyBoard extends Primitive
 
 		this.getBoard("kl");
         this.previousBoard = this.board;
-    
+
         this.checkWin();
 
 		this.cameraId = "ScoreBoard";
@@ -47,6 +47,11 @@ class MyBoard extends Primitive
 		this.animation = new Animation();
 
 		this.aux = new Animation();
+
+		this.zecas = [ [10,0,0], [-7,0,0], [0,0,0] ];
+
+		this.openingAnimations = 1;
+		this.startAnimationWhite = new QuadraticBezierAnimation(this.scene,  this.zecas[0], this.zecas[1], this.zecas[2], 5);
 
 		this.scene.interface.addDifficultyGroup(this);
 		this.scene.interface.addGameTypeGroup(this);
@@ -162,11 +167,14 @@ class MyBoard extends Primitive
 			target.movingAmount = target.botMoves[1];
 			target.moveAnimation = new QuadraticBezierAnimation(target.scene, [0, 0, 0], [(target.moving[3]-target.moving[1])/2, 5, (target.moving[2]-target.moving[0])/2], [target.moving[3]-target.moving[1], -(target.board[target.moving[1]][target.moving[0]][0]-target.movingAmount)*(target.piece.height+0.005), target.moving[2]-target.moving[0]], target.moveAnimationTotalTime);
 
+			target.getNewBoard("move(" +  target.moving[0] + "," + target.moving[1] + "," + target.moving[2] + "," + target.moving[3] + "," + target.movingAmount + ")");
+
 			target.increasePlays();
 
 			target.aux.reset();
 			target.c = target.countdown;
 			target.countdownStart = 0;
+			
 		};
 
 		getPrologRequest(requestString, this, func);
@@ -222,7 +230,7 @@ class MyBoard extends Primitive
 		};
 
 		getPrologRequest("game_over", this, func);
-		
+
 	}
 
 	increasePlays()
@@ -269,7 +277,7 @@ class MyBoard extends Primitive
 		{
 			this.selected = obj;
 			this.getMoves("getPieceMoves(" + obj[0] + "," + obj[1] + ")");
-			
+
 			this.countdownStart = 1;
 		}
 	}
@@ -415,7 +423,7 @@ class MyBoard extends Primitive
 			{
 				return false;
 			}
-			
+
 		}
 
 		return true;
@@ -423,88 +431,109 @@ class MyBoard extends Primitive
 
 	update(currTime, component)
 	{
-		if (this.countdownStart == 1)
+		if(this.openingAnimations == 1)
 		{
-			this.aux.update(currTime);
-			this.c -= this.aux.deltaTime;
+			if(this.startAnimationWhite != null)
+				{
+					if(this.plays == 0)
+					{
+						if (this.startAnimationWhite.component == undefined)
+							this.startAnimationWhite.setComponent(component);
 
-			if (this.c <= 0)
-			{
-				this.increasePlays();
-				
-				this.aux.reset();
-				this.c = this.countdown;
-
-				this.selected = null;
-				this.possibleMoves = null;
-
-				this.moving = null;
-				this.movingAmount = null;
-				this.moveAnimation = null;
-
-				this.cameraMove = 1;
-
-				this.botPlayQueued = true;
-
-				this.countdownStart = 0;
-			}
-		}
-		
-
-		this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
-
-		if (this.cameraMove == 1)
-		{
-			if (this.cameraGameAngle <= this.plays * Math.PI)
-			{
-				this.cameraGameAngle += Math.PI/100;
-			}
-			else
-			{
-				this.cameraMove = 0;
+						if(this.startAnimationWhite.finished)
+							{
+								this.moving = null;
+								this.openingAnimations = 0;
+							}
+						else
+							this.startAnimationWhite.update(currTime);
+					}
 			}
 		}
 		else
 		{
-			if (this.botPlayQueued)
-			{
-				this.botPlay();
-				this.botPlayQueued = false;
-			}
+				if (this.countdownStart == 1)
+				{
+					this.aux.update(currTime);
+					this.c -= this.aux.deltaTime;
+
+					if (this.c <= 0)
+					{
+						this.increasePlays();
+
+						this.aux.reset();
+						this.c = this.countdown;
+
+						this.selected = null;
+						this.possibleMoves = null;
+
+						this.moving = null;
+						this.movingAmount = null;
+						this.moveAnimation = null;
+
+						this.cameraMove = 1;
+
+						this.botPlayQueued = true;
+
+						this.countdownStart = 0;
+					}
+				}
+
+
+				this.scene.views[this.cameraId1].setPosition(vec3.fromValues(-5*Math.sin(this.cameraGameAngle), 11, -5*Math.cos(this.cameraGameAngle)));//*Math.sin(this.cameraAngle)));
+
+				if (this.cameraMove == 1)
+				{
+					if (this.cameraGameAngle <= this.plays * Math.PI)
+					{
+						this.cameraGameAngle += Math.PI/100;
+					}
+					else
+					{
+						this.cameraMove = 0;
+					}
+				}
+				else
+				{
+					if (this.botPlayQueued)
+					{
+						this.botPlay();
+						this.botPlayQueued = false;
+					}
+				}
+
+				if (this.plays > 0 && this.winner == "none")
+				{
+					this.animation.update(currTime);
+				}
+
+				if (this.moveAnimation != null)
+				{
+					if (this.moveAnimation.component == undefined)
+						this.moveAnimation.setComponent(component);
+
+					if (this.moveAnimation.finished)
+					{
+						this.countdownStart = 0;
+						this.previousBoard = this.board;
+
+						if (this.newBoard != null && this.newBoard != undefined)
+							this.board = this.newBoard;
+
+						this.moving = null;
+						this.movingAmount = null;
+						this.moveAnimation = null;
+
+						this.checkWin();
+
+						this.cameraMove = 1;
+
+						this.botPlayQueued = true;
+					}
+					else
+						this.moveAnimation.update(currTime);
+				}
 		}
-
-		if (this.plays > 0 && this.winner == "none")
-		{
-			this.animation.update(currTime);
-		}
-
-		if (this.moveAnimation != null)
-		{
-			if (this.moveAnimation.component == undefined)
-				this.moveAnimation.setComponent(component);
-
-			if (this.moveAnimation.finished)
-			{
-				this.countdownStart = 0;
-				this.previousBoard = this.board;
-
-				if (this.newBoard != null && this.newBoard != undefined)
-					this.board = this.newBoard;
-
-				this.moving = null;
-				this.movingAmount = null;
-				this.moveAnimation = null;
-
-				this.checkWin();
-
-				this.cameraMove = 1;
-
-				this.botPlayQueued = true;
-			}
-			else
-				this.moveAnimation.update(currTime);
-		}
-
 	}
 
 	display()
@@ -629,10 +658,18 @@ class MyBoard extends Primitive
 
 										this.scene.translate(0, k*(this.piece.height+0.005), 0);
 
+
+										if(this.openingAnimations == 1 )//&&  this.moving[0] == i && this.moving[1] == j)
+										{
+											this.startAnimationWhite.apply();
+										}
+
+
 										if (this.moving != null && this.moving[0] == i && this.moving[1] == j && this.board[j][i][0] - k <= this.movingAmount)
 										{
 											this.moveAnimation.apply();
 										}
+
 
 										this.piece.display();
 
@@ -838,7 +875,7 @@ class MyBoard extends Primitive
 			this.scene.pushMatrix();
 			this.scene.translate(0,1,7.2);
 			this.scene.scale(5.5,1,1.5);
-			
+
 			if(this.environmentChange == 0)
 				this.blueAppearence.apply();
 			else
@@ -849,7 +886,7 @@ class MyBoard extends Primitive
 
 			this.scene.popMatrix();
 		}
-			
+
 
 	};
 
