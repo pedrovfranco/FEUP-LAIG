@@ -71,6 +71,7 @@ class MyBoard extends Primitive
 
 		this.openingAnimations = 1;
 		this.startAnimationWhite = new QuadraticBezierAnimation(this.scene,  this.zecas[0], this.zecas[1], this.zecas[2], 5);
+		this.closeDoor = 0;
 
 		this.scene.interface.addDifficultyGroup(this);
 		this.scene.interface.addGameTypeGroup(this);
@@ -538,6 +539,7 @@ class MyBoard extends Primitive
 					{
 						this.moving = null;
 						this.openingAnimations = 0;
+						this.closeDoor = 1;
 					}
 					else
 						this.startAnimationWhite.update(currTime);
@@ -670,32 +672,35 @@ class MyBoard extends Primitive
 	display()
 	{
 
-		this.scene.pushMatrix();
-		this.scene.translate(14.75,1.5,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.scale(5.5,1,3);
-		this.blackAppearence.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+		if(this.closeDoor == 0)
+		{
+			this.scene.pushMatrix();
+			this.scene.translate(14.75,1.5,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.scale(5.5,1,3);
+			this.blackAppearence.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(14,1.5,1.5);
-		this.scene.rotate(Math.PI/2,0,1,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.scale(5.5,1,1.5);
-		// this.scene.rotate(-Math.PI/2,0,1,0);
-		this.steel.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(14,1.5,1.5);
+			this.scene.rotate(Math.PI/2,0,1,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.scale(5.5,1,1.5);
+			// this.scene.rotate(-Math.PI/2,0,1,0);
+			this.steel.apply();
+			this.plane.display();
+			this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.scene.translate(14,1.5,-1.5);
-		this.scene.rotate(-Math.PI/2,0,1,0);
-		this.scene.rotate(Math.PI/2,0,0,1);
-		this.scene.scale(5.5,1,1.5);
-		this.steel.apply();
-		this.plane.display();
-		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(14,1.5,-1.5);
+			this.scene.rotate(-Math.PI/2,0,1,0);
+			this.scene.rotate(Math.PI/2,0,0,1);
+			this.scene.scale(5.5,1,1.5);
+			this.steel.apply();
+			this.plane.display();
+			this.scene.popMatrix();
+		}
 
 		if(this.environment == "Mountain")
 		{

@@ -44,12 +44,12 @@ class ScoreBoard extends Primitive
 		this.remaining.setSpecular(1.0,1.0,1.0,1);
 		this.remaining.setShininess(120);
 
-    this.newgame = new CGFappearance(this.scene);
-		this.newgame.loadTexture("scenes/images/newgame.png");
-		this.newgame.setAmbient(1.0,1.0,1.0,1);
-		this.newgame.setDiffuse(1.0,1.0,1.0,1);
-		this.newgame.setSpecular(1.0,1.0,1.0,1);
-		this.newgame.setShininess(120);
+    this.movie = new CGFappearance(this.scene);
+		this.movie.loadTexture("scenes/images/movie.png");
+		this.movie.setAmbient(1.0,1.0,1.0,1);
+		this.movie.setDiffuse(1.0,1.0,1.0,1);
+		this.movie.setSpecular(1.0,1.0,1.0,1);
+		this.movie.setShininess(120);
 
     this.playerB = new CGFappearance(this.scene);
 		this.playerB.loadTexture("scenes/images/playerBlue.png");
@@ -786,7 +786,7 @@ class ScoreBoard extends Primitive
 
     this.scene.registerForPick(999, "new game");
 
-    this.newgame.apply();
+    this.movie.apply();
     this.plane.display();
 
     this.scene.clearPickRegistration();
