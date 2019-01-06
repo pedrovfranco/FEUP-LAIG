@@ -101,7 +101,7 @@ class MyInterface extends CGFinterface {
 
             board.getBoard("kl");
             board.previousBoard = board.board;
-        
+
             board.checkWin();
 
             board.selected = null;
@@ -146,12 +146,12 @@ class MyInterface extends CGFinterface {
     addCountdownSlider(board)
     {
         this.countdown = board.countdown;
-        let element = this.gui.add(this, 'countdown', 0, 25);
+        let element = this.gui.add(this, 'countdown', 5, 25);
 
         element.onChange(function(arg)
         {
             board.countdown = arg;
-            
+
             if (board.aux.sumTime == 0)
             {
                 board.c = board.countdown;
