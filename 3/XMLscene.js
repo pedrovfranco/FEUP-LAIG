@@ -117,7 +117,7 @@ class XMLscene extends CGFscene {
 		if (this.sceneInited)
 		{
 			this.camera = this.views[this.viewId];
-			
+
 			if (this.viewId != "ScoreBoard" && this.viewId != "game")
 				this.interface.setActiveCamera(this.views[this.viewId]);
 			else

@@ -26,57 +26,58 @@
 	<lights>
 
 		<omni id="omni1" enabled="1" >
-			<location x="2" y="20" z="2" w="1" />
+			<location x="0" y="3" z="-2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
 		<omni id="omni2" enabled="1" >
-			<location x="0" y="20" z="2" w="1" />
+			<location x="0" y="5" z="20" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
 		<omni id="omni3" enabled="1" >
-			<location x="-6" y="20" z="0" w="1" />
+			<location x="0" y="10" z="30" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
 		<omni id="omni4" enabled="1" >
-			<location x="-2" y="20" z="-2" w="1" />
+			<location x="0" y="10" z="-20" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
 		<omni id="omni5" enabled="1" >
-			<location x="5" y="20" z="5" w="1" />
+			<location x="0" y="10" z="-30" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
 		<omni id="omni6" enabled="1" >
-			<location x="1" y="20" z="-6" w="1" />
+			<location x="7" y="10" z="0" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
 		<omni id="omni7" enabled="1" >
-			<location x="-6" y="20" z="-13" w="1" />
+			<location x="0" y="5" z="-2" w="1" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />
 		</omni>
 
+
 		<spot id="spot1" enabled="1" angle="50" exponent="1">
-			<location x="0" y="2" z="-4" w="1" />
-			<target x="0" y="0" z="-4" />
+			<location x="0" y="11" z="0" w="1" />
+			<target x="0" y="0" z="0" />
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="0" g="0" b="0" a="1" />

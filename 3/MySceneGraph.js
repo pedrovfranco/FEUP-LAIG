@@ -1019,7 +1019,7 @@ var COMPONENTS_INDEX = 9;
 						if (!(this.isValid(nPartsU) && this.isValid(nPartsV)))
 							return "Unable to parse " + children[i].nodeName + "id=\"" + primitiveId + "\" on the \"" + grandChildren[j].nodeName + "\" node";
 
-							 //  this.primitives[primitiveId] = new Plane());
+						this.primitives[primitiveId] = new Plane(this.scene, npartsU, npartsV);
 							}
 					else if (grandChildren[j].nodeName == "patch")
 					{

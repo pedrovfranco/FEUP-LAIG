@@ -5,9 +5,10 @@ class MyBoard extends Primitive
 		super(scene);
 
 		this.getBoard("kl");
-        this.previousBoard = this.board;
+		this.previousBoard = this.board;
+		this.previousBoard2 = this.board;
 
-        this.checkWin();
+    	this.checkWin();
 
 		this.cameraId = "ScoreBoard";
 		this.fov = 1.2;
@@ -21,7 +22,7 @@ class MyBoard extends Primitive
 		this.cameraGameAngle = 0;
 		this.cameraMove = 0;
 		this.scene.views[this.cameraId1] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 11, -5), vec3.fromValues(0, 5, 0));
-		this.scene.graph.viewIds.push(this.cameraId1);		
+		this.scene.graph.viewIds.push(this.cameraId1);
 
 		this.depth = depth || 0.5;
 
@@ -133,6 +134,8 @@ class MyBoard extends Primitive
 		var func = function (response, target)
 		{
 			target.board = getResponseArray(response);
+
+			target.previousBoard = target.board;
 		};
 
 		getPrologRequest(requestString, this, func);
@@ -276,16 +279,14 @@ class MyBoard extends Primitive
 
 	undoMove()
 	{
-		if (this.previousBoard != this.board && this.winner == "none" && this.gameType != "Bot vs Bot")
+		if (this.previousBoard != this.board && this.winner == "none" && this.gameType != "Bot vs Bot" && this.moveAnimation == null && this.cameraMove == 0  && this.openingAnimations == 0 && !this.newGame && (this.gameType != "Player vs Bot" || this.plays % 2 == 0))
 		{
-			this.board = this.previousBoard;
-
-			let boardStr = JSON.stringify(this.board).replace(/"/g, "");
-
-			this.sendRequest("setBoard(" + boardStr + ")", getResponse);
-
 			this.selected = null;
 			this.possibleMoves = null;
+
+			this.c = this.countdown;
+      this.countdownStart = 0;
+      this.aux.reset();
 
 			if (this.gameType == "Player vs Player")
 			{
@@ -295,6 +296,14 @@ class MyBoard extends Primitive
 					this.playsB--;
 				else
 					this.playsW--;
+
+					this.moves.pop();
+
+					this.board = this.previousBoard;
+
+					let boardStr = JSON.stringify(this.board).replace(/"/g, "");
+
+					this.sendRequest("setBoard(" + boardStr + ")", getResponse);
 			}
 			else if (this.gameType == "Player vs Bot")
 			{
@@ -302,10 +311,21 @@ class MyBoard extends Primitive
 
 				this.playsB--;
 				this.playsW--;
+
+				this.moves.pop();
+				this.moves.pop();
+
+				this.previousBoard = this.previousBoard2;
+				this.board = this.previousBoard2;
+
+				let boardStr = JSON.stringify(this.board).replace(/"/g, "");
+
+				this.sendRequest("setBoard(" + boardStr + ")", getResponse);
 			}
+					this.cameraGameAngle = this.plays * Math.PI;
+
 		}
 
-		this.cameraGameAngle = this.plays * Math.PI;
 	}
 
 	logPicking()
@@ -601,6 +621,8 @@ class MyBoard extends Primitive
 					if (this.moveAnimation.finished)
 					{
 						this.countdownStart = 0;
+
+						this.previousBoard2 = this.previousBoard;
 						this.previousBoard = this.board;
 
 						if (this.newBoard != null && this.newBoard != undefined)
