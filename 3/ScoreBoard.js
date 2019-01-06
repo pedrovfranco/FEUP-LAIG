@@ -783,8 +783,13 @@ class ScoreBoard extends Primitive
     this.scene.rotate(Math.PI/2, 1,0,0);
     this.scene.rotate(Math.PI/2,0,0,1);
     this.scene.scale(2.1,1.2,2.1);
+
+    this.scene.registerForPick(999, "new game");
+
     this.newgame.apply();
     this.plane.display();
+
+    this.scene.clearPickRegistration();
     this.scene.popMatrix();
 
     //Time to play

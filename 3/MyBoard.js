@@ -62,6 +62,9 @@ class MyBoard extends Primitive
 		this.controlPointsPatch = [ [-1.5,-1.5, 0], [-1.5,1.5,0], [0,-1.5,1.1], [0,1.5,1.1], [1.5,-1.5,0], [1.5,1.5,0]];
 		this.patch = new Patch(this.scene, 3, 2, 5, 5, this.controlPointsPatch);
 
+		this.moves = [];
+		this.newGame = false;
+
 		this.initBuffers();
 	};
 
@@ -142,6 +145,9 @@ class MyBoard extends Primitive
 		var func = function (response, target)
 		{
 			target.newBoard = getResponseArray(response);
+
+			if (!target.newGame)
+				target.moves.push([target.moving, target.movingAmount]);
 		};
 
 		getPrologRequest(requestString, this, func);
@@ -196,18 +202,6 @@ class MyBoard extends Primitive
 		{};
 
 		getPrologRequest(requestString, this, func);
-	}
-
-	requestBoard(requestString, target, onSucess)
-	{
-		this.response = null;
-
-		var func = function (response, target, onSucess)
-		{
-			target = onSucess(response);
-		};
-
-		getPrologRequest(requestString, target, getResponseArray);
 	}
 
 	checkWin()
@@ -267,7 +261,7 @@ class MyBoard extends Primitive
 		}
 		else
 		{
-			console.error("Error on colour");
+			console.error("Error on colour = " + colour);
 		}
 	}
 
@@ -318,14 +312,49 @@ class MyBoard extends Primitive
 
 	logPicking()
 	{
-		if (this.scene.pickMode == false && this.winner == "none" && this.moveAnimation == null && this.cameraMove == 0  && (!(this.gameType == "Bot vs Bot" || (this.gameType == "Player vs Bot" && this.plays%2 == 1))))
+		if (this.scene.pickMode == false && this.winner == "none" && this.moveAnimation == null && this.cameraMove == 0  && this.openingAnimations == 0 && !this.newGame && (!(this.gameType == "Bot vs Bot" || (this.gameType == "Player vs Bot" && this.plays%2 == 1))))
 		{
 			if (this.scene.pickResults != null && this.scene.pickResults.length > 0)
 			{
 				for (var i=0; i< this.scene.pickResults.length; i++)
 				{
 					var obj = this.scene.pickResults[i][0];
-					if (obj)
+
+					if (obj == "new game")
+					{
+						this.newGame = true;
+						this.newGameIterator = 0;
+
+						this.getBoard("kl");
+
+						if (this.newGameIterator < this.moves.length)
+						{
+							setTimeout(() =>
+							{
+								let move = this.moves[this.newGameIterator];
+
+								this.moving = [move[0][0], move[0][1], move[0][2], move[0][3]];
+								this.movingAmount = move[1];
+								this.moveAnimation = new QuadraticBezierAnimation(this.scene, [0, 0, 0], [(this.moving[3]-this.moving[1])/2, 5, (this.moving[2]-this.moving[0])/2], [this.moving[3]-this.moving[1], -(this.board[this.moving[1]][this.moving[0]][0]-this.movingAmount)*(this.piece.height+0.005), this.moving[2]-this.moving[0]], this.moveAnimationTotalTime);
+
+								this.getNewBoard("move(" +  this.moving[0] + "," + this.moving[1] + "," + this.moving[2] + "," + this.moving[3] + "," + this.movingAmount + ")");
+
+								this.increasePlays();
+
+								this.selected = null;
+								this.possibleMoves = null;
+
+								this.aux.reset();
+								this.c = this.countdown;
+								this.countdownStart = 0;
+
+								this.newGameIterator++;
+							}, 1000);
+							
+						}
+					}
+
+					else if (obj)
 					{
 						if (this.selected == null)
 						{
@@ -431,23 +460,23 @@ class MyBoard extends Primitive
 
 	update(currTime, component)
 	{
-		if(this.openingAnimations == 1)
+		if (this.openingAnimations == 1)
 		{
-			if(this.startAnimationWhite != null)
+			if (this.startAnimationWhite != null)
+			{
+				if (this.plays == 0)
 				{
-					if(this.plays == 0)
-					{
-						if (this.startAnimationWhite.component == undefined)
-							this.startAnimationWhite.setComponent(component);
+					if (this.startAnimationWhite.component == undefined)
+						this.startAnimationWhite.setComponent(component);
 
-						if(this.startAnimationWhite.finished)
-							{
-								this.moving = null;
-								this.openingAnimations = 0;
-							}
-						else
-							this.startAnimationWhite.update(currTime);
+					if (this.startAnimationWhite.finished)
+					{
+						this.moving = null;
+						this.openingAnimations = 0;
 					}
+					else
+						this.startAnimationWhite.update(currTime);
+				}
 			}
 		}
 		else
@@ -487,10 +516,43 @@ class MyBoard extends Primitive
 					if (this.cameraGameAngle <= this.plays * Math.PI)
 					{
 						this.cameraGameAngle += Math.PI/100;
-					}
-					else
-					{
-						this.cameraMove = 0;
+
+						if (this.cameraGameAngle > this.plays * Math.PI)
+						{
+							this.cameraGameAngle = this.plays * Math.PI;
+							this.cameraMove = 0;
+
+							if (this.newGame)
+							{
+								if (this.newGameIterator < this.moves.length)
+								{
+									let move = this.moves[this.newGameIterator];
+
+									this.moving = [move[0][0], move[0][1], move[0][2], move[0][3]];
+									this.movingAmount = move[1];
+									this.moveAnimation = new QuadraticBezierAnimation(this.scene, [0, 0, 0], [(this.moving[3]-this.moving[1])/2, 5, (this.moving[2]-this.moving[0])/2], [this.moving[3]-this.moving[1], -(this.board[this.moving[1]][this.moving[0]][0]-this.movingAmount)*(this.piece.height+0.005), this.moving[2]-this.moving[0]], this.moveAnimationTotalTime);
+
+									this.getNewBoard("move(" +  this.moving[0] + "," + this.moving[1] + "," + this.moving[2] + "," + this.moving[3] + "," + this.movingAmount + ")");
+
+									this.increasePlays();
+
+									this.selected = null;
+									this.possibleMoves = null;
+
+									this.aux.reset();
+									this.c = this.countdown;
+									this.countdownStart = 0;
+
+									this.newGameIterator++;
+								}
+								else
+								{
+									this.newGame = false;
+									this.newGameIterator = 0;
+								}
+								
+							}
+						}
 					}
 				}
 				else
@@ -500,6 +562,7 @@ class MyBoard extends Primitive
 						this.botPlay();
 						this.botPlayQueued = false;
 					}
+
 				}
 
 				if (this.plays > 0 && this.winner == "none")
@@ -582,6 +645,9 @@ class MyBoard extends Primitive
 
 								this.plane.display();
 
+								this.scene.clearPickRegistration();
+
+
 							this.scene.popMatrix();
 						}
 
@@ -603,8 +669,6 @@ class MyBoard extends Primitive
 									this.scene.registerForPick(id, [i,j]);
 									id++;
 								}
-								else
-									this.scene.clearPickRegistration();
 
 								coords = [(1-height)/2 + j, 0, (1-width)/2 + i];
 								this.scene.translate(coords[0], 0, coords[2]);
@@ -676,14 +740,14 @@ class MyBoard extends Primitive
 									this.scene.popMatrix();
 								}
 
+
+								this.scene.clearPickRegistration();
+
 							this.scene.popMatrix();
 
 					}
 				}
 
-
-
-			this.scene.clearPickRegistration();
 
 			this.scene.pushMatrix();
 
