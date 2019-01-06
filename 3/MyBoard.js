@@ -17,33 +17,11 @@ class MyBoard extends Primitive
 		this.scene.views[this.cameraId] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(3, 5, 2), vec3.fromValues(15, 5, 2));
 		this.scene.graph.viewIds.push(this.cameraId);
 
-		this.cameraId2 = "All";
-		this.fov = 1.2;
-		this.near = 0.1;
-		this.far = 500;
-		this.enterX = 5;
-		this.enterY = 2;
-		this.enterZ = -2;
-		this.targetX = 15;
-		this.targetY = 2;
-		this.targetZ = -2;
-		this.incrementX = 0;
-		this.incrementY = 0;
-		this.incrementZ = 0;
-		this.incrementTX = 0;
-		this.incrementTY = 0;
-		this.incrementTZ = 0;
-		this.scene.views[this.cameraId2] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(this.enterX, this.enterY, this.enterZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
-		this.scene.graph.viewIds.push(this.cameraId2);
-
 		this.cameraId1 = "game";
 		this.cameraGameAngle = 0;
 		this.cameraMove = 0;
 		this.scene.views[this.cameraId1] = new CGFcamera(this.fov, this.near, this.far, vec3.fromValues(0, 11, -5), vec3.fromValues(0, 5, 0));
-		this.scene.graph.viewIds.push(this.cameraId1);
-
-		this.scene.viewId = this.cameraId1;
-		this.scene.setCamera();
+		this.scene.graph.viewIds.push(this.cameraId1);		
 
 		this.depth = depth || 0.5;
 
@@ -372,6 +350,11 @@ class MyBoard extends Primitive
 							}, 1000);
 
 						}
+						else
+						{
+							this.newGame = false;
+							this.newGameIterator = 0;
+						}
 					}
 
 					else if (obj)
@@ -483,50 +466,20 @@ class MyBoard extends Primitive
 		if (this.openingAnimations == 1)
 		{
 
-			this.incrementX -= 0.026;
-			this.incrementY += 0.046;
-			this.incrementZ -= 0.016;
 
-			this.incrementTX -= 0.078;
-			this.incrementTY += 0.015;
-			this.incrementTZ += 0.0105;
+			this.enterX = 5 - 1*this.startAnimationWhite.sumTime;
+			this.enterY = 2 + 9/5*this.startAnimationWhite.sumTime;
+			this.enterZ = -2 - 3/5*this.startAnimationWhite.sumTime;
 
-			if ( ((this.enterX + this.incrementX) < 0) && ((this.enterY + this.incrementY) > 11) &&  ( (this.enterZ + this.incrementZ) < -5))
-			{
-				this.incrementX = -5;
-				this.incrementY = 9;
-				this.incrementZ = -7;
-			}
-
-			if ( ((this.targetX + this.incrementTX) < 0) && ((this.targetY + this.incrementTY) > 5) &&  ( (this.targetZ + this.incrementTZ) > 0))
-			{
-				this.incrementTX = -15;
-				this.incrementTY = 3;
-				this.incrementTZ = 2;
-			}
+			this.targetX = 15 - 3*this.startAnimationWhite.sumTime;
+			this.targetY = 2 + 3/5*this.startAnimationWhite.sumTime;
+			this.targetZ = -2 + 2/5*this.startAnimationWhite.sumTime;
 
 
-			if(this.enterX >= 0 && this.enterY <= 11 && this.enterZ >= -5)
-				 {
-							this.scene.views[this.cameraId2].setPosition(vec3.fromValues(this.enterX + this.incrementX, this.enterY + this.incrementY , this.enterZ + this.incrementZ ));//*Math.sin(this.cameraAngle)));
-							console.log("X");
-							console.log(this.enterX + this.incrementX);
-							console.log("Y");
-							console.log(this.enterY + this.incrementY);
-							console.log("Z");
-							console.log(this.enterZ + this.incrementZ);
-				 }
+			this.scene.views[this.cameraId1].setPosition(vec3.fromValues(this.enterX, this.enterY, this.enterZ));//*Math.sin(this.cameraAngle)));
 
-		if(this.targetX >= 0 && this.targetY <= 5 && this.targetZ <= 0)
-		{
-					this.scene.views[this.cameraId2].setTarget(vec3.fromValues(this.targetX + this.incrementTX, this.targetY + this.incrementTY, this.targetZ + this.incrementTZ));
-					console.log("XX");
-					console.log(this.targetX + this.incrementX);
-					console.log("YY");
-					console.log(this.targetY + this.incrementY);
-					console.log("ZZ");
-					console.log(this.enterZ + this.incrementZ);
-		}
+			this.scene.views[this.cameraId1].setTarget(vec3.fromValues(this.targetX, this.targetY, this.targetZ));
+
 
 			if (this.startAnimationWhite != null)
 			{
@@ -548,7 +501,7 @@ class MyBoard extends Primitive
 		}
 		else
 		{
-			this.scene.viewId = this.cameraId1;
+			// this.scene.viewId = this.cameraId1;
 			// this.scene.setCamera();
 
 				if (this.countdownStart == 1)
